@@ -5,7 +5,7 @@ originalNeighborListFrame<-neighborListFrame
 
 
 
-iterations<-5000
+iterations<-1000
 useCores<-6
 
 time_start<-proc.time()
