@@ -24,6 +24,4 @@ Convert a data.frame to a list
 #convertDFtoList(df, "membership", "geneSymbol")
 
 }
-\concept{
-netboxr
-}
+\concept{netboxr}

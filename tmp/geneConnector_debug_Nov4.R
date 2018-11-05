@@ -68,8 +68,6 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   
   neighborList$name<-{}
   neighborList$localDegree<-{}
-  neighborList$pValueRaw<-{}
-  neighborList$oddsRatio<-{}
   
   for (i in 1:length(neighborList$reducedGraphId))
   {
@@ -85,38 +83,21 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
     localNeighborId<-intersect(geneOverlap$id,globalNeighborId)
     neighborList$localDegree[j]<-length(localNeighborId)
     
-    # a: number of nodes A node links to the gene list in the graph
-    # b: number of nodes A node links in the graph globally
-    # c: total number of nodes in graph minus toal number of nodes that A node links globally
-    # d: total number of nodes in the gene list in the graph
-    
     a<-neighborList$localDegree[j]
     b<-neighborList$globalDegree[j]
     c<-(neighborList$numOfgraphReducedGene - neighborList$globalDegree[j])  
-    d<-neighborList$numOfgeneOverlap 
+    d<-neighborList$numOfgeneOverlap
     
     # hypergeometric distribution for p-value calculation
     #neighborList$pValueRaw[j]<-(1-phyper((a-1),b,c,d))
     
     # http://pedagogix-tagc.univ-mrs.fr/courses/ASG1/practicals/go_statistics_td/go_statistics_td_2015.html
-    # https://mengnote.blogspot.com/2012/12/calculate-correct-hypergeometric-p.html
     neighborList$pValueRaw[j]<-phyper((a-1),b,c,d, lower.tail = FALSE)
     
-    # https://en.wikipedia.org/wiki/Odds_ratio
-    # https://www.researchgate.net/post/How_to_calculate_OR_odd_ratio_if_one_of_groups_is_0_in_a_case-control_study
-    # Add 0.5 to each cell to avoid zero value cell problem
-    correctionTerm<-0.5
-    
-    n11<-neighborList$localDegree[j] + correctionTerm
-    n10<-neighborList$globalDegree[j] - neighborList$localDegree[j] + correctionTerm
-    n01<-neighborList$numOfgeneOverlap - neighborList$localDegree[j] + correctionTerm
-    n00<-neighborList$numOfgraphReducedGene - neighborList$globalDegree[j] - n01 + correctionTerm
-    
-    neighborList$oddsRatio[j]<-(log(n11) + log(n00) - log(n10) - log(n01))
   }
   
-  neighborListFrame<-data.frame(neighborList$reducedGraphId,neighborList$name,neighborList$localDegree,neighborList$globalDegree,neighborList$pValueRaw,neighborList$oddsRatio,stringsAsFactors = FALSE)
-  colnames(neighborListFrame)<-c("idx","name","localDegree","globalDegree","pValueRaw","oddsRatio")
+  neighborListFrame<-data.frame(neighborList$reducedGraphId,neighborList$name,neighborList$localDegree,neighborList$globalDegree,neighborList$pValueRaw,stringsAsFactors = FALSE)
+  colnames(neighborListFrame)<-c("idx","name","localDegree","globalDegree","pValueRaw")
   neighborListFrame<-neighborListFrame[order(neighborListFrame$pValueRaw),]
   
   localDegreeCutoff<-2
@@ -156,9 +137,6 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   # sub-network of linker nodes and candidate nodes
   graphTemp<-induced.subgraph(graphReduced,selectedGene$idx)
   
-  # add vertex attributes
-  graphTemp<-set_vertex_attr(graphTemp,name="nodeType",index=V(graphTemp),value="candidate")
-  graphTemp<-set_vertex_attr(graphTemp,name="nodeType",index=as.character(linkerListFrame$name),value="linker")
   
   
   # remove isolated vertex
@@ -228,9 +206,27 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   #colnames(netboxOutput)<-c("geneA","interaction","geneB")
   
   netbox$edgelist<-get.edgelist(graphOutput)
+  
+  #####
+  edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+  mergedEdgeLabels<-mclapply(edgeLabelList,function(x) 
+  {   
+    
+    content<-unlist(unique(strsplit(x,";")))
+    contentMerged<-paste(content,collapse=";")
+    numOfcontent<-length(content)
+    data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    #paste(x,collapse=",")
+  },mc.cores=useCores)
+  
+  mergedEdgeLabels<-do.call(rbind,mergedEdgeLabels)
+  
+  ######
+  
   netbox$interactionType<-rep("INTERACT",length(netbox$edgelist[,1]))
   
-  netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors = FALSE)
+  #netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors = FALSE)
+  netboxOutput<-data.frame(netbox$edgelist[,1],mergedEdgeLabels$contentMerged,netbox$edgelist[,2],stringsAsFactors = FALSE)
   colnames(netboxOutput)<-c("geneA","interaction","geneB")
   
   if( keepIsolatedNodes ) {

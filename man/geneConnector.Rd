@@ -4,8 +4,9 @@
 \alias{geneConnector}
 \title{Generate sub-network mapping from a candidate gene list}
 \usage{
-geneConnector(geneList, networkGraph, directed = FALSE, pValueAdj = "BH",
-  pValueCutoff = 0.05, communityMethod = "lec", keepIsolatedNodes = FALSE)
+geneConnector(geneList, networkGraph, directed = FALSE,
+  pValueAdj = "BH", pValueCutoff = 0.05, communityMethod = "lec",
+  keepIsolatedNodes = FALSE)
 }
 \arguments{
 \item{geneList}{A vector containing candidate gene list}
@@ -56,6 +57,4 @@ write.table(result$nodeType,file="nodeType.txt",sep="\\t",quote=FALSE,col.names=
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}
 }
-\concept{
-netboxr
-}
+\concept{netboxr}

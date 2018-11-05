@@ -149,14 +149,26 @@ getCopyNumberList<-function(date,cancerType, selectedSampleId=NA, workDir,
   gExpMatNormal<-rawCountsMat$normalMat
 
   gExpMatTumorSub<-gExpMatTumor[,which(substr(colnames(gExpMatTumor),1,12) %in% substr(selectedSampleId,1,12))]
-
-  gExpMat<-cbind(gExpMatTumorSub,gExpMatNormal)
-
-  gExpMat<-processGECountsMat(gExpMat,normalization="TMM")
-
-  GEMat<-gExpMat$tumorMat
-  GEMatNormal<-gExpMat$normalMat
-
+   
+  if(!is.null(gExpMatNormal)){
+    gExpMat<-cbind(gExpMatTumorSub,gExpMatNormal)
+  
+    gExpMat<-processGECountsMat(gExpMat,normalization="TMM")
+  
+    GEMat<-gExpMat$tumorMat
+    GEMatNormal<-gExpMat$normalMat
+  }else{
+    gExpMat<-gExpMatTumorSub
+    
+    gExpMat<-processGECountsMat(gExpMat,normalization="TMM")
+    
+    GEMat<-gExpMat$tumorMat
+    GEMatNormal<-NULL
+    
+  }
+  
+  
+  
   filePath<-file.path(dataDir,cancerType,"geneExpression")
   if( !file.exists(filePath) ){
     dir.create(filePath,recursive=TRUE)

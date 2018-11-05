@@ -98,12 +98,14 @@ getMutationList<-function(date,cancerType, selectedSampleId=NA, workDir,
   mutSig2CVMat<-merge(mutSig2CVMat,checkTable,by="gene")
   mutSig2CVMat<-mutSig2CVMat[!is.na(mutSig2CVMat$suggestedSymbol),]
 
+  if(FALSE){
+  
 ## check 573 cancer census genes
   #filePath<-file.path(PROJHOME,"annotation/Cosmic_census_list")
   #fileName<-"cosmic_CGC_0128_2016.txt"
   #fileName<-file.path(filePath,fileName)
   
-  fileName<-system.file("extdata","cosmic_CGC_0128_2016.txt",package="netboxr")
+  fileName<-system.file("extdata","cosmic_CGC_0128_2016.txt",package="netbox2r")
   
   tmpData<-read.table(fileName,sep="\t",header=TRUE,
                     stringsAsFactors=FALSE,fill=TRUE,quote=NULL, comment='')
@@ -130,6 +132,8 @@ getMutationList<-function(date,cancerType, selectedSampleId=NA, workDir,
   dd2<-dd[dd$q>rareMutationUpperLimit & dd$freq>=rareMutationFreq, ]
   MutationExtraEpi<-rbind(dd1,dd2)
 
+  }
+  
 ####
   if(FALSE){
   
@@ -157,14 +161,15 @@ getMutationList<-function(date,cancerType, selectedSampleId=NA, workDir,
   
   }
 
-
+  if(FALSE){
   MutationExtra<-unique(rbind(MutationExtraCGC,MutationExtraEpi))
   MutationExtra<-MutationExtra[order(MutationExtra$q,-MutationExtra$freq),]
   filePath<-file.path(dataDir,cancerType,"mutation")
   fileName<-paste(cancerType,"_extra_mutation.txt",sep="")
   fileName<-file.path(filePath,fileName)
   write.table(MutationExtra,file=fileName,sep="\t",row.names = FALSE,col.names = TRUE,quote=FALSE)
-
+  }
+  
   #intersect(mutSig2CVMat$gene, tmpData$geneSymbol)
   threshold<-mutSig2CVthreshold
   MutationThreshold<-threshold
@@ -178,7 +183,8 @@ getMutationList<-function(date,cancerType, selectedSampleId=NA, workDir,
   write.table(MutationSig,file=fileName,sep="\t",row.names = FALSE,col.names = TRUE,quote=FALSE)
 
 
-  selectedMutation<-rbind(MutationSig,MutationExtra)
+  #selectedMutation<-rbind(MutationSig,MutationExtra)
+  selectedMutation<-MutationSig
   selectedMutation<-selectedMutation[order(selectedMutation$q,-selectedMutation$freq),]
   save(selectedMutation,file=file.path(filePath,"selectedMutation.Rd"))
   #load(paste(workDir,"selectedMutation.Rd",sep="/"))

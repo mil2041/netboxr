@@ -46,6 +46,4 @@ data(netbox2010)
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}
 }
-\concept{
-netboxr
-}
+\concept{netboxr}

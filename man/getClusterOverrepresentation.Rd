@@ -33,6 +33,4 @@ Run an enrichment analysis for a set of clustered data
 #TODO
 
 }
-\concept{
-netboxr
-}
+\concept{netboxr}

@@ -28,6 +28,7 @@ Suggests:
     edgeR (>= 3.12.0),
     GetoptLong (>= 0.1.2),
     reshape2 (>= 1.4.1),
+    GenomicRanges,
     TxDb.Hsapiens.UCSC.hg19.knownGene (>= 3.2.2),
     testthat
 SystemRequirements: Java (>= 1.5)
@@ -35,4 +36,4 @@ biocViews: Software,Network,Pathways,GraphAndNetwork
 VignetteBuilder: knitr
 License: LGPL-3
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

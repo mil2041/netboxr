@@ -1,4 +1,4 @@
-#' Generate sub-network mapping from a candidate gene list
+#' Generate sub-network mapping from a candidate gene list version 2
 #' 
 #' @param geneList A vector containing candidate gene list 
 #' @param networkGraph An igraph graph object
@@ -39,7 +39,7 @@
 #' @concept netboxr
 #' @export
 #' @import igraph
-geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pValueCutoff=0.05,communityMethod="lec",keepIsolatedNodes=FALSE){
+geneConnector2<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pValueCutoff=0.05,communityMethod="lec",keepIsolatedNodes=FALSE){
   
   graphReduced<-networkGraph
   
@@ -50,6 +50,12 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   geneOverlap$type<-rep("candidate",length(geneOverlap$name))
   cat(sprintf("%s / %s candidate nodes match the name in the network of %s nodes \n",length(geneOverlap$name),length(geneList),length(V(graphReduced)$name)))
   
+  geneOverlapFrame<-data.frame(geneOverlap$name,geneOverlap$idx,stringsAsFactors = FALSE)
+  colnames(geneOverlapFrame)<-c("name","idx")
+  
+  #####
+  #####
+  
   neighborList<-{}
   neighborList$numOfgraphReducedGene<-length(V(graphReduced))
   neighborList$numOfgeneOverlap<-length(geneOverlap$idx)  
@@ -58,65 +64,213 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   
   neighborTotal<-{}
   neighborTemp<-{}
-  for (k in 1:length(geneOverlap$idx))
-  {
-    neighborTemp<-neighbors(graphReduced,v=geneOverlap$idx[k],mode="all")
-    neighborTotal<-union(neighborTotal,neighborTemp)
-  }
-  neighborList$reducedGraphId<-setdiff(neighborTotal, geneOverlap$idx)
   
+  #for(k in 1:length(geneOverlap$idx))
+  #{
+  #  neighborTemp<-neighbors(graphReduced,v=geneOverlap$idx[k],mode="all")
+  #  neighborTotal<-union(neighborTotal,neighborTemp)
+  #}
+  
+  neighborTotal<-lapply(1:length(geneOverlap$idx), function(k) 
+  {
+  
+    neighborTemp<-neighbors(graphReduced,v=geneOverlap$idx[k],mode="all")
+    #neighborTotal<-union(neighborTotal,neighborTemp)
+    return(neighborTemp)
+    
+  })
+  
+  neighborsVector<-unlist(neighborTotal)
+  neighborTotalFrame<-data.frame(names(neighborsVector),neighborsVector,stringsAsFactors = FALSE)
+  colnames(neighborTotalFrame)<-c("name","idx")
+  
+  # This frame may contains the original gene nodes, 
+  neighborTotalFrame<-neighborTotalFrame[(!duplicated(neighborTotalFrame$idx)),]
+  
+  neighborList$reducedGraphId<-setdiff(neighborTotalFrame$idx, geneOverlap$idx)
+  
+  
+  ######
   
   neighborList$name<-{}
   neighborList$localDegree<-{}
-  neighborList$pValueRaw<-{}
-  neighborList$oddsRatio<-{}
   
-  for (i in 1:length(neighborList$reducedGraphId))
-  {
-    neighborList$name[i]<-get.vertex.attribute(graphReduced,name="name",index=neighborList$reducedGraphId[i])  
+  #for (i in 1:length(neighborList$reducedGraphId))
+  #{
+  #  neighborList$name[i]<-get.vertex.attribute(graphReduced,name="name",index=neighborList$reducedGraphId[i])  
+  #}  
+  
+  tmpFrame<-neighborTotalFrame[neighborTotalFrame$idx %in% neighborList$reducedGraphId,]
+  rownames(tmpFrame)<-tmpFrame$idx
+  tmpFrame<-tmpFrame[match(neighborList$reducedGraphId,rownames(tmpFrame)),]
+  
+  neighborList$name<-tmpFrame$name
+  
+  
+  #####
+  
+  graphTemp<-induced.subgraph(graphReduced,union(neighborList$reducedGraphId[i], geneOverlap$idx))
+  
+  vertex_betweenness_vector<-betweenness(graphTemp,v=neighborList$name[i],directed=FALSE,normalized = TRUE)
+  
+  vertex_betweenness_frame<-data.frame(names(vertex_betweenness_vector),vertex_betweenness_vector,stringsAsFactors = FALSE)
+  colnames(vertex_betweenness_frame)<-c("name","vertexBetweeness")
+  vertex_betweenness_frame<-vertex_betweenness_frame[order(-vertex_betweenness_frame$vertexBetweeness),]
+  vertex_betweenness_frame2<-vertex_betweenness_frame[vertex_betweenness_frame$name %in% neighborList$name,]
+  
+  #####
+  
+  graphTemp<-induced.subgraph(graphReduced,union(neighborList$name, geneOverlap$name))
+  
+  vertex_betweenness_vector<-betweenness(graphTemp,v=neighborList$name,directed=FALSE,normalized = TRUE)
+  
+  vertex_betweenness_frame<-data.frame(names(vertex_betweenness_vector),vertex_betweenness_vector,stringsAsFactors = FALSE)
+  colnames(vertex_betweenness_frame)<-c("name","vertexBetweeness")
+  vertex_betweenness_frame<-vertex_betweenness_frame[order(-vertex_betweenness_frame$vertexBetweeness),]
+  vertex_betweenness_frame2<-vertex_betweenness_frame[vertex_betweenness_frame$name %in% neighborList$name,]
+  
+  ######
+  
+  iterations<-1000
+  useCores<-6
+  
+  pRaw<-{}
+  
+  for(i in 1:length(neighborListFrame$name)){
+  
+  graphTemp<-induced.subgraph(graphReduced,union(neighborListFrame$name, geneOverlap$name))
+  
+  vertex_betweenness_vector<-betweenness(graphTemp,v=neighborListFrame$name[i],directed=FALSE,normalized = TRUE)
+  
+    
+    
+    vertex_betweenness_list<-mclapply(1:iterations, function(m)
+    {  
+      graphReduced2<-rewire(graphReduced, with = keeping_degseq(niter = vcount(graphReduced) * 10))
+      #graphTemp2<-induced.subgraph(graphReduced2,union(neighborList$name[i], geneOverlap$name))
+      #vertex_betweenness_vector2<-betweenness(graphTemp2,v=neighborList$name[i],directed=FALSE,normalized = TRUE)
+    
+      graphTemp2<-induced.subgraph(graphReduced2,union(neighborListFrame$name, geneOverlap$name))
+      vertex_betweenness_vector2<-betweenness(graphTemp2,v=neighborListFrame$name,directed=FALSE,normalized = TRUE)
+      return(vertex_betweenness_vector2)
+      
+    },mc.cores=useCores)
+    
+    s1<-unlist(vertex_betweenness_list)
+    
+    
+    
+    
+    #sum(s1>=vertex_betweenness_vector)/iterations
+    
+    s2<-s1[names(s1) %in% neighborListFrame$name[i]]
+    
+    pRaw[i]<-sum(s2>=vertex_betweenness_vector)/iterations
+  
+    cat(sprintf("%s / %s name:%s : pvalue: %s \n",i,length(neighborListFrame$name),neighborListFrame$name[i],pRaw[i] ))
+    
   }  
+    
+}  
+
+#######
+iterations<-5000
+useCores<-6
+
+vertex_degree_list<-mclapply(1:iterations, function(m)
+{  
+  graphReduced2<-rewire(graphReduced, with = keeping_degseq(niter = vcount(graphReduced) * 10))
+  #graphTemp2<-induced.subgraph(graphReduced2,union(neighborList$name[i], geneOverlap$name))
+  #vertex_betweenness_vector2<-betweenness(graphTemp2,v=neighborList$name[i],directed=FALSE,normalized = TRUE)
+  
+  graphTemp2<-induced.subgraph(graphReduced2,union(neighborListFrame$name, geneOverlap$name))
+  #vertex_betweenness_vector2<-closeness(graphTemp2,vids=neighborListFrame$name,mode="all",normalized = TRUE)
+  vertex_degree_vector2<-degree(graphTemp2,v=neighborListFrame$name,mode="all",normalized = TRUE)
+  
+  return(vertex_degree_vector2)
+  
+},mc.cores=useCores)
+
+s1<-unlist(vertex_degree_list)
+
+#######
+
+i<-327
+
+pRaw<-{}
+
+for(i in 1:length(neighborListFrame$name)){
+  
+  graphTemp<-induced.subgraph(graphReduced,union(neighborListFrame$name, geneOverlap$name))
+  #graphTemp2<-delete.vertices(graphTemp,which(degree(graphTemp)<1))
+  vertex_betweenness_vector<-betweenness(graphTemp,v=neighborListFrame$name[i],directed=FALSE,normalized = TRUE)
+  #vertex_degree_vector<-degree(graphTemp,v=neighborListFrame$name[i],mode="all",normalized = TRUE)
+  
+  s2<-s1[names(s1) %in% neighborListFrame$name[i]]
+  
+  pRaw[i]<-(sum(s2>=vertex_betweenness_vector)+1)/(iterations+1)
+  #pRaw[i]<-(sum(s2>=vertex_degree_vector)+1)/(iterations+1)
+  
+  cat(sprintf("%s / %s name:%s : pvalue: %s \n",i,length(neighborListFrame$name),neighborListFrame$name[i],pRaw[i] ))
+  
+    
+}
+
+ threshold<-0.05
+ ff<-data.frame(neighborListFrame$name,pRaw,stringsAsFactors = FALSE)
+ ff$fdr<-p.adjust(ff$pRaw,method="BH")
+ ff<-ff[order(ff$fdr),]
+ ff[ff$fdr<threshold,]
+ 
+ linkerNodeSelected<-ff[ff$fdr<threshold,]$neighborListFrame.name
+ 
+  ######
   
   neighborList$globalDegree<-degree(graphReduced,v=neighborList$reducedGraphId,mode="all")
   
-  for (j in 1:length(neighborList$reducedGraphId))
+  
+  ###
+  
+  out<-lapply( 1:length(neighborList$reducedGraphId), function(j)
   {  
     
-    globalNeighborId<-neighbors(graphReduced,v=neighborList$reducedGraphId[j],mode=1)
-    localNeighborId<-intersect(geneOverlap$id,globalNeighborId)
+    idx<-neighborList$reducedGraphId[j]
+    name<-neighborList$name[j]
+    globalNeighborId<-neighbors(graphReduced,v=idx,mode=1)
+    localNeighborId<-intersect(geneOverlap$idx,globalNeighborId)
     neighborList$localDegree[j]<-length(localNeighborId)
+    #neighborList_localDegree<-length(localNeighborId)
     
-    # a: number of nodes A node links to the gene list in the graph
-    # b: number of nodes A node links in the graph globally
-    # c: total number of nodes in graph minus toal number of nodes that A node links globally
-    # d: total number of nodes in the gene list in the graph
+    # For each linker node candidate (neighbor node)
+    # a: (local degree) number of connections to nodes in reduced graph that overlaps with gene list.   
+    # b: (global degree) number of connections to all the nodes in the reduced graph. 
+    # c: number of "not" connected nodes (total number of nodes in the reduced graph minus number of conncted nodes)
+    # d: number of nodes in the reduced graph that overlaps with gene list. 
     
     a<-neighborList$localDegree[j]
     b<-neighborList$globalDegree[j]
     c<-(neighborList$numOfgraphReducedGene - neighborList$globalDegree[j])  
-    d<-neighborList$numOfgeneOverlap 
+    d<-neighborList$numOfgeneOverlap
     
     # hypergeometric distribution for p-value calculation
     #neighborList$pValueRaw[j]<-(1-phyper((a-1),b,c,d))
     
     # http://pedagogix-tagc.univ-mrs.fr/courses/ASG1/practicals/go_statistics_td/go_statistics_td_2015.html
-    # https://mengnote.blogspot.com/2012/12/calculate-correct-hypergeometric-p.html
     neighborList$pValueRaw[j]<-phyper((a-1),b,c,d, lower.tail = FALSE)
     
-    # https://en.wikipedia.org/wiki/Odds_ratio
-    # https://www.researchgate.net/post/How_to_calculate_OR_odd_ratio_if_one_of_groups_is_0_in_a_case-control_study
-    # Add 0.5 to each cell to avoid zero value cell problem
-    correctionTerm<-0.5
+    localDegree<-a
+    globalDegree<-b
+    pValueRaw<-neighborList$pValueRaw[j]
     
-    n11<-neighborList$localDegree[j] + correctionTerm
-    n10<-neighborList$globalDegree[j] - neighborList$localDegree[j] + correctionTerm
-    n01<-neighborList$numOfgeneOverlap - neighborList$localDegree[j] + correctionTerm
-    n00<-neighborList$numOfgraphReducedGene - neighborList$globalDegree[j] - n01 + correctionTerm
+    out<-data.frame(idx,name,localDegree,globalDegree,pValueRaw,stringsAsFactors = FALSE)
+    return(out)
     
-    neighborList$oddsRatio[j]<-(log(n11) + log(n00) - log(n10) - log(n01))
-  }
+  })
   
-  neighborListFrame<-data.frame(neighborList$reducedGraphId,neighborList$name,neighborList$localDegree,neighborList$globalDegree,neighborList$pValueRaw,neighborList$oddsRatio,stringsAsFactors = FALSE)
-  colnames(neighborListFrame)<-c("idx","name","localDegree","globalDegree","pValueRaw","oddsRatio")
+  neighborListFrame<-rbind.fill(out)
+  
+  #neighborListFrame<-data.frame(neighborList$reducedGraphId,neighborList$name,neighborList$localDegree,neighborList$globalDegree,neighborList$pValueRaw,stringsAsFactors = FALSE)
+  #colnames(neighborListFrame)<-c("idx","name","localDegree","globalDegree","pValueRaw")
   neighborListFrame<-neighborListFrame[order(neighborListFrame$pValueRaw),]
   
   localDegreeCutoff<-2
@@ -139,6 +293,9 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
     linkerListFrame<-neighborListFrame[ neighborListFrame$pValueBonferroni < pValueCutoff, ] 
   }
   
+  #
+  linkerListFrame<-neighborListFrame[neighborListFrame$name %in% linkerNodeSelected,]
+  
   cat(sprintf("For p-value %s cut-off, %s nodes were included as linker nodes\n",pValueCutoff,dim(linkerListFrame)[1]))
   linkerListFrame$type<-rep("linker",dim(linkerListFrame)[1])
   
@@ -155,11 +312,6 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   cat(sprintf("Connecting %s candidate nodes and %s linker nodes\n",length(geneOverlap$name),dim(linkerListFrame)[1]))
   # sub-network of linker nodes and candidate nodes
   graphTemp<-induced.subgraph(graphReduced,selectedGene$idx)
-  
-  # add vertex attributes
-  graphTemp<-set_vertex_attr(graphTemp,name="nodeType",index=V(graphTemp),value="candidate")
-  graphTemp<-set_vertex_attr(graphTemp,name="nodeType",index=as.character(linkerListFrame$name),value="linker")
-  
   
   # remove isolated vertex
   isolatedNodes<-names(which(degree(graphTemp)<1))
