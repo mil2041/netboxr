@@ -109,7 +109,7 @@ networkSimplify2<-function(sifNetwork,directed=FALSE,useCores=1){
   cat(sprintf("Merging edge attribute: INTERACTION_DATA_SOURCE \n"))
   
   edgeLabelList<-get.edge.attribute(graphReduced)$INTERACTION_DATA_SOURCE
-  mergedEdgeLabels<-lapply(edgeLabelList,function(x) 
+  mergedEdgeLabels<-mclapply(edgeLabelList,function(x) 
   {   
     
     content<-unique(unlist(strsplit(x,";")))
@@ -117,7 +117,7 @@ networkSimplify2<-function(sifNetwork,directed=FALSE,useCores=1){
     numOfcontent<-length(content)
     data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
     #paste(x,collapse=",")
-  })
+  },mc.cores=useCores)
   
   mergedEdgeLabels<-do.call(rbind,mergedEdgeLabels)
   
@@ -135,16 +135,20 @@ networkSimplify2<-function(sifNetwork,directed=FALSE,useCores=1){
   cat(sprintf("Merging edge attribute: INTERACTION_PUBMED_ID \n"))
   
   edgeLabelList<-get.edge.attribute(graphReduced)$INTERACTION_PUBMED_ID
-  mergedEdgeLabels<-lapply(edgeLabelList,function(x) 
+  mergedEdgeLabels<-mclapply(edgeLabelList,function(x) 
+  #mergedEdgeLabels<-lapply(edgeLabelList,function(x)   
   {   
-    
+    #cat(sprintf("%s / %s\n",x,length(edgeLabelList)))
     content<-unique(unlist(strsplit(x,";")))
     contentMerged<-paste(content,collapse=";")
     numOfcontent<-length(content)
-    data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    if(numOfcontent==0){contentMerged<-NA}
+    out<-data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    return(out)
     #paste(x,collapse=",")
-  })
-  
+  },mc.cores=useCores)
+  #})
+    
   mergedEdgeLabels<-do.call(rbind,mergedEdgeLabels)
   
   #mergedEdgeLabels<-unlist(mergedEdgeLabels)
@@ -159,15 +163,17 @@ networkSimplify2<-function(sifNetwork,directed=FALSE,useCores=1){
   cat(sprintf("Merging edge attribute: PATHWAY_NAMES \n"))
   
   edgeLabelList<-get.edge.attribute(graphReduced)$PATHWAY_NAMES
-  mergedEdgeLabels<-lapply(edgeLabelList,function(x) 
+  mergedEdgeLabels<-mclapply(edgeLabelList,function(x) 
   {   
     
     content<-unique(unlist(strsplit(x,";")))
     contentMerged<-paste(content,collapse=";")
     numOfcontent<-length(content)
-    data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    if(numOfcontent==0){contentMerged<-NA}
+    out<-data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    return(out)
     #paste(x,collapse=",")
-  })
+  },mc.cores=useCores)
   
   mergedEdgeLabels<-do.call(rbind,mergedEdgeLabels)
   
