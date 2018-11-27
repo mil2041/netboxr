@@ -228,9 +228,27 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   #colnames(netboxOutput)<-c("geneA","interaction","geneB")
   
   netbox$edgelist<-get.edgelist(graphOutput)
-  netbox$interactionType<-rep("INTERACT",length(netbox$edgelist[,1]))
   
-  netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors = FALSE)
+  ####
+  edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+  mergedEdgeLabels<-lapply(edgeLabelList,function(x) 
+  {   
+    
+    content<-unlist(unique(strsplit(x,";")))
+    contentMerged<-paste(content,collapse=";")
+    numOfcontent<-length(content)
+    data.frame(numOfcontent,contentMerged,stringsAsFactors = FALSE)
+    #paste(x,collapse=",")
+  #},mc.cores=useCores)
+  })
+    
+  mergedEdgeLabels<-do.call(rbind,mergedEdgeLabels)
+  
+  ####
+  #netbox$interactionType<-rep("INTERACT",length(netbox$edgelist[,1]))
+  
+  #netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors = FALSE)
+  netboxOutput<-data.frame(netbox$edgelist[,1],mergedEdgeLabels$contentMerged,netbox$edgelist[,2],stringsAsFactors = FALSE)
   colnames(netboxOutput)<-c("geneA","interaction","geneB")
   
   if( keepIsolatedNodes ) {
