@@ -4,7 +4,7 @@
 [![Last commit ](https://img.shields.io/github/last-commit/mil2041/netboxr.svg)]()
 [![Repo Size ](https://img.shields.io/github/repo-size/mil2041/netboxr.svg)]()
 [![Repo Size ](https://img.shields.io/github/release/mil2041/netboxr.svg)]()
-[![License ](https://img.shields.io/github/license/mil2041/netboxr.svg?style=flat-square)]()
+[![License ](https://img.shields.io/github/license/mil2041/netboxr.svg)]()
 
 ### Overview
 
