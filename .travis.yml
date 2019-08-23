@@ -39,7 +39,7 @@ jobs:
     - stage: test
       r: bioc-devel
 
-# can we remove this?
+# can we remove this, maybe?
 #r_build_args: "--no-build-vignettes"
 #r_check_args: "--no-vignettes"
 
