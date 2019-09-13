@@ -230,7 +230,10 @@ geneConnector<-function(geneList,networkGraph,directed=FALSE,pValueAdj="BH",pVal
   netbox$edgelist<-get.edgelist(graphOutput)
   
   ####
-  edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+  #edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+  # new change 08/15/2019
+  edgeLabelList<-get.edge.attribute(graphOutput)$V2
+  
   mergedEdgeLabels<-lapply(edgeLabelList,function(x) 
   {   
     
