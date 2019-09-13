@@ -6,9 +6,9 @@
 #' @return a data frame of data summary
 #'   
 #' @examples
-#' date<-getRunDates(latest=TRUE)
-#' cancerTypeSummary<-getCancerTypeSummary(date=date,dataType="all")
-#' cancerTypeSummary
+#' #date<-getRunDates(latest=TRUE)
+#' #cancerTypeSummary<-getCancerTypeSummary(date=date,dataType="all")
+#' #cancerTypeSummary
 #' 
 #' @concept netboxr
 #' @export
