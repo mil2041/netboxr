@@ -19,7 +19,7 @@ Prcoess GISTIC2 copy number call from TCGA study
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
 #gistic2CNCallMat<-processCNCallMat(gistic2CNCallMat)

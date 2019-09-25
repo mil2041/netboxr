@@ -19,7 +19,7 @@ Pre-processing mutation maf file
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 selectedSampleID<-NULL
 #worDir<-getwd()
 mutSig2CVthreshold<-0.1

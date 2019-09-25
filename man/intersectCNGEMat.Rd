@@ -26,7 +26,7 @@ merge copy number call, copy number value, gene expression data frame
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
 #mergedData<-intersectCNGEMat(CNValueMat,CNCallMat,GEMat,geneList)

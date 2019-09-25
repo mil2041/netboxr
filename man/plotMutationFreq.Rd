@@ -7,7 +7,7 @@
 plotMutationFreq(cancerType, mat, sampleSize, threshold, workDir, verbose)
 }
 \arguments{
-\item{cancerType}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{cancerType}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{mat}{MutSig2CV result data frame}
 
@@ -19,7 +19,7 @@ plotMutationFreq(cancerType, mat, sampleSize, threshold, workDir, verbose)
 
 \item{verbose}{output detailed information}
 
-\item{date}{Default is "latest"}
+\item{date}{Default is 'latest'}
 }
 \value{
 a data frame of annotated mutation MAF file
@@ -28,8 +28,8 @@ a data frame of annotated mutation MAF file
 Make MutSig2CV result plot
 }
 \examples{
-cancerType<-"KIRC"
-date<-"2015_08_21" 
+cancerType<-'KIRC'
+date<-'2015_08_21' 
 #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #dim(mutSig2CVMat)
 sampleSize<-333

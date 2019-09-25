@@ -30,13 +30,13 @@ runNetBox2(dataDir, cancerType, mutationList, ampGeneList, delGeneList,
 
 \item{epiSilencedFreq}{User provided epi genetic silencing gene freq}
 
-\item{pathwayCommonsDb}{c("signal", "BioGrid")}
+\item{pathwayCommonsDb}{c('signal', 'BioGrid')}
 
 \item{directed}{TRUE or FALSE}
 
 \item{linkerPValThreshold}{Default is 0.05}
 
-\item{communityDetectionMethod}{"ebc", "lec", "none"}
+\item{communityDetectionMethod}{'ebc', 'lec', 'none'}
 
 \item{keepIsolatedNodes}{TRUE or FALSE}
 
@@ -50,7 +50,7 @@ Run NetBox2 network analysis
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 selectedSampleId<-NA
 #worDir<-getwd()
 mutSig2CVthreshold<-0.1

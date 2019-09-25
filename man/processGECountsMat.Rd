@@ -9,7 +9,7 @@ processGECountsMat(gExpMat, normalization = "TMM", verbose = TRUE)
 \arguments{
 \item{gExpMat}{gene expression data frame}
 
-\item{normalization}{Abbreviation in the TCGA study ["TMM","none"]}
+\item{normalization}{Abbreviation in the TCGA study ['TMM','none']}
 
 \item{verbose}{output detailed information [ TRUE, FALSE ]}
 }
@@ -21,10 +21,10 @@ Process RNASeqV2 raw count read using edgeR TMM method
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
-#gExpMat<-processGECountsMat(gExpMat,normalization="TMM")
+#gExpMat<-processGECountsMat(gExpMat,normalization='TMM')
 
 }
 \concept{netboxr}

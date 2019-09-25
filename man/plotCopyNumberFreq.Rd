@@ -7,9 +7,9 @@
 plotCopyNumberFreq(dataWithPos, threshold, chromSize, verbose = TRUE)
 }
 \arguments{
-\item{dataWithPos}{Default is "latest"}
+\item{dataWithPos}{Default is 'latest'}
 
-\item{threshold}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{threshold}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{chromSize}{MutSig2CV result data frame}
 
@@ -22,8 +22,8 @@ null
 Make copy number frequency plot
 }
 \examples{
-cancerType<-"KIRC"
-date<-"2015_08_21" 
+cancerType<-'KIRC'
+date<-'2015_08_21' 
 #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #dim(mutSig2CVMat)
 sampleSize<-333

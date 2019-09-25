@@ -21,7 +21,7 @@ Convert a data.frame to a list
 }
 \examples{
 #df <- results$moduleMembership
-#convertDFtoList(df, "membership", "geneSymbol")
+#convertDFtoList(df, 'membership', 'geneSymbol')
 
 }
 \concept{netboxr}

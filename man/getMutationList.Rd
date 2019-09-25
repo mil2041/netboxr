@@ -10,9 +10,9 @@ getMutationList(date, cancerType, selectedSampleId = NA, workDir,
   verbose = TRUE)
 }
 \arguments{
-\item{date}{Default is "latest"}
+\item{date}{Default is 'latest'}
 
-\item{cancerType}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{cancerType}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{selectedSampleId}{Subset of TCGA sample id}
 
@@ -36,7 +36,7 @@ Retrieve significant mutation list from TCGA study
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 selectedSampleID<-NULL
 #worDir<-getwd()
 mutSig2CVthreshold<-0.1

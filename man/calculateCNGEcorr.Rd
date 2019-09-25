@@ -20,9 +20,9 @@ calculateCNGEcorr(log2CNMat, CNCallMat, log2GEMat, ampGeneList,
 
 \item{delGeneList}{gene list of deleted copy number}
 
-\item{method}{method to calculate correlation, "MannWhitney" or "Pearson"}
+\item{method}{method to calculate correlation, 'MannWhitney' or 'Pearson'}
 
-\item{average}{average method "mean" or "median"}
+\item{average}{average method 'mean' or 'median'}
 
 \item{rankTestSize}{min sample size to calcualte rank test}
 
@@ -37,8 +37,8 @@ list of correlation test results
 calculate correlation between copy number and gene expression
 }
 \examples{
-cancerType<-"KIRC"
-date<-"2015_08_21" 
+cancerType<-'KIRC'
+date<-'2015_08_21' 
 #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #dim(mutSig2CVMat)
 sampleSize<-333
@@ -46,7 +46,7 @@ threshold<-0.05
 #worDir<-getwd()
 
 #corrTable<-calculateCNGEcorr(log2CNMat,CNCallMat,log2GEMat,ampGeneList,
-#delGeneList,method="MannWhitney",average=corrAverage,
+#delGeneList,method='MannWhitney',average=corrAverage,
 #rankTestSize=minRankTestSize,workDir=filePath)
 
 }

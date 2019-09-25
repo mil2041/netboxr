@@ -9,7 +9,7 @@ processRawCountsMat(rawCountsMat, normalization = "TMM")
 \arguments{
 \item{rawCountsMat}{raw counts data frame from TCGA}
 
-\item{normalization}{Abbreviation in the TCGA study ["TMM","none"]}
+\item{normalization}{Abbreviation in the TCGA study ['TMM','none']}
 
 \item{verbose}{output detailed information [ TRUE, FALSE ]}
 }
@@ -21,10 +21,10 @@ Process RNASeqV2 raw count read using edgeR TMM method
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
-#rawCountsMat<-processRawCountsMat(rawCountsMat,normalization="TMM")
+#rawCountsMat<-processRawCountsMat(rawCountsMat,normalization='TMM')
 
 }
 \concept{netboxr}

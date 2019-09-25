@@ -19,7 +19,7 @@ Prcoess GISTIC2 relative copy number value from TCGA study
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
 #absoluteCNValueMat<-processCNValueMat(GISTIC2CNValueMat)

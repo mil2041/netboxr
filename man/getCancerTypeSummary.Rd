@@ -7,9 +7,9 @@
 getCancerTypeSummary(date = "latest", dataType = "TP")
 }
 \arguments{
-\item{date}{Default is "latest"}
+\item{date}{Default is 'latest'}
 
-\item{dataType}{Default is "TP" for primary tumor. [ TP,NT,all,complete ]}
+\item{dataType}{Default is 'TP' for primary tumor. [ TP,NT,all,complete ]}
 }
 \value{
 a data frame of data summary
@@ -18,9 +18,9 @@ a data frame of data summary
 Retrieve TCGA tumor type data summary
 }
 \examples{
-date<-getRunDates(latest=TRUE)
-cancerTypeSummary<-getCancerTypeSummary(date=date,dataType="all")
-cancerTypeSummary
+#date<-getRunDates(latest=TRUE)
+#cancerTypeSummary<-getCancerTypeSummary(date=date,dataType='all')
+#cancerTypeSummary
 
 }
 \concept{netboxr}

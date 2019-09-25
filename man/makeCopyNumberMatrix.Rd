@@ -23,8 +23,8 @@ a binary copy number call data frame
 Make binary mutation matrix for oncoprint
 }
 \examples{
-date<-"2015_08_21"
-cancerType<-"KIRC"
+date<-'2015_08_21'
+cancerType<-'KIRC'
 worDir<-getwd()
 #mutationMAF<-getMutationMAF(date,cancerType,workDir)
 

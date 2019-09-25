@@ -20,8 +20,8 @@ a data frame of copy number frequency
 Building copy number frequency matrix
 }
 \examples{
-cancerType<-"KIRC"
-date<-"2015_08_21" 
+cancerType<-'KIRC'
+date<-'2015_08_21' 
 #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #dim(mutSig2CVMat)
 sampleSize<-333

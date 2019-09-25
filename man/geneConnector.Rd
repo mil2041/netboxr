@@ -15,11 +15,11 @@ geneConnector(geneList, networkGraph, directed = FALSE,
 
 \item{directed}{TRUE of FALSE}
 
-\item{pValueAdj}{A string for p-value correction method c("BH, "Bonferroni")}
+\item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
 
 \item{pValueCutoff}{A number for p-value cutoff for linker nodes}
 
-\item{communityMethod}{A string for community detection method c("ebc","lec")}
+\item{communityMethod}{A string for community detection method c('ebc','lec')}
 
 \item{keepIsolatedNodes}{logic value}
 }
@@ -41,17 +41,17 @@ data(netbox2010)
 geneList<-netbox2010$geneList 
 sifNetwork<-netbox2010$network
 graphReduced<-networkSimplify(sifNetwork,directed = FALSE)      
-result<-geneConnector(geneList=geneList,networkGraph=graphReduced,directed=FALSE,pValueAdj="BH",
-           pValueCutoff=0.05,communityMethod="lec",keepIsolatedNodes=FALSE)
+result<-geneConnector(geneList=geneList,networkGraph=graphReduced,directed=FALSE,pValueAdj='BH',
+           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 
 names(result)
 
 \dontrun{ plot(result$netboxGraph, layout=layout_with_fr) }
 
-write.table(result$netboxOutput,file="network.sif",sep="\\t",quote=FALSE,col.names=FALSE,row.names=FALSE)
-write.table(result$neighborData,file="neighborList.txt",sep="\\t",quote=FALSE,col.names=TRUE,row.names=FALSE)
-write.table(result$moduleMembership,file="memb.ebc.txt",sep="\\t",quote=FALSE,col.names=FALSE,row.names=FALSE)
-write.table(result$nodeType,file="nodeType.txt",sep="\\t",quote=FALSE,col.names=FALSE,row.names=FALSE)
+write.table(result$netboxOutput,file='network.sif',sep='\\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
+write.table(result$neighborData,file='neighborList.txt',sep='\\t',quote=FALSE,col.names=TRUE,row.names=FALSE)
+write.table(result$moduleMembership,file='memb.ebc.txt',sep='\\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
+write.table(result$nodeType,file='nodeType.txt',sep='\\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
 
 }
 \author{

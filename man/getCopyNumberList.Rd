@@ -10,9 +10,9 @@ getCopyNumberList(date, cancerType, selectedSampleId = NA, workDir,
   logFCThreshold = 0.5, verbose = TRUE)
 }
 \arguments{
-\item{date}{Default is "latest"}
+\item{date}{Default is 'latest'}
 
-\item{cancerType}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{cancerType}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{selectedSampleId}{Subset of TCGA sample id}
 
@@ -20,7 +20,7 @@ getCopyNumberList(date, cancerType, selectedSampleId = NA, workDir,
 
 \item{copyNumberFreqThreshold}{Default is 0.05}
 
-\item{corrAverage}{Default is "median"}
+\item{corrAverage}{Default is 'median'}
 
 \item{minRankTestSize}{Default is 4}
 
@@ -40,7 +40,7 @@ Retrieve significant copy number list from TCGA study
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 selectedSampleId<-NULL
 #worDir<-getwd()
 mutSig2CVthreshold<-0.1
@@ -51,7 +51,7 @@ rareMutationFreq<-0.02
 #copyNumberList<-getCopyNumberList<-function(date,cancerType, 
  #                      selectedSampleId=NA, workDir,
  #                      copyNumberFreqThreshold=0.05,
- #                      corrAverage="median",
+ #                      corrAverage='median',
  #                      minRankTestSize=4, indepThreshold=3,
  #                      corrThreshold=0.05, logFCThreshold=0.5,
  #                      verbose=TRUE)

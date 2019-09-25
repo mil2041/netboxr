@@ -18,7 +18,7 @@ a data frame of cancer study summary
 Retrieve TCGA analysis summary
 }
 \examples{
-date<-"2015_08_21"
+date<-'2015_08_21'
 getCancerType(date)
 
 }

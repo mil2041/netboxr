@@ -7,9 +7,9 @@
 getGISTIC2Mat(date = "last", cancerType, workDir, verbose = TRUE)
 }
 \arguments{
-\item{date}{Default is "latest"}
+\item{date}{Default is 'latest'}
 
-\item{cancerType}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{cancerType}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{workDir}{Where to save the processed result}
 
@@ -23,7 +23,7 @@ Retrieve GISTIC2 all_thresholded.by_genes.txt file from TCGA study
 }
 \examples{
 date<-getRunDates(latest=TRUE)
-cancerType<-"KIRC"
+cancerType<-'KIRC'
 #worDir<-getwd()
 
 #gistic2CNCallMat<-getGISTIC2Mat(date,cancerType,workDir)

@@ -18,8 +18,8 @@ a single data frame that is union of multiple data frames
 Union multiple data frames for making oncoprint
 }
 \examples{
-date<-"2015_08_21"
-cancerType<-"KIRC"
+date<-'2015_08_21'
+cancerType<-'KIRC'
 worDir<-getwd()
 #mutationMAF<-getMutationMAF(date,cancerType,workDir)
 

@@ -7,9 +7,9 @@
 plotCNCallGE(dat, levels, geneSymbol, verbose = TRUE)
 }
 \arguments{
-\item{dat}{Default is "latest"}
+\item{dat}{Default is 'latest'}
 
-\item{levels}{Abbreviation in the TCGA study ["KIRC","GBM"]}
+\item{levels}{Abbreviation in the TCGA study ['KIRC','GBM']}
 
 \item{geneSymbol}{MutSig2CV result data frame}
 
@@ -22,8 +22,8 @@ null
 boxplot of gene expression counts between multiple copy number groups
 }
 \examples{
-cancerType<-"KIRC"
-date<-"2015_08_21" 
+cancerType<-'KIRC'
+date<-'2015_08_21' 
 #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #dim(mutSig2CVMat)
 sampleSize<-333

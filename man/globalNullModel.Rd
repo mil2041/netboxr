@@ -18,7 +18,7 @@ globalNullModel(netboxGraph, networkGraph, directed, iterations = 30,
 
 \item{numOfGenes}{A numeric value}
 
-\item{pValueAdj}{A string for p-value correction method c("BH, "Bonferroni")}
+\item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
 
 \item{pValueCutoff}{A numeric value c(0,1)}
 }
@@ -37,8 +37,8 @@ data(netbox2010)
 
 #geneList<-netbox2010$geneList
 #sifNetwork<-netbox2010$network
-#result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj="BH",
-#           pValueCutoff=0.05,communityMethod="lec",keepIsolatedNodes=FALSE)
+#result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
+#           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 
 #names(result)
 
