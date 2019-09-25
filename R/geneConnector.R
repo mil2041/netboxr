@@ -225,8 +225,12 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     
     netbox$edgelist <- get.edgelist(graphOutput)
     
-    #### edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE new change 08/15/2019
     edgeLabelList <- get.edge.attribute(graphOutput)$V2
+    
+    # Added for Pathway Commons datasets 
+    if(is.null(edgeLabelList)) {
+      edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+    }
     
     mergedEdgeLabels <- lapply(edgeLabelList, function(x) {
         
