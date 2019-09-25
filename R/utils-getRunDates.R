@@ -10,24 +10,23 @@
 #' @concept netboxr
 #' @export
 #' @import XML
-getRunDates<-function(latest=FALSE){
-
-    url<-"http://gdac.broadinstitute.org/runs"
-    doc<-htmlTreeParse(url,useInternalNodes=TRUE)
-
-    # the date between stddate and analyses may not always the same
-    #keyWord = paste("","stddata_",sep="")
+getRunDates <- function(latest = FALSE) {
     
-    keyWord = paste("","analyses_",sep="")
-    keyWord = paste("//a[contains(@href, '",keyWord,"')]",sep="")
+    url <- "http://gdac.broadinstitute.org/runs"
+    doc <- htmlTreeParse(url, useInternalNodes = TRUE)
+    
+    # the date between stddate and analyses may not always the same keyWord = paste('','stddata_',sep='')
+    
+    keyWord = paste("", "analyses_", sep = "")
+    keyWord = paste("//a[contains(@href, '", keyWord, "')]", sep = "")
     plinks1 = xpathSApply(doc, keyWord, xmlValue)
-    runDate<-gsub("/","",substring(plinks1,11))
-    remove<-c("latest")
-    runDate<-runDate[! runDate %in% remove]
-    runDate<-runDate[rev(order(as.Date(runDate,format="%Y_%m_%d")))]
-    if(!latest){        
+    runDate <- gsub("/", "", substring(plinks1, 11))
+    remove <- c("latest")
+    runDate <- runDate[!runDate %in% remove]
+    runDate <- runDate[rev(order(as.Date(runDate, format = "%Y_%m_%d")))]
+    if (!latest) {
         return(runDate)
-    }else{
-        return(runDate[1]) 
+    } else {
+        return(runDate[1])
     }
 }

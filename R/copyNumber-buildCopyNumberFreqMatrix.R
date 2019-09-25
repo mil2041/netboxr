@@ -7,8 +7,8 @@
 #' @return a data frame of copy number frequency
 #'   
 #' @examples
-#' cancerType<-"KIRC"
-#' date<-"2015_08_21" 
+#' cancerType<-'KIRC'
+#' date<-'2015_08_21' 
 #' #mutSig2CVMat<-getMutSig2CVMat(date=date,cancerType=cancerType,workDir=tmpDir)
 #' #dim(mutSig2CVMat)
 #' sampleSize<-333
@@ -20,35 +20,38 @@
 #' 
 #' @concept netboxr
 #' @export
-buildCopyNumberFreqMatrix<-function (data,scale,breaks){
-  
-  nrows<-dim(data)[1]
-  ncols<-dim(data)[2]
-  scaleMin<-scale[1]
-  scaleMax<-scale[2]
-  binSize<-( scaleMax - scaleMin + 1 )/breaks
-  
-  binSeq<-{}
-  for(i in 1:breaks) {
-    if( i == 1){
-      binSeq[i]<-scaleMin
-    }else {
-      binSeq[i]<-( binSeq[i-1] + binSize )
+buildCopyNumberFreqMatrix <- function(data, scale, breaks) {
+    
+    nrows <- dim(data)[1]
+    ncols <- dim(data)[2]
+    scaleMin <- scale[1]
+    scaleMax <- scale[2]
+    binSize <- (scaleMax - scaleMin + 1)/breaks
+    
+    binSeq <- {
+    }
+    for (i in 1:breaks) {
+        if (i == 1) {
+            binSeq[i] <- scaleMin
+        } else {
+            binSeq[i] <- (binSeq[i - 1] + binSize)
+        }
+        
     }
     
-  }
-  
-  FreqMatrix<-{}
-  FreqBinVector<-{}
-  for( k in 1: breaks ){
-    if( k != breaks ) {         
-      FreqBinVector<-( rowSums(data >= binSeq[k]) - rowSums( data >= binSeq[k+1]) )        
-    }else {
-      FreqBinVector<-rowSums(data >= binSeq[k])
+    FreqMatrix <- {
     }
-    FreqMatrix<-cbind(FreqMatrix,FreqBinVector)
-  }
-  
-  return(FreqMatrix)
-  
+    FreqBinVector <- {
+    }
+    for (k in 1:breaks) {
+        if (k != breaks) {
+            FreqBinVector <- (rowSums(data >= binSeq[k]) - rowSums(data >= binSeq[k + 1]))
+        } else {
+            FreqBinVector <- rowSums(data >= binSeq[k])
+        }
+        FreqMatrix <- cbind(FreqMatrix, FreqBinVector)
+    }
+    
+    return(FreqMatrix)
+    
 }

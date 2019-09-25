@@ -8,18 +8,18 @@
 #' 
 #' @examples 
 #' #df <- results$moduleMembership
-#' #convertDFtoList(df, "membership", "geneSymbol")
+#' #convertDFtoList(df, 'membership', 'geneSymbol')
 #' 
 #' @concept netboxr
 #' @export
 convertDFtoList <- function(df, listItemNameCol, listItemCol) {
-  x <- list()
-  
-  for(i in 1:max(df[, listItemNameCol])) {
-    tmp <- as.vector(df[df[, listItemNameCol] == i, listItemCol])
+    x <- list()
     
-    x[[as.character(i)]] <- tmp
-  }
-  
-  return(x)
+    for (i in 1:max(df[, listItemNameCol])) {
+        tmp <- as.vector(df[df[, listItemNameCol] == i, listItemCol])
+        
+        x[[as.character(i)]] <- tmp
+    }
+    
+    return(x)
 }
