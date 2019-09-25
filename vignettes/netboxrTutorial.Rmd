@@ -251,7 +251,7 @@ Users can load alternative pathway data from the [Pathway Commons](http://www.pa
 
 **NOTE:** Downloaded data is automatically cached to avoid unnecessary downloads. 
 
-```{r paxtoolsr, fig.width=10, fig.height=10}
+```{r paxtoolsr, fig.width=15, fig.height=15}
 library(paxtoolsr)
 
 filename <- "PathwayCommons.8.reactome.EXTENDED_BINARY_SIF.hgnc.txt.gz"
