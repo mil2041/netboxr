@@ -1,6 +1,7 @@
 ---
 title: "NetBoxR Tutorial"
 output:
+  rmarkdown::html_vignette
   BiocStyle::html_document:
     toc: yes
     toc_float: false
@@ -12,8 +13,10 @@ output:
     variant: markdown_github
   pdf_document:
     toc: yes
-vignette: |
-  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  vignette: >
+    %\VignetteIndexEntry{NetBoxR Tutorial}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
 ---
 
 <!--
