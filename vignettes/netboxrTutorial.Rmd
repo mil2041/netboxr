@@ -1,19 +1,21 @@
 ---
 title: "NetBoxR Tutorial"
 output:
-  html_document:
-    toc: yes
   BiocStyle::html_document:
     toc: yes
-    toc_float: no
+    toc_float: false
+  html_document:
+    toc: yes
   html_notebook: default
   md_document:
     toc: yes
     variant: markdown_github
   pdf_document:
     toc: yes
-  vignette: |
-    %\VignetteIndexEntry{NetBoxR Tutorial} %\VignetteEngine{knitr::rmarkdown} \usepackage[utf8]{inputenc}
+  vignette: >
+    %\VignetteIndexEntry{NetBoxR Tutorial}
+    %\VignetteEngine{knitr::rmarkdown}
+    \usepackage[utf8]{inputenc}
 ---
 
 <!--
@@ -48,8 +50,8 @@ of the discovered pathway modules.
 ## Installation
 
 ```{r installNetBoxr, eval=FALSE}
-##library(remotes)
-##install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE)
+library(remotes)
+install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE)
 ```
 
 ## Getting Started
@@ -57,20 +59,20 @@ of the discovered pathway modules.
 Load **netboxr** package: 
 
 ```{r loadLibrary, message=FALSE, warning=FALSE}
-##library(netboxr)
+library(netboxr)
 ```
 
 A list of all accessible vignettes and methods is available with the following command: 
 
 ```{r searchHelp, eval=FALSE, tidy=FALSE}
-##help.search("netboxr")
+help.search("netboxr")
 ```
 
 For help on any **netboxr** package functions, use one of the following command formats:
 
 ```{r showHelp, eval=FALSE, tidy=FALSE}
-##help(geneConnector)
-##?geneConnector
+help(geneConnector)
+?geneConnector
 ```
 
 # Example of Cerami et al. PLoS One 2010
@@ -92,9 +94,9 @@ and duplicated interactions in the network. The netowork after reduction
 contains 9264 nodes and 68111 interactions. 
 
 ```{r netboxrExampleNetwork}
-##data(netbox2010)
-##sifNetwork <- netbox2010$network
-##graphReduced <- networkSimplify(sifNetwork,directed = FALSE)      
+data(netbox2010)
+sifNetwork <- netbox2010$network
+graphReduced <- networkSimplify(sifNetwork,directed = FALSE)      
 ```
 
 ## Load altered gene list
@@ -103,8 +105,8 @@ The altered gene list contains 517 candidates from mutations and copy number
 alterations. 
 
 ```{r netboxrExampleGene}
-##geneList <- as.character(netbox2010$geneList) 
-##length(geneList)
+geneList <- as.character(netbox2010$geneList) 
+length(geneList)
 ```
 
 ## Map altered gene list on HIN network
@@ -118,25 +120,25 @@ represented by the gene list.
 ## correction for linker candidates.
 
 ## Use edge-betweeness method to detect community structure in the network. 
-##threshold <- 0.05
-##results <- geneConnector(geneList=geneList,
-##                        networkGraph=graphReduced,
-##                        directed=FALSE,
-##                        pValueAdj="BH",
-##                        pValueCutoff=threshold,
-##                        communityMethod="ebc",
-##                        keepIsolatedNodes=FALSE)
+threshold <- 0.05
+results <- geneConnector(geneList=geneList,
+                        networkGraph=graphReduced,
+                        directed=FALSE,
+                        pValueAdj="BH",
+                        pValueCutoff=threshold,
+                        communityMethod="ebc",
+                        keepIsolatedNodes=FALSE)
 
 # Check the p-value of the selected linker
-##linkerDF <- results$neighborData
-##linkerDF[linkerDF$pValueFDR<threshold,]
+linkerDF <- results$neighborData
+linkerDF[linkerDF$pValueFDR<threshold,]
 
 ##
 ## The geneConnector function returns a list of data frames. 
-##names(results)
+names(results)
 
 # plot graph with the Fruchterman-Reingold layout algorithm
-##plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
+plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
 ```
 
 ## Consistency with Previously Published Results 
@@ -153,7 +155,7 @@ The global network null model calculates the empirical p-value as the number of 
 
 ```{r netboxrExampleGlobalTest, eval=FALSE}
 ## This function will need a lot of time to complete. 
-##globalTest <- globalNullModel(netboxGraph=results$netboxGraph, ##networkGraph=graphReduced, iterations=10, numOfGenes = 274)
+globalTest <- globalNullModel(netboxGraph=results$netboxGraph, networkGraph=graphReduced, iterations=10, numOfGenes = 274)
 ```
 
 ## Local Network Null Model
@@ -161,17 +163,17 @@ Local network null model evaluates the deviation of modularity in the observed n
 
 
 ```{r netboxrExampleLocalTest}
-##localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=1000)
+localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=1000)
 
 ```
 
 Through 1000 iterations, we can obtain the mean and the standard deviation of modularity in the local network null model. Using the mean  (~0.3) and the standard deviation (0.06), we can covert the observed modularity in the network (0.519) into a Z-score (~3.8). From the Z-score, we can calculate one-tail p-value. If one-tail pvalue is less than 0.05, the observed modularity is significantly different from random. In the histogram, the blue region is the distribution of modularity in the local network null model. The red vertical line is the observed modularity in the NetBox results.
 
 ```{r netboxrExampleLocalTestPlot}
-##h<-hist(localTest$randomModularityScore,breaks=35,plot=FALSE)
-##h$density = h$counts/sum(h$counts)
-##plot(h,freq=FALSE,ylim=c(0,0.1),xlim=c(0.1,0.6), col="lightblue")
-##abline(v=localTest$modularityScoreObs,col="red")
+h<-hist(localTest$randomModularityScore,breaks=35,plot=FALSE)
+h$density = h$counts/sum(h$counts)
+plot(h,freq=FALSE,ylim=c(0,0.1),xlim=c(0.1,0.6), col="lightblue")
+abline(v=localTest$modularityScoreObs,col="red")
 ```
 
 * The global null model is used to assess the global connectivity (number of nodes and edges) of the largest module in the identified network compared with the same number but randomly selected gene list.
@@ -183,7 +185,7 @@ Through 1000 iterations, we can obtain the mean and the standard deviation of mo
 The table below shows the module memberships for all genes. 
 
 ```{r}
-##DT::datatable(results$moduleMembership, rownames = FALSE)
+DT::datatable(results$moduleMembership, rownames = FALSE)
 ```
 
 # Write NetBox Output to Files 
@@ -192,16 +194,16 @@ The table below shows the module memberships for all genes.
 # Write results for further visilaztion in the cytoscape software. 
 #
 # network.sif file is the NetBox algorithm output in SIF format.  
-##write.table(results$netboxOutput, file="network.sif", sep="\t", quote=FALSE, ##col.names=FALSE, row.names=FALSE)
+write.table(results$netboxOutput, file="network.sif", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
 #
 # netighborList.txt file contains the information of all neighbor nodes. 
-##write.table(results$neighborData, file="neighborList.txt", sep="\t", ##quote=FALSE, col.names=TRUE, row.names=FALSE)
+write.table(results$neighborData, file="neighborList.txt", sep="\t", quote=FALSE, col.names=TRUE, row.names=FALSE)
 #
 # community.membership.txt file indicates the identified pathway module numbers.
-##write.table(results$moduleMembership, file="community.membership.txt", sep="\t", ##quote=FALSE, col.names=FALSE, row.names=FALSE)
+write.table(results$moduleMembership, file="community.membership.txt", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
 #
 # nodeType.txt file indicates the node is "linker" node or "candidate" node. 
-##write.table(results$nodeType,file="nodeType.txt", sep="\t", quote=FALSE, ##col.names=FALSE, row.names=FALSE)
+write.table(results$nodeType,file="nodeType.txt", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
 ```
 
 # Term Enrichment in Modules using Gene Ontology (GO) Analysis 
@@ -209,37 +211,37 @@ The table below shows the module memberships for all genes.
 After module identification, one main task is understanding the biological processes that may be represented by the returned modules. Here we use the Bioncoductor clusterProfiler to do an enrichment analysis using GO Biological Process terms on a selected module. 
 
 ```{r}
-##library(clusterProfiler)
-##library(org.Hs.eg.db)
+library(clusterProfiler)
+library(org.Hs.eg.db)
 
-##module <- 6
-##selectedModule <- results$moduleMembership[results$moduleMembership$membership ##== module,]
-##geneList <-selectedModule$geneSymbol
+module <- 6
+selectedModule <- results$moduleMembership[results$moduleMembership$membership == module,]
+geneList <-selectedModule$geneSymbol
 
 # Check available ID types in for the org.Hs.eg.db annotation package
-##keytypes(org.Hs.eg.db)
+keytypes(org.Hs.eg.db)
 
-##ids <- bitr(geneList, fromType="SYMBOL", toType=c("ENTREZID"), ##OrgDb="org.Hs.eg.db")
-##head(ids)
+ids <- bitr(geneList, fromType="SYMBOL", toType=c("ENTREZID"), OrgDb="org.Hs.eg.db")
+head(ids)
 
-##ego <- enrichGO(gene = ids$ENTREZID,
-##                OrgDb = org.Hs.eg.db,
-##                ont = "BP",
-##                pAdjustMethod = "BH",
-##                pvalueCutoff  = 0.01,
-##                qvalueCutoff  = 0.05,
-##                readable = TRUE)
+ego <- enrichGO(gene = ids$ENTREZID,
+                OrgDb = org.Hs.eg.db,
+                ont = "BP",
+                pAdjustMethod = "BH",
+                pvalueCutoff  = 0.01,
+                qvalueCutoff  = 0.05,
+                readable = TRUE)
 ```
 
 ## Enrichment Results 
 
 ```{r}
-##head(ego)
+head(ego)
 ```
 
 ## Visualize Enrichment Results
 ```{r, fig.width=10, fig.height=5}
-##dotplot(ego)
+dotplot(ego)
 ```
 
 # Alternative Module Discovery Methods 
