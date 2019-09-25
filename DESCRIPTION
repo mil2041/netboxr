@@ -14,7 +14,9 @@ Imports: jsonlite, parallel, data.table, gplots, plyr
 Depends:
     R (>= 3.5.0),
     igraph (>= 1.2.4.1),
-    paxtoolsr
+    paxtoolsr,
+    clusterProfiler,
+    org.Hs.eg.db
 Suggests:
     BiocStyle,
     knitr,

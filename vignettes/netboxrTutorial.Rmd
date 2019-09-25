@@ -254,41 +254,41 @@ Users can load alternative pathway data from the [Pathway Commons](http://www.pa
 **NOTE:** Downloaded data is automatically cached to avoid unnecessary downloads. 
 
 ```{r paxtoolsr, fig.width=15, fig.height=15}
-##library(paxtoolsr)
+library(paxtoolsr)
 
-##filename <- "PathwayCommons.8.reactome.EXTENDED_BINARY_SIF.hgnc.txt.gz"
-##sif <- downloadPc2(filename, version="8")
+filename <- "PathwayCommons.8.reactome.EXTENDED_BINARY_SIF.hgnc.txt.gz"
+sif <- downloadPc2(filename, version="8")
 
 # NOTE: Run without filename to see a list of available files
 #sif <- downloadPc2()
 
 # Filter interactions for specific types
-##interactionTypes <- getSifInteractionCategories()
+interactionTypes <- getSifInteractionCategories()
 # filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
-##filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
+filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
 
 # Re-run NetBox algorithm with new network
-##graphReduced <- networkSimplify(filteredSif, directed=FALSE)      
-##geneList <- as.character(netbox2010$geneList) 
+graphReduced <- networkSimplify(filteredSif, directed=FALSE)      
+geneList <- as.character(netbox2010$geneList) 
 
-##threshold <- 0.05
-##pcResults <- geneConnector(geneList=geneList,
-##                           networkGraph=graphReduced,
-##                           directed=FALSE,
-##                           pValueAdj="BH",
-##                           pValueCutoff=threshold,
-##                           communityMethod="lec",
-##                           keepIsolatedNodes=FALSE)
+threshold <- 0.05
+pcResults <- geneConnector(geneList=geneList,
+                           networkGraph=graphReduced,
+                           directed=FALSE,
+                           pValueAdj="BH",
+                           pValueCutoff=threshold,
+                           communityMethod="lec",
+                           keepIsolatedNodes=FALSE)
 
 # Check the p-value of the selected linker
-##linkerDF <- results$neighborData
-##linkerDF[linkerDF$pValueFDR<threshold,]
+linkerDF <- results$neighborData
+linkerDF[linkerDF$pValueFDR<threshold,]
 
 # The geneConnector function returns a list of data frames. 
-##names(results)
+names(results)
 
 # plot graph with the Fruchterman-Reingold layout algorithm
-##plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
+plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
 ```
 
 # References

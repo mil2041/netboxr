@@ -154,7 +154,7 @@ NetBox algorithm used (1) global network null model and (2) local network null m
 The global network null model calculates the empirical p-value as the number of times (over a set of iterations) the size of the largest module in the network coming from the same number of randomly selected genes (number of genes is 274 in this example) equals or exceeds the size of the largest module in the observed network. Suggested iterations is 1000.  
 
 ```{r netboxrExampleGlobalTest, eval=FALSE}
-## This function will need a lot of time to complete. 
+# This function will need a lot of time to complete. 
 globalTest <- globalNullModel(netboxGraph=results$netboxGraph, networkGraph=graphReduced, iterations=10, numOfGenes = 274)
 ```
 
@@ -164,7 +164,6 @@ Local network null model evaluates the deviation of modularity in the observed n
 
 ```{r netboxrExampleLocalTest}
 localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=1000)
-
 ```
 
 Through 1000 iterations, we can obtain the mean and the standard deviation of modularity in the local network null model. Using the mean  (~0.3) and the standard deviation (0.06), we can covert the observed modularity in the network (0.519) into a Z-score (~3.8). From the Z-score, we can calculate one-tail p-value. If one-tail pvalue is less than 0.05, the observed modularity is significantly different from random. In the histogram, the blue region is the distribution of modularity in the local network null model. The red vertical line is the observed modularity in the NetBox results.
@@ -192,16 +191,16 @@ DT::datatable(results$moduleMembership, rownames = FALSE)
 
 ```{r netboxrEampleOutput, eval=FALSE}
 # Write results for further visilaztion in the cytoscape software. 
-#
+
 # network.sif file is the NetBox algorithm output in SIF format.  
 write.table(results$netboxOutput, file="network.sif", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
-#
+
 # netighborList.txt file contains the information of all neighbor nodes. 
 write.table(results$neighborData, file="neighborList.txt", sep="\t", quote=FALSE, col.names=TRUE, row.names=FALSE)
-#
+
 # community.membership.txt file indicates the identified pathway module numbers.
 write.table(results$moduleMembership, file="community.membership.txt", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
-#
+
 # nodeType.txt file indicates the node is "linker" node or "candidate" node. 
 write.table(results$nodeType,file="nodeType.txt", sep="\t", quote=FALSE, col.names=FALSE, row.names=FALSE)
 ```
