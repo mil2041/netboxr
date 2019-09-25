@@ -45,25 +45,21 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     graphReduced <- networkGraph
     
     # Get the genes from the input that overlap with the vertexs in the network
-    geneOverlap <- {
-    }
+    geneOverlap <- NULL
     geneOverlap$name <- intersect(geneList, V(graphReduced)$name)
     geneOverlap$idx <- match(geneOverlap$name, V(graphReduced)$name)
     geneOverlap$type <- rep("candidate", length(geneOverlap$name))
     cat(sprintf("%s / %s candidate nodes match the name in the network of %s nodes \n", length(geneOverlap$name), 
         length(geneList), length(V(graphReduced)$name)))
     
-    neighborList <- {
-    }
+    neighborList <- NULL
     neighborList$numOfgraphReducedGene <- length(V(graphReduced))
     neighborList$numOfgeneOverlap <- length(geneOverlap$idx)
     
     # neighborList$reducedGraphId<-neighbors(graphReduced,v=geneOverlap$idx,mode=1)
     
-    neighborTotal <- {
-    }
-    neighborTemp <- {
-    }
+    neighborTotal <- NULL
+    neighborTemp <- NULL
     for (k in 1:length(geneOverlap$idx)) {
         neighborTemp <- neighbors(graphReduced, v = geneOverlap$idx[k], mode = "all")
         neighborTotal <- union(neighborTotal, neighborTemp)
@@ -71,14 +67,10 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     neighborList$reducedGraphId <- setdiff(neighborTotal, geneOverlap$idx)
     
     
-    neighborList$name <- {
-    }
-    neighborList$localDegree <- {
-    }
-    neighborList$pValueRaw <- {
-    }
-    neighborList$oddsRatio <- {
-    }
+    neighborList$name <- NULL
+    neighborList$localDegree <- NULL
+    neighborList$pValueRaw <- NULL
+    neighborList$oddsRatio <- NULL
     
     for (i in 1:length(neighborList$reducedGraphId)) {
         neighborList$name[i] <- get.vertex.attribute(graphReduced, name = "name", index = neighborList$reducedGraphId[i])
@@ -150,8 +142,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     linkerListFrame$type <- rep("linker", dim(linkerListFrame)[1])
     
     # include linker nodes into the list of initial candidate nodes
-    selectedGene <- {
-    }
+    selectedGene <- NULL
     selectedGene$idx <- union(geneOverlap$idx, linkerListFrame$idx)
     selectedGene$type <- c(geneOverlap$type, linkerListFrame$type)
     selectedGene$name <- c(geneOverlap$name, as.character(linkerListFrame$name))
@@ -217,8 +208,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     # graphOutput$layout<-layout.drl(graphOutput,options=list(simmer.attraction=0,edge.cut=1,expansion.attraction=0))
     # plot(ebc,graphOutput,vertex.size=3,vertex.label.dist=1.5)
     
-    netbox <- {
-    }
+    netbox <- NULL
     # netbox$name<-V(graphOutput)$name bug : get.edges only return half number of edges, use get.edgelist #
     # netbox$edgelist<-get.edgelist(graphOutput)
     # netbox$interactionType<-rep('INTERACT',length(netbox$edgelist[,1]))
