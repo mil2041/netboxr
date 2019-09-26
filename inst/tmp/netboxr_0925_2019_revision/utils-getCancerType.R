@@ -24,7 +24,7 @@ getCancerType <- function(date = "last", cancerType = "all") {
     url <- "http://gdac.broadinstitute.org/runs"
     url <- paste(url, "/stddata__", date, sep = "")
     url <- paste(url, "/samples_report", sep = "")
-    doc <- htmlTreeParse(url, useInternalNodes = T)
+    doc <- htmlTreeParse(url, useInternalNodes = TRUE)
     
     keyWord = paste("", "sample_counts", sep = "")
     keyWord = paste("//a[contains(@href, '", keyWord, "')]", sep = "")

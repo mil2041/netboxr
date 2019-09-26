@@ -39,7 +39,7 @@ getRNASeqV2RawCounts <- function(date = "last", cancerType, workDir, verbose = T
         url <- paste(url, "/stddata__", date, sep = "")
         url <- paste(url, "/data/", cancerType, "/", substr(date, 1, 4), substr(date, 6, 7), substr(date, 
             9, 10), sep = "")
-        doc <- htmlTreeParse(url, useInternalNodes = T)
+        doc <- htmlTreeParse(url, useInternalNodes = TRUE)
         
         keyWord = paste("", "RSEM_genes__data.Level_3", sep = "")
         keyWord = paste("//a[contains(@href, '", keyWord, "')]", sep = "")

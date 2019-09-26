@@ -37,7 +37,7 @@ getGISTIC2CNValueMat <- function(date = "last", cancerType, workDir) {
         url <- paste(url, "/analyses__", date, sep = "")
         url <- paste(url, "/data/", cancerType, "/", substr(date, 1, 4), substr(date, 6, 7), substr(date, 
             9, 10), sep = "")
-        doc <- htmlTreeParse(url, useInternalNodes = T)
+        doc <- htmlTreeParse(url, useInternalNodes = TRUE)
         
         keyWord = paste("", "CopyNumber_Gistic2.Level_4", sep = "")
         keyWord = paste("//a[contains(@href, '", keyWord, "')]", sep = "")

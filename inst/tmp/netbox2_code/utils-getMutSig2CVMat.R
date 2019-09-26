@@ -33,7 +33,7 @@ getMutSig2CVMat<-function(date="last",cancerType="BRCA",workDir,verbose=TRUE){
     url<-"http://gdac.broadinstitute.org/runs"
     url<-paste(url,"/analyses__",date,sep="")
     url<-paste(url,"/data/",cancerType,"/",substr(date,1,4),substr(date,6,7),substr(date,9,10),sep="")
-    doc<-htmlTreeParse(url,useInternalNodes=T)
+    doc<-htmlTreeParse(url,useInternalNodes=TRUE)
     
     keyWord = paste("","MutSigNozzleReport2CV.Level_4",sep="")
     keyWord = paste("//a[contains(@href, '",keyWord,"')]",sep="")
