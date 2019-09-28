@@ -39,6 +39,11 @@
 #' @concept netboxr
 #' @export
 #' @import igraph
+#' @import jsonlite
+#' @import parallel
+#' @import data.table
+#' @import gplots
+#' @import plyr
 geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = "BH", pValueCutoff = 0.05, 
     communityMethod = "lec", keepIsolatedNodes = FALSE) {
     
