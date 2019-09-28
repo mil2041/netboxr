@@ -71,8 +71,7 @@ localNullModel <- function(netboxGraph, iterations = 30) {
     # polygon(d, col='light blue', border='black') abline(v=modularityScoreObs,col='red')
     
     # h<-hist(modularityScore,breaks=35,xlim=c(0.1,0.6)) h$density = h$counts/sum(h$counts)
-    # plot(h,freq=FALSE,ylim=c(0,0.1),xlim=c(0.1,0.6), col='lightblue')
-    # abline(v=modularityScoreObs,col='red')
+    # plot(h,freq=FALSE,ylim=c(0,0.1),xlim=c(0.1,0.6), col='lightblue') abline(v=modularityScoreObs,col='red')
     output <- list(randomModularityScore = modularityScore, randomMean = randomMean, randomSD = randomSD, 
         modularityScoreObs = modularityScoreObs, zScore = zScore, pValueObs = pValueObs)
     return(output)
