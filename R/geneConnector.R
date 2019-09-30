@@ -8,7 +8,8 @@
 #' @param communityMethod A string for community detection method c('ebc','lec')
 #' @param keepIsolatedNodes logic value
 #' 
-#' @return a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborData)
+#' @return a list with four lists (i.e. netboxOutput, nodeType, 
+#'                                 moduleMembership, neighborData)
 #'   netboxGraph is igraph object.
 #'   netboxCommunity is igraph object.
 #'   netboxOutput is a data frame.
@@ -24,21 +25,35 @@
 #' geneList<-netbox2010$geneList 
 #' sifNetwork<-netbox2010$network
 #' graphReduced<-networkSimplify(sifNetwork,directed = FALSE)      
-#' result<-geneConnector(geneList=geneList,networkGraph=graphReduced,directed=FALSE,pValueAdj='BH',
+#' result<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+#'                       directed=FALSE,pValueAdj='BH',
 #'            pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 #'
 #' names(result)
 #'
 #' \dontrun{ plot(result$netboxGraph, layout=layout_with_fr) }
 #' 
-#' write.table(result$netboxOutput,file='network.sif',sep='\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
-#' write.table(result$neighborData,file='neighborList.txt',sep='\t',quote=FALSE,col.names=TRUE,row.names=FALSE)
-#' write.table(result$moduleMembership,file='memb.ebc.txt',sep='\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
-#' write.table(result$nodeType,file='nodeType.txt',sep='\t',quote=FALSE,col.names=FALSE,row.names=FALSE)
+#' write.table(result$netboxOutput,file='network.sif',sep='\t',
+#'             quote=FALSE,col.names=FALSE,row.names=FALSE)
+#'
+#' write.table(result$neighborData,file='neighborList.txt',sep='\t',
+#'             quote=FALSE,col.names=TRUE,row.names=FALSE)
+#'
+#' write.table(result$moduleMembership,file='memb.ebc.txt',sep='\t',
+#'             quote=FALSE,col.names=FALSE,row.names=FALSE)
+# 
+#' write.table(result$nodeType,file='nodeType.txt',sep='\t',quote=FALSE,
+#'             col.names=FALSE,row.names=FALSE)
+# 
 #' 
 #' @concept netboxr
 #' @export
 #' @import igraph
+#' @import jsonlite
+#' @import parallel
+#' @import data.table
+#' @import gplots
+#' @import plyr
 geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = "BH", pValueCutoff = 0.05, 
     communityMethod = "lec", keepIsolatedNodes = FALSE) {
     
@@ -49,14 +64,15 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     geneOverlap$name <- intersect(geneList, V(graphReduced)$name)
     geneOverlap$idx <- match(geneOverlap$name, V(graphReduced)$name)
     geneOverlap$type <- rep("candidate", length(geneOverlap$name))
-    cat(sprintf("%s / %s candidate nodes match the name in the network of %s nodes \n", length(geneOverlap$name), 
-        length(geneList), length(V(graphReduced)$name)))
+    cat(sprintf("%s / %s candidate nodes match the name in the network of %s 
+                nodes \n", 
+        length(geneOverlap$name), length(geneList), length(V(graphReduced)$name)))
     
     neighborList <- NULL
     neighborList$numOfgraphReducedGene <- length(V(graphReduced))
     neighborList$numOfgeneOverlap <- length(geneOverlap$idx)
     
-    # neighborList$reducedGraphId<-neighbors(graphReduced,v=geneOverlap$idx,mode=1)
+    # neighborList$reducedGraphId<-neighbors(graphReduced, v=geneOverlap$idx,mode=1)
     
     neighborTotal <- NULL
     neighborTemp <- NULL
@@ -81,23 +97,25 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     for (j in 1:length(neighborList$reducedGraphId)) {
         
         globalNeighborId <- neighbors(graphReduced, v = neighborList$reducedGraphId[j], mode = 1)
+        
         localNeighborId <- intersect(geneOverlap$id, globalNeighborId)
+        
         neighborList$localDegree[j] <- length(localNeighborId)
         
         # a: number of nodes A node links to the gene list in the graph b: number of nodes A node links in the
-        # graph globally c: total number of nodes in graph minus toal number of nodes that A node links
-        # globally d: total number of nodes in the gene list in the graph
+        # graph globally c: total number of nodes in graph minus total number of nodes that A node links globally
+        # d: total number of nodes in the gene list in the graph
         
         a <- neighborList$localDegree[j]
         b <- neighborList$globalDegree[j]
         c <- (neighborList$numOfgraphReducedGene - neighborList$globalDegree[j])
         d <- neighborList$numOfgeneOverlap
         
-        # hypergeometric distribution for p-value calculation
-        # neighborList$pValueRaw[j]<-(1-phyper((a-1),b,c,d))
+        # hypergeometric distribution for p-value calculation neighborList$pValueRaw[j]<-(1-phyper((a-1),b,c,d))
         
         # http://pedagogix-tagc.univ-mrs.fr/courses/ASG1/practicals/go_statistics_td/go_statistics_td_2015.html
         # https://mengnote.blogspot.com/2012/12/calculate-correct-hypergeometric-p.html
+        
         neighborList$pValueRaw[j] <- phyper((a - 1), b, c, d, lower.tail = FALSE)
         
         # https://en.wikipedia.org/wiki/Odds_ratio
@@ -227,9 +245,9 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     
     edgeLabelList <- get.edge.attribute(graphOutput)$V2
     
-    # Added for Pathway Commons datasets 
-    if(is.null(edgeLabelList)) {
-      edgeLabelList<-get.edge.attribute(graphOutput)$INTERACTION_TYPE
+    # Added for Pathway Commons datasets
+    if (is.null(edgeLabelList)) {
+        edgeLabelList <- get.edge.attribute(graphOutput)$INTERACTION_TYPE
     }
     
     mergedEdgeLabels <- lapply(edgeLabelList, function(x) {
@@ -248,8 +266,8 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     
     # netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors
     # = FALSE)
-    netboxOutput <- data.frame(netbox$edgelist[, 1], mergedEdgeLabels$contentMerged, netbox$edgelist[, 
-        2], stringsAsFactors = FALSE)
+    netboxOutput <- data.frame(netbox$edgelist[, 1], mergedEdgeLabels$contentMerged, netbox$edgelist[, 2], 
+        stringsAsFactors = FALSE)
     colnames(netboxOutput) <- c("geneA", "interaction", "geneB")
     
     if (keepIsolatedNodes) {
@@ -261,8 +279,8 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = 
     
     # write.table(netboxOutput,file='network.sif',sep='\t',quote=FALSE,col.names=TRUE,row.names=FALSE)
     
-    result <- list(netboxGraph = graphOutput, netboxCommunity = community, netboxOutput = netboxOutput, 
-        nodeType = selectedNodeType, moduleMembership = moduleMembershipFrame, neighborData = neighborListFrame)
+    result <- list(netboxGraph = graphOutput, netboxCommunity = community, netboxOutput = netboxOutput, nodeType = selectedNodeType, 
+        moduleMembership = moduleMembershipFrame, neighborData = neighborListFrame)
     
     return(result)
 }

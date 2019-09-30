@@ -1,7 +1,7 @@
 Package: netboxr
 Type: Package
 Title: netboxr
-Version: 0.99.6
+Version: 0.99.7
 Date: 2019-08-01
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eric Minwei Liu <emliu.research@gmail.com>
@@ -12,11 +12,12 @@ Description: NetBox is a software tool for performing network analysis on human
     Interaction (PID) Database, and the MSKCC Cancer Cell Map.
 Imports: jsonlite, parallel, data.table, gplots, plyr
 Depends:
-    R (>= 3.5.0),
+    R (>= 3.6.0),
     igraph (>= 1.2.4.1),
     paxtoolsr,
     clusterProfiler,
-    org.Hs.eg.db
+    org.Hs.eg.db,
+    jsonlite, parallel, data.table, gplots, plyr
 Suggests:
     BiocStyle,
     knitr,
