@@ -263,7 +263,7 @@ sif <- downloadPc2(filename, version="8")
 
 # Filter interactions for specific types
 interactionTypes <- getSifInteractionCategories()
-# filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
+filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
 filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
 
 # Re-run NetBox algorithm with new network
@@ -280,14 +280,14 @@ pcResults <- geneConnector(geneList=geneList,
                            keepIsolatedNodes=FALSE)
 
 # Check the p-value of the selected linker
-linkerDF <- results$neighborData
+linkerDF <- pcResults$neighborData
 linkerDF[linkerDF$pValueFDR<threshold,]
 
 # The geneConnector function returns a list of data frames. 
-names(results)
+names(pcResults)
 
 # plot graph with the Fruchterman-Reingold layout algorithm
-plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
+plot(pcResults$netboxCommunity,pcResults$netboxGraph, layout=layout_with_fr) 
 ```
 
 # References
