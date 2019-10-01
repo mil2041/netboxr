@@ -8,7 +8,7 @@
 
 ### Overview
 
-An R package to mark functional modules in the network analysis using data from Pathway Commons and TCGA Firehose.
+An R package to mark functional modules in the network analysis using data from Pathway Commons.
 
 * Version: 1.0
 
@@ -16,6 +16,6 @@ An R package to mark functional modules in the network analysis using data from 
 
 * Quick summary
 ```
-library(devtools)
-install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE)
+library(remotes)
+remotes::install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE)
 ```
