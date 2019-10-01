@@ -4,7 +4,7 @@ Title: netboxr
 Version: 0.99.7
 Date: 2019-08-01
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
-Maintainer: Eric Minwei Liu <emliu.research@gmail.com>
+Maintainer: Augustin Luna <lunaa@cbio.mskcc.org>
 Description: NetBox is a software tool for performing network analysis on human
     interaction networks. It is pre-loaded with a Human Interaction Network
     (HIN) derived from four literature curated data sources, including the
