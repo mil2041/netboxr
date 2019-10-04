@@ -3,15 +3,15 @@
 \docType{data}
 \name{netbox2010}
 \alias{netbox2010}
-\title{network coming with PLOS ONE paper.}
-\format{A data frame with 19147 nodes and 2196039 interactions:
+\title{network coming with Cerami et al. PLoS One 2010 paper.}
+\format{A data frame with 9264 nodes and 68111 interactions:
 \describe{
   \item{name}{vertex gene name}
   \item{edges}{interaction types}
   ...
 }}
 \source{
-\url{http://www.pathwaycommons.org/pc2/downloads}
+\url{https://www.ncbi.nlm.nih.gov/pubmed/20169195}
 }
 \usage{
 netbox2010
@@ -20,10 +20,10 @@ netbox2010
 a data.frame
 }
 \description{
-Loading PC2V7_03052015_woHPRD containing 19147 nodes and 2267149 interactions.
+Loading netbox2010 containing 9264 nodes and 68111 interactions.
 Treated as undirected network. 
-Removing multiple interactions and loops.
-Returning igraph network of 19147 nodes and 2196039 interactions.
+After removing multiple interactions and loops.
+Returning igraph network of 9264 nodes and 68111 interactions.
 }
 \concept{netboxr}
 \keyword{datasets}

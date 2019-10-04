@@ -1,7 +1,7 @@
 Package: netboxr
 Type: Package
 Title: netboxr
-Version: 0.99.93
+Version: 0.99.95
 Date: 2019-08-01
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
@@ -17,7 +17,7 @@ Depends:
     paxtoolsr,
     clusterProfiler,
     org.Hs.eg.db,
-    jsonlite, parallel, data.table, gplots, plyr
+    jsonlite, parallel, data.table, gplots, plyr, DT
 Suggests:
     BiocStyle,
     knitr,

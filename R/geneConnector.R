@@ -54,6 +54,7 @@
 #' @import data.table
 #' @import gplots
 #' @import plyr
+#' @importFrom DT datatable
 geneConnector <- function(geneList, networkGraph, directed = FALSE, pValueAdj = "BH", pValueCutoff = 0.05, 
     communityMethod = "lec", keepIsolatedNodes = FALSE) {
     
