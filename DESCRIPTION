@@ -1,7 +1,7 @@
 Package: netboxr
 Type: Package
 Title: netboxr
-Version: 0.99.91
+Version: 0.99.92
 Date: 2019-08-01
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
