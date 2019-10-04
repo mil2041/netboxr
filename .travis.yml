@@ -53,5 +53,5 @@ install:
 ## Run code coverage after successful build
 after_success:
   - Rscript -e 'covr::coveralls()'
-  - R CMD BiocCheck .
+  - R CMD BiocCheck --no-check-bioc-help .
   - Rscript -e 'covr::codecov()'
