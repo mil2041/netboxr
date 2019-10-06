@@ -1,5 +1,6 @@
     # a single line of comments is preserved
 1+1
+1+1
 
 if(TRUE){
 x=1  # inline comments
