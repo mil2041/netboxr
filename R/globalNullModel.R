@@ -57,9 +57,10 @@ globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30
   for (iter in 1:iterations) {
     cat(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
 
-    selectedGenes <- sample(V(graphReduced)$name, numOfGenes, replace = FALSE)
+    selectedGenes <- sample(V(networkGraph)$name, numOfGenes, replace = FALSE)
+    
     resultTmp <- geneConnector(
-      geneList = selectedGenes, networkGraph = graphReduced, directed = FALSE,
+      geneList = selectedGenes, networkGraph = networkGraph, directed = FALSE,
       pValueAdj = "BH", pValueCutoff = 0.05, communityMethod = "ebc", keepIsolatedNodes = FALSE
     )
 
