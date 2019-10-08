@@ -32,8 +32,8 @@
 #' @export
 #' @import igraph
 #' @importFrom paxtoolsr readGmt
-globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30, numOfGenes = NULL, pValueAdj = "BH",
-                            pValueCutoff = 0.05) {
+globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30,
+                            numOfGenes = NULL, pValueAdj = "BH", pValueCutoff = 0.05) {
 
   # calculate component size in the final network result
   cl <- clusters(netboxGraph)
@@ -51,12 +51,9 @@ globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30
     numOfEdgesGiantComponent
   ))
 
-  numOfNodes <- {
-  }
-  numOfEdges <- {
-  }
-  selectedGenes <- {
-  }
+  numOfNodes <- NULL
+  numOfEdges <- NULL
+  selectedGenes <- NULL
   for (iter in 1:iterations) {
     cat(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
 
