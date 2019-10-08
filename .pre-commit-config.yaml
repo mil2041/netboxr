@@ -3,8 +3,14 @@ repos:
     rev: v0.0.0.9016
     hooks:
       - id: style-files
+        log_file: style.log
       - id: parsable-R
+        log_file: parse.log
       - id: no-browser-statement
+        log_file: browser.log
       - id: roxygenize
+        log_file: roxygen.log
       - id: use-tidy-description
+        log_file: description.log
       - id: lintr
+        log_file: linter.log
