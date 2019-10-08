@@ -12,3 +12,5 @@ repos:
         log_file: precommit.log
       - id: use-tidy-description
         log_file: precommit.log
+      - id: lintr
+        log_file: precommit.log
