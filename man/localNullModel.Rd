@@ -17,19 +17,18 @@ a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborD
 \description{
 This function keeps the number of connections of each nodes in the graph but
 it rewires the partners of connections and produces  modularity score. When
-it repeats multiple time, a modularity score distribution will be used to 
+it repeats multiple time, a modularity score distribution will be used to
 produce netbox loacl p-value.
 }
 \examples{
 data(netbox2010)
 
-#geneList<-netbox2010$geneList 
-#sifNetwork<-netbox2010$network         
-#result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
+# geneList<-netbox2010$geneList
+# sifNetwork<-netbox2010$network
+# result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
 #           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 
-#names(result)
-
+# names(result)
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

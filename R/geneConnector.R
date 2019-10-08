@@ -224,7 +224,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   cat(sprintf("Final network contains %s nodes and %s interactions\n", numOfNodes, numOfEdges))
 
-  communities <- list()
+  # communities <- list()
   # Assign community membership for the sub-network
 
   if (communityMethod == "ebc") {
