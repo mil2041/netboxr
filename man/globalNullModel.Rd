@@ -35,13 +35,12 @@ numbers of largest component in the final network result.
 \examples{
 data(netbox2010)
 
-#geneList<-netbox2010$geneList
-#sifNetwork<-netbox2010$network
-#result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
+# geneList<-netbox2010$geneList
+# sifNetwork<-netbox2010$network
+# result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
 #           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 
-#names(result)
-
+# names(result)
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

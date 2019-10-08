@@ -7,7 +7,7 @@
 networkSimplify(sifNetwork, directed = FALSE)
 }
 \arguments{
-\item{sifNetwork}{A file with sif network format (There are three columns 
+\item{sifNetwork}{A file with sif network format (There are three columns
 in the file separated by tab, nodeA interactionType nodeB )}
 
 \item{directed}{Logical, treat network as directed or undirected graph}
@@ -16,13 +16,13 @@ in the file separated by tab, nodeA interactionType nodeB )}
 a igraph graph object
 }
 \description{
-This function removes duplicated edges and loops to create an igraph graph 
+This function removes duplicated edges and loops to create an igraph graph
 object from tab delimited sif formatted network file.
 }
 \details{
-For undirected graph, \code{networkSimplify} removes duplicated edges 
-and loops to create an igraph graph object from tab delimited sif 
-formatted network file.  
+For undirected graph, \code{networkSimplify} removes duplicated edges
+and loops to create an igraph graph object from tab delimited sif
+formatted network file.
 
 For directed graph, \code{networkSimplify} selects the first edge and
 removes the rest duplicated edges and loops to create an igraph graph
@@ -32,9 +32,8 @@ formatted network file.
 \examples{
 data(netbox2010)
 
-sifNetwork<-netbox2010$network         
-graphReduced<-networkSimplify(sifNetwork,directed = FALSE)
-
+sifNetwork <- netbox2010$network
+graphReduced <- networkSimplify(sifNetwork, directed = FALSE)
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

@@ -24,7 +24,7 @@ geneConnector(geneList, networkGraph, directed = FALSE,
 \item{keepIsolatedNodes}{logic value}
 }
 \value{
-a list with four lists (i.e. netboxOutput, nodeType, 
+a list with four lists (i.e. netboxOutput, nodeType,
                                 moduleMembership, neighborData)
   netboxGraph is igraph object.
   netboxCommunity is igraph object.
@@ -39,28 +39,40 @@ Generate sub-network mapping from a candidate gene list
 \examples{
 data(netbox2010)
 
-geneList<-netbox2010$geneList 
-sifNetwork<-netbox2010$network
-graphReduced<-networkSimplify(sifNetwork,directed = FALSE)      
-result<-geneConnector(geneList=geneList,networkGraph=graphReduced,
-                      directed=FALSE,pValueAdj='BH',
-           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
+geneList <- netbox2010$geneList
+sifNetwork <- netbox2010$network
+graphReduced <- networkSimplify(sifNetwork, directed = FALSE)
+result <- geneConnector(
+  geneList = geneList, networkGraph = graphReduced,
+  directed = FALSE, pValueAdj = "BH",
+  pValueCutoff = 0.05, communityMethod = "lec", keepIsolatedNodes = FALSE
+)
 
 names(result)
+\dontrun{
+plot(result$netboxGraph, layout = layout_with_fr)
+}
 
-\dontrun{ plot(result$netboxGraph, layout=layout_with_fr) }
+write.table(result$netboxOutput,
+  file = "network.sif", sep = "	",
+  quote = FALSE, col.names = FALSE, row.names = FALSE
+)
 
-write.table(result$netboxOutput,file='network.sif',sep='\\t',
-            quote=FALSE,col.names=FALSE,row.names=FALSE)
+write.table(result$neighborData,
+  file = "neighborList.txt", sep = "	",
+  quote = FALSE, col.names = TRUE, row.names = FALSE
+)
 
-write.table(result$neighborData,file='neighborList.txt',sep='\\t',
-            quote=FALSE,col.names=TRUE,row.names=FALSE)
-
-write.table(result$moduleMembership,file='memb.ebc.txt',sep='\\t',
-            quote=FALSE,col.names=FALSE,row.names=FALSE)
-write.table(result$nodeType,file='nodeType.txt',sep='\\t',quote=FALSE,
-            col.names=FALSE,row.names=FALSE)
-
+write.table(result$moduleMembership,
+  file = "memb.ebc.txt", sep = "	",
+  quote = FALSE, col.names = FALSE, row.names = FALSE
+)
+#
+write.table(result$nodeType,
+  file = "nodeType.txt", sep = "	", quote = FALSE,
+  col.names = FALSE, row.names = FALSE
+)
+#
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

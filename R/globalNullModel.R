@@ -22,71 +22,83 @@
 #' @examples
 #' data(netbox2010)
 #'
-#' #geneList<-netbox2010$geneList
-#' #sifNetwork<-netbox2010$network
-#' #result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
+#' # geneList<-netbox2010$geneList
+#' # sifNetwork<-netbox2010$network
+#' # result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
 #' #           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
 #'
-#' #names(result)
-#'
+#' # names(result)
 #' @concept netboxr
 #' @export
 #' @import igraph
 #' @importFrom paxtoolsr readGmt
-globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30, numOfGenes = NULL, pValueAdj = "BH", 
-    pValueCutoff = 0.05) {
-    
-    # calculate component size in the final network result
-    cl <- clusters(netboxGraph)
-    
-    if (is.null(numOfGenes)) {
-        numOfGenes <- length(V(netboxGraph))
-    }
-    
-    graphGiantComponent <- induced.subgraph(netboxGraph, which(cl$membership == which.max(cl$csize)))
-    
-    numOfNodesGiantComponent <- length(V(graphGiantComponent))
-    numOfEdgesGiantComponent <- length(E(graphGiantComponent))
-    cat(sprintf("Largest component in the network contains %s nodes and %s interactions\n", numOfNodesGiantComponent, 
-        numOfEdgesGiantComponent))
-    
-    numOfNodes <- {
-    }
-    numOfEdges <- {
-    }
-    selectedGenes <- {
-    }
-    for (iter in 1:iterations) {
-        cat(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
-        
-        selectedGenes <- sample(V(graphReduced)$name, numOfGenes, replace = FALSE)
-        resultTmp <- geneConnector(geneList = selectedGenes, networkGraph = graphReduced, directed = FALSE, 
-            pValueAdj = "BH", pValueCutoff = 0.05, communityMethod = "ebc", keepIsolatedNodes = FALSE)
-        
-        cl <- clusters(resultTmp$netboxGraph)
-        graphGiantComponentTmp <- induced.subgraph(resultTmp$netboxGraph, which(cl$membership == which.max(cl$csize)))
-        
-        numOfNodes[iter] <- length(V(graphGiantComponentTmp))
-        numOfEdges[iter] <- length(E(graphGiantComponentTmp))
-        cat(sprintf("Largest component in the network contains %s nodes and %s interactions\n\n", numOfNodes[iter], 
-            numOfEdges[iter]))
-        
-    }
-    
-    pValueNodes <- (sum(numOfNodes >= numOfNodesGiantComponent) + 1)/(length(numOfNodes) + 1)
-    pValueEdges <- (sum(numOfEdges >= numOfEdgesGiantComponent) + 1)/(length(numOfEdges) + 1)
-    
-    giantComponentRandom <- data.frame(rep(numOfGenes, length(numOfGenes)), numOfNodes, numOfEdges)
-    colnames(giantComponentRandom) <- c("numOfGenesInput", "numOfNodes", "numOfEdges")
-    
-    globalNodesResult <- data.frame(numOfNodesGiantComponent, sum(numOfNodes >= numOfNodesGiantComponent), 
-        iterations, pValueNodes)
-    colnames(globalNodesResult) <- c("numOfNodes", "numOfNodesAbove", "iterations", "pValueNodes")
-    globalEdgesResult <- data.frame(numOfEdgesGiantComponent, sum(numOfEdges >= numOfEdgesGiantComponent), 
-        iterations, pValueEdges)
-    colnames(globalEdgesResult) <- c("numOfEdges", "numOfEdgesAbove", "iterations", "pValueEdges")
-    
-    result <- list(globalNull = giantComponentRandom, globalNodesResult = globalNodesResult, globalEdgesResult = globalEdgesResult)
-    
-    return(result)
+globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30, numOfGenes = NULL, pValueAdj = "BH",
+                            pValueCutoff = 0.05) {
+
+  # calculate component size in the final network result
+  cl <- clusters(netboxGraph)
+
+  if (is.null(numOfGenes)) {
+    numOfGenes <- length(V(netboxGraph))
+  }
+
+  graphGiantComponent <- induced.subgraph(netboxGraph, which(cl$membership == which.max(cl$csize)))
+
+  numOfNodesGiantComponent <- length(V(graphGiantComponent))
+  numOfEdgesGiantComponent <- length(E(graphGiantComponent))
+  cat(sprintf(
+    "Largest component in the network contains %s nodes and %s interactions\n", numOfNodesGiantComponent,
+    numOfEdgesGiantComponent
+  ))
+
+  numOfNodes <- {
+  }
+  numOfEdges <- {
+  }
+  selectedGenes <- {
+  }
+  for (iter in 1:iterations) {
+    cat(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
+
+    selectedGenes <- sample(V(graphReduced)$name, numOfGenes, replace = FALSE)
+    resultTmp <- geneConnector(
+      geneList = selectedGenes, networkGraph = graphReduced, directed = FALSE,
+      pValueAdj = "BH", pValueCutoff = 0.05, communityMethod = "ebc", keepIsolatedNodes = FALSE
+    )
+
+    cl <- clusters(resultTmp$netboxGraph)
+    graphGiantComponentTmp <- induced.subgraph(resultTmp$netboxGraph, which(cl$membership == which.max(cl$csize)))
+
+    numOfNodes[iter] <- length(V(graphGiantComponentTmp))
+    numOfEdges[iter] <- length(E(graphGiantComponentTmp))
+    cat(sprintf(
+      "Largest component in the network contains %s nodes and %s interactions\n\n", numOfNodes[iter],
+      numOfEdges[iter]
+    ))
+  }
+
+  pValueNodes <- (sum(numOfNodes >= numOfNodesGiantComponent) + 1) / (length(numOfNodes) + 1)
+  pValueEdges <- (sum(numOfEdges >= numOfEdgesGiantComponent) + 1) / (length(numOfEdges) + 1)
+
+  giantComponentRandom <- data.frame(rep(numOfGenes, length(numOfGenes)), numOfNodes, numOfEdges)
+  colnames(giantComponentRandom) <- c("numOfGenesInput", "numOfNodes", "numOfEdges")
+
+  globalNodesResult <- data.frame(
+    numOfNodesGiantComponent, sum(numOfNodes >= numOfNodesGiantComponent),
+    iterations, pValueNodes
+  )
+  colnames(globalNodesResult) <- c("numOfNodes", "numOfNodesAbove", "iterations", "pValueNodes")
+  globalEdgesResult <- data.frame(
+    numOfEdgesGiantComponent, sum(numOfEdges >= numOfEdgesGiantComponent),
+    iterations, pValueEdges
+  )
+  colnames(globalEdgesResult) <- c("numOfEdges", "numOfEdgesAbove", "iterations", "pValueEdges")
+
+  result <- list(
+    globalNull = giantComponentRandom,
+    globalNodesResult = globalNodesResult,
+    globalEdgesResult = globalEdgesResult
+  )
+
+  return(result)
 }

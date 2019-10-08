@@ -1,30 +1,43 @@
-Package: netboxr
 Type: Package
+Package: netboxr
 Title: netboxr
 Version: 0.99.96
 Date: 2019-08-01
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
-Description: NetBox is a software tool for performing network analysis on human
-    interaction networks. It is pre-loaded with a Human Interaction Network
-    (HIN) derived from four literature curated data sources, including the
-    Human Protein Reference Database (HPRD), Reactome, NCI-Nature Pathway
-    Interaction (PID) Database, and the MSKCC Cancer Cell Map.
-Imports: jsonlite, parallel, data.table, gplots, plyr
+Description: NetBox is a software tool for performing network analysis on
+    human interaction networks. It is pre-loaded with a Human Interaction
+    Network (HIN) derived from four literature curated data sources,
+    including the Human Protein Reference Database (HPRD), Reactome,
+    NCI-Nature Pathway Interaction (PID) Database, and the MSKCC Cancer
+    Cell Map.
+License: LGPL-3
 Depends:
+    DT,
     R (>= 3.6.0),
-    igraph (>= 1.2.4.1),
-    paxtoolsr,
     clusterProfiler,
+    data.table,
+    gplots,
+    igraph (>= 1.2.4.1),
+    jsonlite,
     org.Hs.eg.db,
-    jsonlite, parallel, data.table, gplots, plyr, DT
+    parallel,
+    paxtoolsr,
+    plyr
+Imports: 
+    data.table,
+    gplots,
+    jsonlite,
+    parallel,
+    plyr
 Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
     testthat
-biocViews: Software,Network,Pathways,GraphAndNetwork
-VignetteBuilder: knitr
-License: LGPL-3
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+biocViews: Software,Network,Pathways,GraphAndNetwork
