@@ -10,9 +10,7 @@
 
 An R package to mark functional modules in the network analysis using data from Pathway Commons.
 
-* Version: 1.0
-
-### Installing netboxr ###
+### Installing netboxr
 
 * Quick summary
 ```
