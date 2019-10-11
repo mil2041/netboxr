@@ -21,7 +21,7 @@ a data.frame
 }
 \description{
 Loading netbox2010 containing 9264 nodes and 68111 interactions.
-Treated as undirected network. 
+Treated as undirected network.
 After removing multiple interactions and loops.
 Returning igraph network of 9264 nodes and 68111 interactions.
 }

@@ -1,7 +1,7 @@
 #' network coming with Cerami et al. PLoS One 2010 paper.
 #'
 #' Loading netbox2010 containing 9264 nodes and 68111 interactions.
-#' Treated as undirected network. 
+#' Treated as undirected network.
 #' After removing multiple interactions and loops.
 #' Returning igraph network of 9264 nodes and 68111 interactions.
 #'
@@ -12,8 +12,8 @@
 #'   ...
 #' }
 #' @source \url{https://www.ncbi.nlm.nih.gov/pubmed/20169195}
-#' 
+#'
 #' @return a data.frame
-#' 
+#'
 #' @concept netboxr
 "netbox2010"
