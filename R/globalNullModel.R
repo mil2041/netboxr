@@ -46,7 +46,7 @@ globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30
 
   numOfNodesGiantComponent <- length(V(graphGiantComponent))
   numOfEdgesGiantComponent <- length(E(graphGiantComponent))
-  cat(sprintf(
+  message(sprintf(
     "Largest component in the network contains %s nodes and %s interactions\n", numOfNodesGiantComponent,
     numOfEdgesGiantComponent
   ))
@@ -54,8 +54,8 @@ globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30
   numOfNodes <- NULL
   numOfEdges <- NULL
   selectedGenes <- NULL
-  for (iter in 1:iterations) {
-    cat(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
+  for (iter in seq_len(iterations)) {
+    message(sprintf("Global null model iteration: %s / %s\n", iter, iterations))
 
     selectedGenes <- sample(V(networkGraph)$name, numOfGenes, replace = FALSE)
 
@@ -69,7 +69,7 @@ globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30
 
     numOfNodes[iter] <- length(V(graphGiantComponentTmp))
     numOfEdges[iter] <- length(E(graphGiantComponentTmp))
-    cat(sprintf(
+    message(sprintf(
       "Largest component in the network contains %s nodes and %s interactions\n\n", numOfNodes[iter],
       numOfEdges[iter]
     ))

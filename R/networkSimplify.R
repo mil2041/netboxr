@@ -33,7 +33,6 @@
 #' @import igraph
 networkSimplify <- function(sifNetwork, directed = FALSE) {
   relationsTable <- sifNetwork
-  # relationsTable<-read.table('PCWithLoc_PPI_05092014_simple.sif',header=FALSE,sep='\t')
   removeColumn <- c(1, 3)
   relationsTableAttr <- relationsTable[, -removeColumn, drop = FALSE]
   interactions <- data.frame(relationsTable[, 1], relationsTable[, 3], relationsTableAttr, stringsAsFactors = FALSE)
@@ -42,16 +41,13 @@ networkSimplify <- function(sifNetwork, directed = FALSE) {
   graphFull <- graph.data.frame(interactions, directed = directed)
   numOfNodes <- length(V(graphFull))
   numOfEdges <- length(E(graphFull))
-  cat(sprintf("Loading network of %s nodes and %s interactions\n", numOfNodes, numOfEdges))
+  message(sprintf("Loading network of %s nodes and %s interactions\n", numOfNodes, numOfEdges))
   if (directed == TRUE) {
     directionality <- "directed"
   } else {
     directionality <- "undirected"
   }
-  cat(sprintf("Treated as %s network \n", directionality))
-
-  # print(graphFull, e=TRUE, v=TRUE) The opposite operation get.data.frame(graphFull, what='vertices')
-  # get.data.frame(graphFull, what='edges')
+  message(sprintf("Treated as %s network \n", directionality))
 
   # remove multiple interactions among the same pair of nodes and remove interaction loops
   graphReduced <- simplify(graphFull,
@@ -60,8 +56,8 @@ networkSimplify <- function(sifNetwork, directed = FALSE) {
   )
   numOfNodes <- length(V(graphReduced))
   numOfEdges <- length(E(graphReduced))
-  cat(sprintf("Removing multiple interactions and loops\n"))
-  cat(sprintf("Returning network of %s nodes and %s interactions\n", numOfNodes, numOfEdges))
+  message(sprintf("Removing multiple interactions and loops\n"))
+  message(sprintf("Returning network of %s nodes and %s interactions\n", numOfNodes, numOfEdges))
 
   return(graphReduced)
 }

@@ -64,6 +64,10 @@
 #' @import data.table
 #' @import gplots
 #' @import plyr
+#' @importFrom stats p.adjust
+#' @importFrom stats phyper
+#' @importFrom clusterProfiler enrichGO
+#' @importFrom clusterProfiler bitr
 #' @importFrom DT datatable
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
                           pValueAdj = "BH", pValueCutoff = 0.05,
@@ -75,7 +79,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   geneOverlap$name <- intersect(geneList, V(graphReduced)$name)
   geneOverlap$idx <- match(geneOverlap$name, V(graphReduced)$name)
   geneOverlap$type <- rep("candidate", length(geneOverlap$name))
-  cat(sprintf(
+  message(sprintf(
     "%s / %s candidate nodes match the name in the network of %s 
                 nodes \n",
     length(geneOverlap$name), length(geneList), length(V(graphReduced)$name)
@@ -85,11 +89,12 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   neighborList$numOfgraphReducedGene <- length(V(graphReduced))
   neighborList$numOfgeneOverlap <- length(geneOverlap$idx)
 
-  # neighborList$reducedGraphId<-neighbors(graphReduced, v=geneOverlap$idx,mode=1)
 
   neighborTotal <- NULL
   neighborTemp <- NULL
-  for (k in 1:length(geneOverlap$idx)) {
+  numOfgeneOverlap<-length(geneOverlap$idx)
+  
+  for (k in seq_len(numOfgeneOverlap)) {
     neighborTemp <- neighbors(graphReduced, v = geneOverlap$idx[k], mode = "all")
     neighborTotal <- union(neighborTotal, neighborTemp)
   }
@@ -101,7 +106,9 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   neighborList$pValueRaw <- NULL
   neighborList$oddsRatio <- NULL
 
-  for (i in 1:length(neighborList$reducedGraphId)) {
+  numOfreducedGraphID<-length(neighborList$reducedGraphId)
+  
+  for (i in seq_len(numOfreducedGraphID)) {
     neighborList$name[i] <- get.vertex.attribute(graphReduced,
       name = "name",
       index = neighborList$reducedGraphId[i]
@@ -110,7 +117,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   neighborList$globalDegree <- degree(graphReduced, v = neighborList$reducedGraphId, mode = "all")
 
-  for (j in 1:length(neighborList$reducedGraphId)) {
+  for (j in seq_len(numOfreducedGraphID)) {
     globalNeighborId <- neighbors(graphReduced, v = neighborList$reducedGraphId[j], mode = 1)
 
     localNeighborId <- intersect(geneOverlap$id, globalNeighborId)
@@ -157,14 +164,12 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   localDegreeCutoff <- 2
   neighborListFrame <- neighborListFrame[neighborListFrame$localDegree >= localDegreeCutoff, ]
 
-  cat(sprintf("Only test neighbor nodes with local degree equals or exceeds %s\n", localDegreeCutoff))
-  cat(sprintf("Multiple hypothesis corrections for %s neighbor nodes in the network\n", nrow(neighborListFrame)))
+  message(sprintf("Only test neighbor nodes with local degree equals or exceeds %s\n", localDegreeCutoff))
+  message(sprintf("Multiple hypothesis corrections for %s neighbor nodes in the network\n", nrow(neighborListFrame)))
 
   neighborListFrame$pValueFDR <- p.adjust(neighborListFrame$pValueRaw, method = "BH")
   neighborListFrame$pValueBonferroni <- p.adjust(neighborListFrame$pValueRaw, method = "bonferroni")
 
-  # write.table(neighborListFrame,file='result.txt',sep='\t',quote=FALSE,col.names=TRUE,row.names=FALSE)
-  # linkerListFrame<-neighborListFrame[neighborListFrame$pValueRaw < pValueCutoff, ]
 
   if (pValueAdj == "BH") {
     linkerListFrame <- neighborListFrame[neighborListFrame$pValueFDR < pValueCutoff, ]
@@ -174,7 +179,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
     linkerListFrame <- neighborListFrame[neighborListFrame$pValueBonferroni < pValueCutoff, ]
   }
 
-  cat(sprintf(
+  message(sprintf(
     "For p-value %s cut-off, %s nodes were included as linker nodes\n",
     pValueCutoff, dim(linkerListFrame)[1]
   ))
@@ -190,7 +195,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
 
 
-  cat(sprintf(
+  message(sprintf(
     "Connecting %s candidate nodes and %s linker nodes\n",
     length(geneOverlap$name), dim(linkerListFrame)[1]
   ))
@@ -210,32 +215,29 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   if (keepIsolatedNodes) {
     graphOutput <- graphTemp
-    cat(sprintf("Keep %s isolated candidate nodes from the input\n", length(isolatedNodes)))
+    message(sprintf("Keep %s isolated candidate nodes from the input\n", length(isolatedNodes)))
   } else {
     graphOutput <- delete.vertices(graphTemp, which(degree(graphTemp) < 1))
-    cat(sprintf("Remove %s isolated candidate nodes from the input\n", length(isolatedNodes)))
+    message(sprintf("Remove %s isolated candidate nodes from the input\n", length(isolatedNodes)))
   }
 
-  # numOfNodes<-length(V(graphTemp)) numOfEdges<-length(E(graphTemp)) cat(sprintf('Loading network of %s
-  # nodes and %s interactions\n',numOfNodes,numOfEdges))
 
   numOfNodes <- length(V(graphOutput))
   numOfEdges <- length(E(graphOutput))
 
-  cat(sprintf("Final network contains %s nodes and %s interactions\n", numOfNodes, numOfEdges))
+  message(sprintf("Final network contains %s nodes and %s interactions\n", numOfNodes, numOfEdges))
 
   # communities <- list()
   # Assign community membership for the sub-network
 
   if (communityMethod == "ebc") {
-    cat(sprintf("Detecting modules using \"edge betweeness\" method\n"))
+    message(sprintf("Detecting modules using \"edge betweeness\" method\n"))
     community <- edge.betweenness.community(graphOutput)
-    # communities$`Edge betweenness` <- ebc
     moduleMembership <- membership(community)
   }
 
   if (communityMethod == "lec") {
-    cat(sprintf("Detecting modules using \"leading eigenvector\" method\n"))
+    message(sprintf("Detecting modules using \"leading eigenvector\" method\n"))
     community <- leading.eigenvector.community(graphOutput, options = list(maxiter = 1e+06))
     moduleMembership <- membership(community)
   }
@@ -246,26 +248,8 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   moduleMembershipFrame <- moduleMembershipFrame[order(moduleMembershipFrame$membership), ]
 
 
-  # write.table(memb.ebc,file='memb.ebc.txt',sep='\t',quote=FALSE,col.names=FALSE)
-
-  # graphOutput$layout<-layout.drl(graphOutput,options=list(simmer.attraction=0,edge.cut=1,expansion.attraction=0))
-  # plot(ebc,graphOutput,vertex.size=3,vertex.label.dist=1.5)
-
   netbox <- NULL
-  # netbox$name<-V(graphOutput)$name bug : get.edges only return half number of edges, use get.edgelist #
-  # netbox$edgelist<-get.edgelist(graphOutput)
-  # netbox$interactionType<-rep('INTERACT',length(netbox$edgelist[,1]))
-
-  # netbox$edgelist<-get.edges(graphOutput,V(graphOutput))
-  # netboxTemp<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2])
-  # colnames(netboxTemp)<-c('geneAidx','interaction','geneBidx')
-
-  # netboxTemp$geneSymbolA<-get.vertex.attribute(graphOutput,name='name',index=netboxTemp$geneAidx)
-  # netboxTemp$geneSymbolB<-get.vertex.attribute(graphOutput,name='name',index=netboxTemp$geneBidx)
-
-  # netboxOutput<-data.frame(netboxTemp$geneSymbolA,netboxTemp$interaction,netboxTemp$geneSymbolB)
-  # colnames(netboxOutput)<-c('geneA','interaction','geneB')
-
+  
   netbox$edgelist <- get.edgelist(graphOutput)
 
   edgeLabelList <- get.edge.attribute(graphOutput)$V2
@@ -285,11 +269,6 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   mergedEdgeLabels <- do.call(rbind, mergedEdgeLabels)
 
-
-  #### netbox$interactionType<-rep('INTERACT',length(netbox$edgelist[,1]))
-
-  # netboxOutput<-data.frame(netbox$edgelist[,1],netbox$interactionType,netbox$edgelist[,2],stringsAsFactors
-  # = FALSE)
   netboxOutput <- data.frame(netbox$edgelist[, 1], mergedEdgeLabels$contentMerged, netbox$edgelist[, 2],
     stringsAsFactors = FALSE
   )
@@ -302,8 +281,6 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
     colnames(netboxOutputExtra) <- c("geneA", "interaction", "geneB")
     netboxOutput <- rbind(netboxOutput, netboxOutputExtra)
   }
-
-  # write.table(netboxOutput,file='network.sif',sep='\t',quote=FALSE,col.names=TRUE,row.names=FALSE)
 
   result <- list(
     netboxGraph = graphOutput, netboxCommunity = community,

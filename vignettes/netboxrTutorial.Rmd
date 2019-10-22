@@ -43,8 +43,7 @@ of the discovered pathway modules.
 ## Installation
 
 ```{r installNetBoxr, eval=FALSE}
-library(remotes)
-install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE)
+BiocManager::install("netboxr")
 ```
 
 ## Getting Started
@@ -58,7 +57,7 @@ library(netboxr)
 A list of all accessible vignettes and methods is available with the following command: 
 
 ```{r searchHelp, eval=FALSE, tidy=FALSE}
-help.search("netboxr")
+help(package="netboxr")
 ```
 
 For help on any **netboxr** package functions, use one of the following command formats:
@@ -203,7 +202,7 @@ write.table(results$nodeType,file="nodeType.txt", sep="\t", quote=FALSE, col.nam
 
 After module identification, one main task is understanding the biological processes that may be represented by the returned modules. Here we use the Bioncoductor clusterProfiler to do an enrichment analysis using GO Biological Process terms on a selected module. 
 
-```{r}
+```{r clusterExample, eval=TRUE}
 library(clusterProfiler)
 library(org.Hs.eg.db)
 
@@ -229,12 +228,12 @@ ego <- enrichGO(gene = ids$ENTREZID,
 ## Enrichment Results 
 
 ```{r}
-##head(ego)
+head(ego)
 ```
 
 ## Visualize Enrichment Results
 ```{r, fig.width=10, fig.height=5}
-##dotplot(ego)
+dotplot(ego)
 ```
 
 # Alternative Module Discovery Methods 
@@ -252,12 +251,14 @@ library(paxtoolsr)
 filename <- "PathwayCommons.8.reactome.EXTENDED_BINARY_SIF.hgnc.txt.gz"
 sif <- downloadPc2(filename, version="8")
 
-# NOTE: Run without filename to see a list of available files
-# sif <- downloadPc2()
 
 # Filter interactions for specific types
 interactionTypes <- getSifInteractionCategories()
-# filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
+
+
+filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
+
+
 filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
 
 # Re-run NetBox algorithm with new network
