@@ -22,18 +22,29 @@
 #' @examples
 #' data(netbox2010)
 #'
-#' # geneList<-netbox2010$geneList
-#' # sifNetwork<-netbox2010$network
-#' # result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
-#' #           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
+#' sifNetwork<-netbox2010$network
+#' graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+#' 
+#' geneList<-as.character(netbox2010$geneList)
+#' 
+#' results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+#'                       pValueAdj='BH',pValueCutoff=0.05,
+#'                       communityMethod='lec',keepIsolatedNodes=FALSE)
 #'
-#' # names(result)
+#' names(results)
+#' 
+#' # Suggested 100 iterations. 
+#' # Use 5 interations in the exampel to save running time.
+#' # globalTest <- globalNullModel(netboxGraph=results$netboxGraph, 
+#' #                              networkGraph=graphReduced, 
+#' #                              iterations=5, numOfGenes = 274)
 #' @concept netboxr
 #' @export
 #' @import igraph
-#' @importFrom paxtoolsr readGmt
-globalNullModel <- function(netboxGraph, networkGraph, directed, iterations = 30,
-                            numOfGenes = NULL, pValueAdj = "BH", pValueCutoff = 0.05) {
+globalNullModel <- function(netboxGraph, networkGraph, directed, 
+                            iterations = 30,
+                            numOfGenes = NULL, pValueAdj = "BH", 
+                            pValueCutoff = 0.05) {
 
   # calculate component size in the final network result
   cl <- clusters(netboxGraph)

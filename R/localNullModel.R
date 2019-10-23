@@ -17,12 +17,21 @@
 #' @examples
 #' data(netbox2010)
 #'
-#' # geneList<-netbox2010$geneList
-#' # sifNetwork<-netbox2010$network
-#' # result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
-#' #           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
+#' sifNetwork<-netbox2010$network
+#' graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+#' 
+#' geneList<-as.character(netbox2010$geneList)
+#' 
+#' results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+#'                       pValueAdj='BH',pValueCutoff=0.05,
+#'                       communityMethod='lec',keepIsolatedNodes=FALSE)
 #'
-#' # names(result)
+#' names(results)
+#' 
+#' # Suggested 1000 iterations. 
+#' # Use 10 interations in the exampel to save running time. 
+#' localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=10)
+#' 
 #' @concept netboxr
 #' @export
 #' @import igraph

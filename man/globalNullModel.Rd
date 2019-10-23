@@ -35,12 +35,22 @@ numbers of largest component in the final network result.
 \examples{
 data(netbox2010)
 
-# geneList<-netbox2010$geneList
-# sifNetwork<-netbox2010$network
-# result<-geneConnector(geneList=geneList,sifNetwork=network,pValueAdj='BH',
-#           pValueCutoff=0.05,communityMethod='lec',keepIsolatedNodes=FALSE)
+sifNetwork<-netbox2010$network
+graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
 
-# names(result)
+geneList<-as.character(netbox2010$geneList)
+
+results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+                      pValueAdj='BH',pValueCutoff=0.05,
+                      communityMethod='lec',keepIsolatedNodes=FALSE)
+
+names(results)
+
+# Suggested 100 iterations. 
+# Use 5 interations in the exampel to save running time.
+# globalTest <- globalNullModel(netboxGraph=results$netboxGraph, 
+#                              networkGraph=graphReduced, 
+#                              iterations=5, numOfGenes = 274)
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

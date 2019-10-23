@@ -5,8 +5,8 @@
 \title{Generate sub-network mapping from a candidate gene list}
 \usage{
 geneConnector(geneList, networkGraph, directed = FALSE,
-  pValueAdj = "BH", pValueCutoff = 0.05, communityMethod = "lec",
-  keepIsolatedNodes = FALSE)
+  pValueAdj = c("BH", "bonferroni"), pValueCutoff = 0.05,
+  communityMethod = "lec", keepIsolatedNodes = FALSE)
 }
 \arguments{
 \item{geneList}{A vector containing candidate gene list}
@@ -39,36 +39,37 @@ Generate sub-network mapping from a candidate gene list
 \examples{
 data(netbox2010)
 
-geneList <- netbox2010$geneList
-sifNetwork <- netbox2010$network
-graphReduced <- networkSimplify(sifNetwork, directed = FALSE)
-result <- geneConnector(
-  geneList = geneList, networkGraph = graphReduced,
-  directed = FALSE, pValueAdj = "BH",
-  pValueCutoff = 0.05, communityMethod = "lec", keepIsolatedNodes = FALSE
-)
+sifNetwork<-netbox2010$network
+graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
 
-names(result)
-\dontrun{
-plot(result$netboxGraph, layout = layout_with_fr)
-}
+geneList<-as.character(netbox2010$geneList)
 
-write.table(result$netboxOutput,
+results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+                      pValueAdj='BH',pValueCutoff=0.05,
+                      communityMethod='lec',keepIsolatedNodes=FALSE)
+
+
+names(results)
+
+plot(results$netboxGraph, layout = layout_with_fr)
+
+
+write.table(results$netboxOutput,
   file = "network.sif", sep = "	",
   quote = FALSE, col.names = FALSE, row.names = FALSE
 )
 
-write.table(result$neighborData,
+write.table(results$neighborData,
   file = "neighborList.txt", sep = "	",
   quote = FALSE, col.names = TRUE, row.names = FALSE
 )
 
-write.table(result$moduleMembership,
+write.table(results$moduleMembership,
   file = "memb.ebc.txt", sep = "	",
   quote = FALSE, col.names = FALSE, row.names = FALSE
 )
 #
-write.table(result$nodeType,
+write.table(results$nodeType,
   file = "nodeType.txt", sep = "	", quote = FALSE,
   col.names = FALSE, row.names = FALSE
 )

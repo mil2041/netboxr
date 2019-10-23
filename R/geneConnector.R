@@ -22,36 +22,37 @@
 #' @examples
 #' data(netbox2010)
 #'
-#' geneList <- netbox2010$geneList
-#' sifNetwork <- netbox2010$network
-#' graphReduced <- networkSimplify(sifNetwork, directed = FALSE)
-#' result <- geneConnector(
-#'   geneList = geneList, networkGraph = graphReduced,
-#'   directed = FALSE, pValueAdj = "BH",
-#'   pValueCutoff = 0.05, communityMethod = "lec", keepIsolatedNodes = FALSE
-#' )
+#' sifNetwork<-netbox2010$network
+#' graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+#' 
+#' geneList<-as.character(netbox2010$geneList)
+#' 
+#' results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+#'                       pValueAdj='BH',pValueCutoff=0.05,
+#'                       communityMethod='lec',keepIsolatedNodes=FALSE)
 #'
-#' names(result)
-#' \dontrun{
-#' plot(result$netboxGraph, layout = layout_with_fr)
-#' }
 #'
-#' write.table(result$netboxOutput,
+#' names(results)
+#' 
+#' plot(results$netboxGraph, layout = layout_with_fr)
+#' 
+#'
+#' write.table(results$netboxOutput,
 #'   file = "network.sif", sep = "	",
 #'   quote = FALSE, col.names = FALSE, row.names = FALSE
 #' )
 #'
-#' write.table(result$neighborData,
+#' write.table(results$neighborData,
 #'   file = "neighborList.txt", sep = "	",
 #'   quote = FALSE, col.names = TRUE, row.names = FALSE
 #' )
 #'
-#' write.table(result$moduleMembership,
+#' write.table(results$moduleMembership,
 #'   file = "memb.ebc.txt", sep = "	",
 #'   quote = FALSE, col.names = FALSE, row.names = FALSE
 #' )
 #' #
-#' write.table(result$nodeType,
+#' write.table(results$nodeType,
 #'   file = "nodeType.txt", sep = "	", quote = FALSE,
 #'   col.names = FALSE, row.names = FALSE
 #' )
@@ -69,9 +70,14 @@
 #' @importFrom clusterProfiler enrichGO
 #' @importFrom clusterProfiler bitr
 #' @importFrom DT datatable
+#' @importFrom paxtoolsr readGmt
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
-                          pValueAdj = "BH", pValueCutoff = 0.05,
+                          pValueAdj = c("BH","bonferroni"), pValueCutoff = 0.05,
                           communityMethod = "lec", keepIsolatedNodes = FALSE) {
+  
+  
+  pValueAdj<-match.arg(pValueAdj)
+  
   graphReduced <- networkGraph
 
   # Get the genes from the input that overlap with the vertexs in the network
@@ -167,17 +173,19 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   message(sprintf("Only test neighbor nodes with local degree equals or exceeds %s\n", localDegreeCutoff))
   message(sprintf("Multiple hypothesis corrections for %s neighbor nodes in the network\n", nrow(neighborListFrame)))
 
-  neighborListFrame$pValueFDR <- p.adjust(neighborListFrame$pValueRaw, method = "BH")
-  neighborListFrame$pValueBonferroni <- p.adjust(neighborListFrame$pValueRaw, method = "bonferroni")
+  
+  
+  neighborListFrame$pValueFDR <- p.adjust(neighborListFrame$pValueRaw, method = pValueAdj)
+  #neighborListFrame$pValueBonferroni <- p.adjust(neighborListFrame$pValueRaw, method = "bonferroni")
 
 
-  if (pValueAdj == "BH") {
+  #if (pValueAdj == "BH") {
     linkerListFrame <- neighborListFrame[neighborListFrame$pValueFDR < pValueCutoff, ]
-  }
+  #}
 
-  if (pValueAdj == "Bonferroni") {
-    linkerListFrame <- neighborListFrame[neighborListFrame$pValueBonferroni < pValueCutoff, ]
-  }
+  #if (pValueAdj == "Bonferroni") {
+  #  linkerListFrame <- neighborListFrame[neighborListFrame$pValueBonferroni < pValueCutoff, ]
+  #}
 
   message(sprintf(
     "For p-value %s cut-off, %s nodes were included as linker nodes\n",

@@ -36,7 +36,7 @@ threshold <- 0.05
 results <- geneConnector(geneList=geneList,
                         networkGraph=graphReduced,
                         directed=FALSE,
-                       pValueAdj="BH",
+                       pValueAdj="bonferroni",
                        pValueCutoff=threshold,
                        communityMethod="ebc",
                        keepIsolatedNodes=FALSE)
