@@ -48,7 +48,7 @@ localNullModel <- function(netboxGraph, iterations = 30) {
   timeStart <- Sys.time()
 
   for (iter in seq_len(iterations)) {
-    # message(sprintf('local null model iteration: %s / %s\n',iter,iterations))
+    
     graphTmp <- rewire(netboxGraph, with = keeping_degseq(niter = vcount(netboxGraph) * 10))
     community <- edge.betweenness.community(graphTmp)
     moduleMembership <- membership(community)

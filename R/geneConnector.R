@@ -173,20 +173,10 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   message(sprintf("Only test neighbor nodes with local degree equals or exceeds %s\n", localDegreeCutoff))
   message(sprintf("Multiple hypothesis corrections for %s neighbor nodes in the network\n", nrow(neighborListFrame)))
 
-  
-  
   neighborListFrame$pValueFDR <- p.adjust(neighborListFrame$pValueRaw, method = pValueAdj)
-  #neighborListFrame$pValueBonferroni <- p.adjust(neighborListFrame$pValueRaw, method = "bonferroni")
-
-
-  #if (pValueAdj == "BH") {
-    linkerListFrame <- neighborListFrame[neighborListFrame$pValueFDR < pValueCutoff, ]
-  #}
-
-  #if (pValueAdj == "Bonferroni") {
-  #  linkerListFrame <- neighborListFrame[neighborListFrame$pValueBonferroni < pValueCutoff, ]
-  #}
-
+  
+  linkerListFrame <- neighborListFrame[neighborListFrame$pValueFDR < pValueCutoff, ]
+ 
   message(sprintf(
     "For p-value %s cut-off, %s nodes were included as linker nodes\n",
     pValueCutoff, dim(linkerListFrame)[1]
@@ -235,7 +225,6 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   message(sprintf("Final network contains %s nodes and %s interactions\n", numOfNodes, numOfEdges))
 
-  # communities <- list()
   # Assign community membership for the sub-network
 
   if (communityMethod == "ebc") {
@@ -272,7 +261,6 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
     contentMerged <- paste(content, collapse = ";")
     numOfcontent <- length(content)
     data.frame(numOfcontent, contentMerged, stringsAsFactors = FALSE)
-    # paste(x,collapse=',') },mc.cores=useCores)
   })
 
   mergedEdgeLabels <- do.call(rbind, mergedEdgeLabels)
