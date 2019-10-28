@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
 Title: netboxr
-Version: 0.99.985
-Date: 2019-10-25
+Version: 0.99.986
+Date: 2019-10-28
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a software tool for performing network analysis on
@@ -15,9 +15,9 @@ License: LGPL-3
 Depends:
     R (>= 3.6.0),
     igraph (>= 1.2.4.1),
-    parallel,
-    paxtoolsr
+    parallel
 Imports:
+    paxtoolsr,
     DT,
     stats,
     clusterProfiler,
