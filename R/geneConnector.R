@@ -57,7 +57,9 @@
 #'   col.names = FALSE, row.names = FALSE
 #' )
 #' #
+#' 
 #' @concept netboxr
+#' 
 #' @export
 #' @import igraph
 #' @import jsonlite
@@ -70,7 +72,6 @@
 #' @importFrom clusterProfiler enrichGO
 #' @importFrom clusterProfiler bitr
 #' @importFrom DT datatable
-#' @importFrom paxtoolsr readGmt
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
                           pValueAdj = c("BH","bonferroni"), pValueCutoff = 0.05,
                           communityMethod = "lec", keepIsolatedNodes = FALSE) {

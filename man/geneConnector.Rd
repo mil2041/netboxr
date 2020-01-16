@@ -4,9 +4,15 @@
 \alias{geneConnector}
 \title{Generate sub-network mapping from a candidate gene list}
 \usage{
-geneConnector(geneList, networkGraph, directed = FALSE,
-  pValueAdj = c("BH", "bonferroni"), pValueCutoff = 0.05,
-  communityMethod = "lec", keepIsolatedNodes = FALSE)
+geneConnector(
+  geneList,
+  networkGraph,
+  directed = FALSE,
+  pValueAdj = c("BH", "bonferroni"),
+  pValueCutoff = 0.05,
+  communityMethod = "lec",
+  keepIsolatedNodes = FALSE
+)
 }
 \arguments{
 \item{geneList}{A vector containing candidate gene list}
@@ -74,6 +80,7 @@ write.table(results$nodeType,
   col.names = FALSE, row.names = FALSE
 )
 #
+
 }
 \author{
 Eric Minwei Liu, \email{emliu.research@gmail.com}

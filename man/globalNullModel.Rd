@@ -4,8 +4,15 @@
 \alias{globalNullModel}
 \title{Generate global null model p-value}
 \usage{
-globalNullModel(netboxGraph, networkGraph, directed, iterations = 30,
-  numOfGenes = NULL, pValueAdj = "BH", pValueCutoff = 0.05)
+globalNullModel(
+  netboxGraph,
+  networkGraph,
+  directed,
+  iterations = 30,
+  numOfGenes = NULL,
+  pValueAdj = "BH",
+  pValueCutoff = 0.05
+)
 }
 \arguments{
 \item{netboxGraph}{A vector containing candidate gene list}
