@@ -18,7 +18,7 @@ A list with six lists (i.e. netboxGraph, netboxCommunity, netboxOutput,
   moduleMembership is a data frame.
   neighborData is a data frame.}
 
-\item{edgeColors}{A table (no header) containing hex color codes for interaction types. 
+\item{edgeColors}{A table containing hex color codes for interaction types. 
 The first column is interaction type and the second column is hex color code.}
 
 \item{directed}{TRUE or FALSE}
@@ -31,27 +31,62 @@ annotated version of netboxGraph
 \description{
 This function annotates the graph based on user input. If a table of color codes 
 for interaction types is provided, then the edges will be colored accordingly by 
-interaction types. If \code{"directed"} is TRUE, then the edges will be arrows 
+interaction types. If \code{directed} is TRUE, then the edges will be arrows 
 with the same directionality as the original input network for NetBox. If 
-\code{"linker"} is TRUE, then linker nodes will be shown as squares while 
+\code{linker} is TRUE, then linker nodes will be shown as squares while 
 non-linker nodes stay as circles.
 }
 \examples{
-data(netbox2010)
+data(pathway_commons_v8_reactome)
+interaction_type_color <- read.csv(system.file("interaction_type.color.txt", package = "netboxr"),
+                                   header=TRUE, sep="\\t", stringsAsFactors=FALSE)
 
-sifNetwork<-netbox2010$network
-graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+sifNetwork<-pathway_commons_v8_reactome$network
+graphReduced <- networkSimplify(sifNetwork,directed = FALSE)
 
-geneList<-as.character(netbox2010$geneList)
+geneList <- pathway_commons_v8_reactome$geneList
 
-results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
-                      pValueAdj='BH',pValueCutoff=0.05,
-                      communityMethod='lec',keepIsolatedNodes=FALSE)
+results <- geneConnector(geneList = geneList, networkGraph = graphReduced, 
+                         directed = FALSE, pValueAdj = "BH", pValueCutoff = 2e-5, 
+                         communityMethod = "ebc", keepIsolatedNodes = FALSE)
 
 netboxGraphAnnotated <- annotateGraph(netboxResults = results,
-                                      edgeColors = "interaction_type.color.txt",
+                                      edgeColors = interaction_type_color,
                                       directed = TRUE,
                                       linker = TRUE)
+
+# As an example, plot both the original and the annotated graphs
+ll <- layout_with_fr(results$netboxGraph) # Save the layout for easier comparison
+# Plot original graph
+pdf("originalGraph.pdf", width = 50, height = 50)
+plot(results$netboxCommunity, results$netboxGraph, layout = ll,
+     vertex.size=3)
+dev.off()
+# Plot annotated graph
+pdf("annotatedGraph.pdf", width = 50, height = 50)
+plot(results$netboxCommunity, netboxGraphAnnotated, layout = ll,
+     vertex.size = 3,
+     vertex.shape = V(netboxGraphAnnotated)$shape,
+     edge.color = E(netboxGraphAnnotated)$interactionColor,
+     edge.width = 3)
+# Add legend
+legend_interaction_type <- interaction_type_color$INTERACTION_TYPE[which(interaction_type_color$INTERACTION_TYPE \%in\% E(netboxGraphAnnotated)$interaction)]
+legend_interaction_type_color <- interaction_type_color$COLOR[which(interaction_type_color$INTERACTION_TYPE \%in\% E(netboxGraphAnnotated)$interaction)]
+legend(x=-1.1, y=1.1, 
+       legend=c("Candidate", "Linker"),
+       pch=c(19, 15), # solid circle, filled square
+       pt.cex = 8,
+       bty="n",
+       title="Node Types",
+       cex=4, ncol=1)
+legend(x=-1.15, y=0.95, 
+       legend=legend_interaction_type,
+       col = legend_interaction_type_color,
+       lty = 1, lwd = 10,
+       bty="n",
+       title="Interaction Types (Edges)",
+       cex=4, ncol=1)
+dev.off()
 
 }
 \author{

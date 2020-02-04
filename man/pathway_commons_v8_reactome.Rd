@@ -3,8 +3,13 @@
 \docType{data}
 \name{pathway_commons_v8_reactome}
 \alias{pathway_commons_v8_reactome}
-\title{Pathway Commons v8 reactome}
-\format{A data frame with 246590 interactions and 3 variables (participant A, interaction type, participant B)}
+\title{Pathway Commons V8 Reactome}
+\format{A list of 354 genes and a data frame of 246590 interactions 
+\describe{
+  \item{geneList}{an example list of genes}
+  \item{network}{Pathway Commons V8 Reactome}
+  ...
+}}
 \source{
 \url{https://www.pathwaycommons.org}
 }
@@ -12,10 +17,10 @@
 pathway_commons_v8_reactome
 }
 \value{
-a data.frame
+A list of two elements.
 }
 \description{
-Pathway Commons v8 reactome
+Contains an example gene list and Pathway Commons V8 Reactome dataset for annotateGraph().
 }
 \concept{netboxr}
 \keyword{datasets}
