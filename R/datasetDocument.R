@@ -17,3 +17,14 @@
 #'
 #' @concept netboxr
 "netbox2010"
+
+#' Pathway Commons v8 reactome
+#'
+#' @format A data frame with 246590 interactions and 3 variables (participant A, interaction type, participant B)
+#' 
+#' @source \url{https://www.pathwaycommons.org}
+#'
+#' @return a data.frame
+#'
+#' @concept netboxr
+"pathway_commons_v8_reactome"
