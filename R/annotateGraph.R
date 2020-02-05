@@ -63,8 +63,9 @@
 #'      edge.color = E(netboxGraphAnnotated)$interactionColor,
 #'      edge.width = 3)
 #' # Add legend
-#' legend_interaction_type <- interaction_type_color$INTERACTION_TYPE[which(interaction_type_color$INTERACTION_TYPE %in% E(netboxGraphAnnotated)$interaction)]
-#' legend_interaction_type_color <- interaction_type_color$COLOR[which(interaction_type_color$INTERACTION_TYPE %in% E(netboxGraphAnnotated)$interaction)]
+#' ind <- which(interaction_type_color$INTERACTION_TYPE %in% E(netboxGraphAnnotated)$interaction)
+#' legend_interaction_type <- interaction_type_color$INTERACTION_TYPE[ind]
+#' legend_interaction_type_color <- interaction_type_color$COLOR[ind]
 #' legend(x=-1.1, y=1.1, 
 #'        legend=c("Candidate", "Linker"),
 #'        pch=c(19, 15), # solid circle, filled square
