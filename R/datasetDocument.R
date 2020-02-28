@@ -17,3 +17,21 @@
 #'
 #' @concept netboxr
 "netbox2010"
+
+#' Pathway Commons V8 Reactome
+#' 
+#' Contains an example gene list and Pathway Commons V8 Reactome dataset for annotateGraph().
+#'
+#' @format A list of 354 genes and a data frame of 246590 interactions 
+#' \describe{
+#'   \item{geneList}{an example list of genes}
+#'   \item{network}{Pathway Commons V8 Reactome}
+#'   ...
+#' }
+#' 
+#' @source \url{https://www.pathwaycommons.org}
+#'
+#' @return A list of two elements.
+#'
+#' @concept netboxr
+"pathway_commons_v8_reactome"

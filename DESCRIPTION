@@ -11,7 +11,7 @@ Description: NetBox is a software tool for performing network analysis on
     including the Human Protein Reference Database (HPRD), Reactome,
     NCI-Nature Pathway Interaction (PID) Database, and the MSKCC Cancer
     Cell Map.
-License: LGPL-3
+License: LGPL-3 + file LICENSE
 Depends:
     R (>= 3.6.0),
     igraph (>= 1.2.4.1),
