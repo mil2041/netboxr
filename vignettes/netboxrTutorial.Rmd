@@ -1,7 +1,7 @@
 ---
 title: "NetBoxR Tutorial"
 output:
-  html_document:
+  pdf_document:
     toc: yes
   BiocStyle::html_document:
     toc: yes
@@ -10,7 +10,7 @@ output:
   md_document:
     toc: yes
     variant: markdown_github
-  pdf_document:
+  html_document:
     toc: yes
   vignette: |
     %\VignetteIndexEntry{NetBoxR Tutorial}
@@ -121,16 +121,52 @@ results <- geneConnector(geneList=geneList,
                        communityMethod="ebc",
                        keepIsolatedNodes=FALSE)
 
+# Add edge annotations
+library(RColorBrewer)
+edges <- results$netboxOutput
+interactionType<-unique(edges[,2])
+interactionTypeColor<-brewer.pal(length(interactionType),name="Spectral")
+
+edgeColors<-data.frame(interactionType,interactionTypeColor,stringsAsFactors = FALSE)
+colnames(edgeColors)<-c("INTERACTION_TYPE","COLOR")
+
+
+netboxGraphAnnotated <- annotateGraph(netboxResults = results,
+                                      edgeColors = edgeColors,
+                                      directed = FALSE,
+                                      linker = TRUE)
+
 # Check the p-value of the selected linker
 linkerDF <- results$neighborData
 linkerDF[linkerDF$pValueFDR<threshold,]
 
-##
-## The geneConnector function returns a list of data frames. 
+# The geneConnector function returns a list of data frames. 
 names(results)
 
-# plot graph with the Fruchterman-Reingold layout algorithm
-plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
+# Plot graph with the Fruchterman-Reingold layout algorithm
+# As an example, plot both the original and the annotated graphs
+# Save the layout for easier comparison
+graph_layout <- layout_with_fr(results$netboxGraph) 
+
+# plot the original graph
+plot(results$netboxCommunity,results$netboxGraph, layout=graph_layout) 
+
+# Plot the edge annotated graph
+plot(results$netboxCommunity, netboxGraphAnnotated, layout = graph_layout,
+     vertex.size = 10,
+     vertex.shape = V(netboxGraphAnnotated)$shape,
+     edge.color = E(netboxGraphAnnotated)$interactionColor,
+     edge.width = 3)
+
+# Add interaction type annotations
+legend("bottomleft", 
+       legend=interactionType,
+       col=interactionTypeColor,
+       lty=1,lwd=2,
+       bty="n",
+       cex=1)
+
+
 ```
 
 ## Consistency with Previously Published Results 
