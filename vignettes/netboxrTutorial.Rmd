@@ -1,16 +1,16 @@
 ---
 title: "NetBoxR Tutorial"
 output:
-  pdf_document:
+  html_document:
     toc: yes
+  html_notebook: default
   BiocStyle::html_document:
     toc: yes
     toc_float: no
-  html_notebook: default
   md_document:
     toc: yes
     variant: markdown_github
-  html_document:
+  pdf_document:
     toc: yes
   vignette: |
     %\VignetteIndexEntry{NetBoxR Tutorial}
