@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
 Title: netboxr
-Version: 0.99.987
-Date: 2020-01-16
+Version: 0.99.988
+Date: 2020-03-18
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a software tool for performing network analysis on
