@@ -1,21 +1,21 @@
 ---
 title: "NetBoxR Tutorial"
 output:
-  html_document:
-    toc: yes
-  html_notebook: default
   BiocStyle::html_document:
     toc: yes
     toc_float: no
+  html_notebook: default
   md_document:
     toc: yes
     variant: markdown_github
   pdf_document:
     toc: yes
-  vignette: |
-    %\VignetteIndexEntry{NetBoxR Tutorial}
-    %\VignetteEncoding{UTF-8}
-    %\VignetteEngine{knitr::rmarkdown}
+author: "Eric Minwei Liu and Augustin Luna"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+vignette: >
+  %\VignetteIndexEntry{NetBoxR Tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 
@@ -275,7 +275,32 @@ dotplot(ego)
 # Alternative Module Discovery Methods 
 In netboxr, we used the Girvan-Newman algorithm (communityMethod="ebc") as the default method to detect community membership in the identified network. The Girvan-Newman algorithm iteratativly removes the edge in the network with highest edge betweeness until no edges left. When the identified network contains many edges, the Girvan-Newman algorithm will spend a large amount of time to remove edges and re-calucalte the edge betweenese score in the network.  If  the user cannot get the community detection result in reasonable time,  we suggest to switch to leading eigenvector method (communityMethod="lec") for community detection. Users can check original papers of [the Girvan-Newman algorithm](http://www.pnas.org/content/99/12/7821) and [leading eigenvector method](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.74.036104) for more details.  
 
-# Alternative Pathway Data using PaxtoolsR 
+# Alternative Pathway Data 
+## Using Tabular Simple Interaction Format (SIF)-Based Network Data
+Users can load alternative pathway data formatted in the SIF format (Simple Interaction Format). SIF is a space/tab separated format that summarizes interactions in a graph as an edgelist. In the format,  every row corresponds to an individual interaction (edge) between a source and a target node. NOTE: An arbitrary interaction type can be used, such as "interacts" if the true interaction type is unknown.
+
+``` 
+PARTICIPANT_A INTERACTION_TYPE PARTICIPANT_B
+nodeA relationship nodeB
+nodeC relationship nodeA
+nodeD relationship nodeE
+```
+
+Resources, such as the Functional Interaction network from Reactome (https://reactome.org/download-data) and StringDB (https://string-db.org/) provide network information in formats reusable as a SIF. NOTE: The next section demonstrates how to retrieve SIF-based networks for many well-known interaction databases using paxtoolsr. 
+
+SIF formatted data can be passed to networkSimplify(). The result of which is used with the geneConnector() function as other examples in this vignette demonstrate. 
+
+```{r}
+example <- "PARTICIPANT_A	INTERACTION_TYPE	PARTICIPANT_B
+TP53	interacts	MDM2
+MDM2	interacts	MDM4"
+
+sif <- read.table(text=example, header=TRUE, sep="\t", stringsAsFactors=FALSE)
+
+graphReduced <- networkSimplify(sif, directed = FALSE)  
+```
+
+## Using PaxtoolsR for Pathway Commons Data
 
 Users can load alternative pathway data from the [Pathway Commons](http://www.pathwaycommons.org/) repository using the **paxtoolsr** package from [Bioconductor](https://bioconductor.org/packages/release/bioc/html/paxtoolsr.html). This pathway data represents an update to the Pathway Commons data used in the original 2010 NetBox publication. Below is an example that makes use of data from the [Reactome pathway database](http://www.reactome.org/). 
 
@@ -291,10 +316,7 @@ sif <- downloadPc2(filename, version="8")
 # Filter interactions for specific types
 interactionTypes <- getSifInteractionCategories()
 
-
 filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
-
-
 filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
 
 # Re-run NetBox algorithm with new network
