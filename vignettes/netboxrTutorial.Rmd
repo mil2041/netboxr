@@ -353,7 +353,7 @@ However, to help users better understand the process of generating an input gene
 Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a [FIXME] 10% alteration frequency [CITE???] considering mutation and copy number data. In the example, we consider: 
 
 * For mutations, mutations of any type contribute to the overall alteration frequency of the gene
-* For copy number, discretized GISTIC-derived values for amplification [FIXME] or deep deletions contribute to the overall alteration frequency
+* For copy number, discretized GISTIC-derived values for amplification or deep deletions contribute to the overall alteration frequency
 
 The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
 
@@ -383,7 +383,7 @@ results <- sapply(genes, function(gene) {
   mut <- as.character(levels(mut))[mut]
   
   tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
-  tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplication or Deep Deletion or any mutation
+  tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplification or Deep Deletion or any mutation
   length(which(tmp$isAltered))/nrow(tmp)
 }, USE.NAMES = TRUE)
 
