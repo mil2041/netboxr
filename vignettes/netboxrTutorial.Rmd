@@ -342,9 +342,20 @@ names(results)
 plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
 ```
 
-# Accessing Cancer Genomics Data from cBioPortal for use with NetBox
+# Selecting netboxr Input Gene Lists 
 
-Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a naive 10% alteration frequency. The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
+The main input for the NetBox algorithm is an input list of "significantly" altered genes. Each project is different, unique considerations for how significance should be considered may be required. Researchers may seek stronger thresholds of significance for particular questions and different profiling technologies may have their own considerations. It is beyond the scope of this work to provide guidance for all situations. 
+
+However, to help users better understand the process of generating an input gene list we provide a sample example using best practices derived from the The Cancer Genome Project using the cBioPortal, a platform that aggregates clinical genomics datasets into a standard representation. As of August 2020, cBioPortal has approximately 290 studies. In cases where appropriate data is available a similar procedure to the example can be used. 
+
+## Accessing Cancer Genomics Data from cBioPortal for use with NetBox
+
+Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a [FIXME] 10% alteration frequency [CITE???] considering mutation and copy number data. In the example, we consider: 
+
+* For mutations, mutations of any type contribute to the overall alteration frequency of the gene
+* For copy number, discretized GISTIC-derived values for amplification [FIXME] or deep deletions contribute to the overall alteration frequency
+
+The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
 
 ```{r, eval=FALSE}
 library(cgdsr)
