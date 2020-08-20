@@ -16,7 +16,7 @@ Description: NetBox is a network-based approach that combines prior knowledge
     Cancer Cell Map.
 License: LGPL-3 + file LICENSE
 Depends:
-    R (>= 3.6.0),
+    R (>= 4.0.0),
     igraph (>= 1.2.4.1),
     parallel
 Imports:
