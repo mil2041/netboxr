@@ -350,10 +350,12 @@ However, to help users better understand the process of generating an input gene
 
 ## Accesing MutSig Results from the cBioPortal DataHub 
 
-For TCGA studies on cBioPortal, users can access pre-processed datasets from the [cBioPortal DataHub](https://github.com/cBioPortal/datahub/tree/master/public) that contain significantly altered genes by mutations and copy number. 
+For TCGA studies on cBioPortal, users can access pre-processed datasets from the [cBioPortal DataHub](https://github.com/cBioPortal/datahub/tree/master/public) that contain significantly altered genes by mutations and copy number. Example study link: https://github.com/cBioPortal/datahub/tree/master/public/acc_tcga
 
-* Significantly altered genes by mutations (via MutSig algorithm) are accessible within the 'data_mutsig.txt' file for a study
-* Significantly altered genes by copy number (via GISTIC algorithm) are accessible within the 'data_gistic_genes_del.txt' (deletions) file and 'data_gistic_genes_amp.txt' (amplifications). Users are directed to the accompanying study publications; study publication details are in the 'meta_study.txt' file for a study.
+* Significantly altered genes by mutations (via MutSig algorithm) are accessible within the 'data_mutsig.txt' file for a study; typically mutations with a q-value < 0.1 are selected as significantly altered
+* Significantly altered genes by copy number (via GISTIC algorithm) are accessible within the 'data_gistic_genes_del.txt' (deletions) file and 'data_gistic_genes_amp.txt' (amplifications). 
+
+Users are directed to the accompanying study publications; study publication details are in the 'meta_study.txt' file for a study.
 
 ## Accessing Cancer Genomics Data from cBioPortal
 
