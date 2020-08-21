@@ -342,15 +342,22 @@ names(results)
 plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
 ```
 
-# Selecting netboxr Input Gene Lists 
+# Selecting Input Gene Lists for use with NetBox
 
 The main input for the NetBox algorithm is an input list of "significantly" altered genes. Each project is different, unique considerations for how significance should be considered may be required. Researchers may seek stronger thresholds of significance for particular questions and different profiling technologies may have their own considerations. It is beyond the scope of this work to provide guidance for all situations. 
 
-However, to help users better understand the process of generating an input gene list we provide a sample example using best practices derived from the The Cancer Genome Project using the cBioPortal, a platform that aggregates clinical genomics datasets into a standard representation. As of August 2020, cBioPortal has approximately 290 studies. In cases where appropriate data is available a similar procedure to the example can be used. 
+However, to help users better understand the process of generating an input gene list we provide examples using best practices derived from the The Cancer Genome Project using the cBioPortal (http://cbioportal.org/), a platform that aggregates clinical genomics datasets into a standard representation. As of August 2020, cBioPortal has approximately 290 studies. In cases where appropriate data is available a similar procedure to the example can be used. 
 
-## Accessing Cancer Genomics Data from cBioPortal for use with NetBox
+## Accesing MutSig Results from the cBioPortal DataHub 
 
-Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a [FIXME] 10% alteration frequency [CITE???] considering mutation and copy number data. In the example, we consider: 
+For TCGA studies on cBioPortal, users can access pre-processed datasets from the [cBioPortal DataHub](https://github.com/cBioPortal/datahub/tree/master/public) that contain significantly altered genes by mutations and copy number. 
+
+* Significantly altered genes by mutations (via MutSig algorithm) are accessible within the 'data_mutsig.txt' file for a study
+* Significantly altered genes by copy number (via GISTIC algorithm) are accessible within the 'data_gistic_genes_del.txt' (deletions) file and 'data_gistic_genes_amp.txt' (amplifications). Users are directed to the accompanying study publications; study publication details are in the 'meta_study.txt' file for a study.
+
+## Accessing Cancer Genomics Data from cBioPortal
+
+Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a 10% alteration frequency threshold to select genes; this general procedure has previously been used as part of [TCGA studies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3910500/). In the example, we consider: 
 
 * For mutations, mutations of any type contribute to the overall alteration frequency of the gene
 * For copy number, discretized GISTIC-derived values for amplification or deep deletions contribute to the overall alteration frequency
