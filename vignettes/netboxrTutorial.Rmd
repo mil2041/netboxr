@@ -348,7 +348,7 @@ The main input for the NetBox algorithm is an input list of "significantly" alte
 
 However, to help users better understand the process of generating an input gene list we provide examples using best practices derived from the The Cancer Genome Project using the cBioPortal (http://cbioportal.org/), a platform that aggregates clinical genomics datasets into a standard representation. As of August 2020, cBioPortal has approximately 290 studies. In cases where appropriate data is available a similar procedure to the example can be used. 
 
-## Accesing MutSig Results from the cBioPortal DataHub 
+## Accesing Pre-Computed Alteration Results from the cBioPortal DataHub 
 
 For TCGA studies on cBioPortal, users can access pre-processed datasets from the [cBioPortal DataHub](https://github.com/cBioPortal/datahub/tree/master/public) that contain significantly altered genes by mutations and copy number. Example study link: https://github.com/cBioPortal/datahub/tree/master/public/acc_tcga
 
