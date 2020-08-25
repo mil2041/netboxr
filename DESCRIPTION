@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
 Title: netboxr
-Version: 1.1.5
-Date: 2020-05-22
+Version: 1.1.6
+Date: 2020-08-25
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a network-based approach that combines prior knowledge 
@@ -16,7 +16,7 @@ Description: NetBox is a network-based approach that combines prior knowledge
     Cancer Cell Map.
 License: LGPL-3 + file LICENSE
 Depends:
-    R (>= 4.0.0),
+    R (>= 4.0.2),
     igraph (>= 1.2.4.1),
     parallel
 Imports:
