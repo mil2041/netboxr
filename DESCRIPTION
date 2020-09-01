@@ -20,6 +20,7 @@ Depends:
     igraph (>= 1.2.4.1),
     parallel
 Imports:
+    RColorBrewer,
     DT,
     stats,
     clusterProfiler,
