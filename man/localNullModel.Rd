@@ -7,12 +7,25 @@
 localNullModel(netboxGraph, iterations = 30)
 }
 \arguments{
-\item{netboxGraph}{A vector containing candidate gene list}
+\item{netboxGraph}{igraph network graph object. This igraph object contains
+NetBox algorithm identified network from \code{geneConnector} function}
 
-\item{iterations}{TRUE of FALSE}
+\item{iterations}{numeric value for number of iterations}
 }
 \value{
-a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborData)
+a list of returned results
+\itemize{
+\item randomModularityScore: vector of modularity scores in the iterations of
+local re-wiring randomization process
+\item randomMean: numeric value of mean of modularity scores in the iterations
+of local re-wiring randomization process
+\item randomSD: numeric value of standard deviation of modularity scores
+in the iterations of local re-wiring randomization process
+\item modularityScoreObs: numeric value of observed modularity score in
+the NetBox algorithm identified network
+\item zScore: numeric value of z-score
+\item pValueObs: numeric value of observed p-value
+}
 }
 \description{
 This function keeps the number of connections of each nodes in the graph but
