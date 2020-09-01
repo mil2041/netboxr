@@ -2,7 +2,7 @@
 % Please edit documentation in R/geneConnector.R
 \name{geneConnector}
 \alias{geneConnector}
-\title{Generate sub-network mapping from a candidate gene list}
+\title{Generate sub-network mapping from a list of candidate genes}
 \usage{
 geneConnector(
   geneList,
@@ -17,7 +17,7 @@ geneConnector(
 \arguments{
 \item{geneList}{character vector containing a list of candidate genes}
 
-\item{networkGraph}{igraph network graph object. This igrpah object contains
+\item{networkGraph}{igraph network graph object. This igraph object contains
 curated network information}
 
 \item{directed}{boolean value indicating whether the input network is
@@ -51,7 +51,7 @@ candidate gene nodes.
 }
 }
 \description{
-Generate sub-network mapping from a candidate gene list
+This function generates sub-network mapping from a list of candidate genes
 }
 \details{
 P-value correction methods include the Bonferroni correction

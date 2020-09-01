@@ -4,35 +4,51 @@
 \alias{annotateGraph}
 \title{Annotate NetBox graph}
 \usage{
-annotateGraph(netboxResults, edgeColors = NULL, directed = TRUE, linker = TRUE)
+annotateGraph(
+  netboxResults,
+  edgeColors = NULL,
+  directed = FALSE,
+  linker = TRUE
+)
 }
 \arguments{
-\item{netboxResults}{Output from geneConnector(). 
-A list with six lists (i.e. netboxGraph, netboxCommunity, netboxOutput, 
-                       nodeType, moduleMembership, neighborData)
-  netboxGraph is an igraph object.
-  netboxCommunity is an igraph object.
-  netboxOutput is a data frame.
-  nodeType is a data frame.
-  moduleMembership is a data frame.
-  neighborData is a data frame.}
+\item{netboxResults}{Output from \code{geneConnector} function.
+a list of returned netboxr results
+\itemize{
+\item netboxGraph: igraph object of NetBox algorithm identified network nodes
+and connections
+\item netboxCommunity: igraph object of network community assignment
+\item netboxOutput: data frame of NetBox algorithm identified network nodes
+and connections
+\item nodeType: data frame of node types ("candidate" or "linker")
+in the NetBox algorithm indentified network.
+\item moduleMembership: data frame of module (community) membership.
+\item neighborData: data frame of information of nodes directly connected to
+candidate gene nodes.
+}}
 
-\item{edgeColors}{A table containing hex color codes for interaction types. 
-The first column is interaction type and the second column is hex color code.}
+\item{edgeColors}{table containing hex color codes for interaction types.
+The first column is interaction type
+and the second column is hex color code.}
 
-\item{directed}{TRUE or FALSE}
+\item{directed}{boolean value indicating whether the NetBox algorithm
+identified network is directed or undirected (default = FALSE)}
 
-\item{linker}{TRUE or FALSE}
+\item{linker}{boolean value indicating whether "linker" nodes exist
+in the NetBox algorithm identified network or not (default = TRUE)}
 }
 \value{
 annotated version of netboxGraph
 }
 \description{
-This function annotates the graph based on user input. If a table of color codes 
-for interaction types is provided, then the edges will be colored accordingly by 
-interaction types. If \code{directed} is TRUE, then the edges will be arrows 
-with the same directionality as the original input network for NetBox. If 
-\code{linker} is TRUE, then linker nodes will be shown as squares while 
+This function annotates the graph based on user input.
+}
+\details{
+If a table of color codes for interaction types is provided, then the edges
+will be colored accordingly by interaction types.
+If \code{directed} is TRUE, then the edges will be arrows
+with the same directionality as the original input network for NetBox. If
+\code{linker} is TRUE, then linker nodes will be shown as squares while
 non-linker nodes stay as circles.
 }
 \examples{
