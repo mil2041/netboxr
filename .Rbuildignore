@@ -4,3 +4,9 @@
 ^README.md$
 ^.travis.yml$
 ^.lintr$
+annotatedGraph.pdf 
+memb.ebc.txt 
+neighborList.txt 
+network.sif
+nodeType.txt
+originalGraph.pdf
