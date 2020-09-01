@@ -38,6 +38,7 @@
 #' @importFrom stats sd
 #' @importFrom stats pnorm
 localNullModel <- function(netboxGraph, iterations = 30) {
+  
   community <- edge.betweenness.community(netboxGraph)
   moduleMembership <- membership(community)
   modularityScoreObs <- modularity(netboxGraph, moduleMembership)

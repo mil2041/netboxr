@@ -1,21 +1,23 @@
 ---
 title: "NetBoxR Tutorial"
+author: "Eric Minwei Liu and Augustin Luna"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   BiocStyle::html_document:
     toc: yes
     toc_float: no
+  html_document:
+    df_print: paged
+    toc: yes
   html_notebook: default
   md_document:
     toc: yes
-    variant: markdown_github
+    variant: gfm
   pdf_document:
     toc: yes
-author: "Eric Minwei Liu and Augustin Luna"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
-vignette: >
-  %\VignetteIndexEntry{NetBoxR Tutorial}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+always_allow_html: yes
+vignette: |
+  %\VignetteIndexEntry{NetBoxR Tutorial} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---
 
 
@@ -174,12 +176,12 @@ The GBM result by netboxr identified exactly the same linker genes (6 linker gen
 
 The results of netboxr are consistent with previous implementation of the NetBox algorithm. The RB1 and PIK3R1 modules are clearly represented in the figure. For example, the RB1 module contains genes in blue color and enclosed by light orange circle. The PIK3R1 module contains genes in orange color and enclosed by pink circle. 
 
-# Statistical Significance of Discovered Modules 
+# Statistical Significance of Discovered Network 
 
-NetBox algorithm used (1) global network null model and (2) local network null model to access the statistic significance of the discovered modules. 
+NetBox algorithm used (1) global network null model and (2) local network null model to access the statistical significance of the discovered network. 
 
 ## Global Network Null Model 
-The global network null model calculates the empirical p-value as the number of times (over a set of iterations) the size of the largest module in the network coming from the same number of randomly selected genes (number of genes is 274 in this example) equals or exceeds the size of the largest module in the observed network. Suggested iterations is 1000.  
+The global network null model calculates the empirical p-value as the number of times (over a set of iterations) the size of the largest connected component (the giant component) in the network coming from the same number of randomly selected genes (number of genes is 274 in this example) equals or exceeds the size of the largest connected component in the observed network. The suggested iterations are 1000.  
 
 ```{r netboxrExampleGlobalTest, eval=FALSE}
 ## This function will need a lot of time to complete. 

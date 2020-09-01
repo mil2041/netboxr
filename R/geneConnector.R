@@ -1,8 +1,9 @@
 #' Generate sub-network mapping from a candidate gene list
 #'
 #' @param geneList A vector containing candidate gene list
-#' @param networkGraph An igraph graph object
-#' @param directed TRUE of FALSE
+#' @param networkGraph An igraph network graph object 
+#' @param directed A boolean value indicating whether the input network is
+#' directed or undirected (default = FALSE)
 #' @param pValueAdj A string for p-value correction method c('BH, 'Bonferroni')
 #' @param pValueCutoff A number for p-value cutoff for linker nodes
 #' @param communityMethod A string for community detection method c('ebc','lec')
