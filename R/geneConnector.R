@@ -5,7 +5,7 @@
 #' method ("lec) 
 #'
 #' @param geneList character vector containing a list of candidate genes
-#' @param networkGraph igraph network graph object. This igrpah object contains
+#' @param networkGraph igraph network graph object. This igraph object contains
 #' curated network information 
 #' @param directed boolean value indicating whether the input network is
 #' directed or undirected (default = FALSE)
