@@ -1,6 +1,6 @@
 #' Generate sub-network mapping from a candidate gene list
 #' @details P-value correction methods include the Bonferroni correction 
-#' ("bonferroni") or Benjamini & Hochberg ("BH). Community detection methods 
+#' ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods 
 #' include using edge betweeness score ("ebc") or using leading eigenvector 
 #' method ("lec) 
 #'
