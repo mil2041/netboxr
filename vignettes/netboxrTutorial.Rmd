@@ -16,8 +16,10 @@ output:
   pdf_document:
     toc: yes
 always_allow_html: yes
-vignette: |
-  %\VignetteIndexEntry{NetBoxR Tutorial} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteIndexEntry{NetBoxR Tutorial} 
+  %\VignetteEncoding{UTF-8} 
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 

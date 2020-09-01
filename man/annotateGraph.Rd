@@ -4,8 +4,7 @@
 \alias{annotateGraph}
 \title{Annotate NetBox graph}
 \usage{
-annotateGraph(netboxResults, edgeColors = NULL, directed = TRUE,
-  linker = TRUE)
+annotateGraph(netboxResults, edgeColors = NULL, directed = TRUE, linker = TRUE)
 }
 \arguments{
 \item{netboxResults}{Output from geneConnector(). 
@@ -39,7 +38,7 @@ non-linker nodes stay as circles.
 \examples{
 data(pathway_commons_v8_reactome)
 interaction_type_color <- read.csv(system.file("interaction_type.color.txt", package = "netboxr"),
-                                   header=TRUE, sep="\\t", stringsAsFactors=FALSE)
+                                   header=TRUE, sep="\t", stringsAsFactors=FALSE)
 
 sifNetwork<-pathway_commons_v8_reactome$network
 graphReduced <- networkSimplify(sifNetwork,directed = FALSE)

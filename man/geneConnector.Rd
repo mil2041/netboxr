@@ -17,9 +17,10 @@ geneConnector(
 \arguments{
 \item{geneList}{A vector containing candidate gene list}
 
-\item{networkGraph}{An igraph graph object}
+\item{networkGraph}{An igraph network graph object}
 
-\item{directed}{TRUE of FALSE}
+\item{directed}{A boolean value indicating whether the input network is
+directed or undirected (default = FALSE)}
 
 \item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
 
