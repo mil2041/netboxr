@@ -8,9 +8,9 @@ geneConnector(
   geneList,
   networkGraph,
   directed = FALSE,
-  pValueAdj = c("BH", "bonferroni"),
+  pValueAdj = "BH",
   pValueCutoff = 0.05,
-  communityMethod = "lec",
+  communityMethod = "ebc",
   keepIsolatedNodes = FALSE
 )
 }
@@ -22,13 +22,17 @@ geneConnector(
 \item{directed}{A boolean value indicating whether the input network is
 directed or undirected (default = FALSE)}
 
-\item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
+\item{pValueAdj}{A string for p-value correction method c("BH", "Bonferroni")
+(default = "BH")}
 
-\item{pValueCutoff}{A number for p-value cutoff for linker nodes}
+\item{pValueCutoff}{A numeric value of p-value cutoff for linker nodes 
+(default = 0.05)}
 
-\item{communityMethod}{A string for community detection method c('ebc','lec')}
+\item{communityMethod}{A string for community detection method c("ebc","lec")
+(default = "ebc")}
 
-\item{keepIsolatedNodes}{logic value}
+\item{keepIsolatedNodes}{A boolean value indicating whether to keep isolated
+nodes in the netboxr result (default = FALSE)}
 }
 \value{
 a list with four lists (i.e. netboxOutput, nodeType,
@@ -42,6 +46,9 @@ a list with four lists (i.e. netboxOutput, nodeType,
 }
 \description{
 Generate sub-network mapping from a candidate gene list
+}
+\details{
+Explain the parameters here
 }
 \examples{
 data(netbox2010)

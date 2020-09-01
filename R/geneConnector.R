@@ -1,13 +1,18 @@
 #' Generate sub-network mapping from a candidate gene list
+#' @details Explain the parameters here
 #'
 #' @param geneList A vector containing candidate gene list
 #' @param networkGraph An igraph network graph object 
 #' @param directed A boolean value indicating whether the input network is
 #' directed or undirected (default = FALSE)
-#' @param pValueAdj A string for p-value correction method c('BH, 'Bonferroni')
-#' @param pValueCutoff A number for p-value cutoff for linker nodes
-#' @param communityMethod A string for community detection method c('ebc','lec')
-#' @param keepIsolatedNodes logic value
+#' @param pValueAdj A string for p-value correction method c("BH", "Bonferroni")
+#' (default = "BH")
+#' @param pValueCutoff A numeric value of p-value cutoff for linker nodes 
+#' (default = 0.05)
+#' @param communityMethod A string for community detection method c("ebc","lec")
+#' (default = "ebc")
+#' @param keepIsolatedNodes A boolean value indicating whether to keep isolated
+#' nodes in the netboxr result (default = FALSE)
 #'
 #' @return a list with four lists (i.e. netboxOutput, nodeType,
 #'                                 moduleMembership, neighborData)
@@ -74,8 +79,8 @@
 #' @importFrom clusterProfiler bitr
 #' @importFrom DT datatable
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
-                          pValueAdj = c("BH","bonferroni"), pValueCutoff = 0.05,
-                          communityMethod = "lec", keepIsolatedNodes = FALSE) {
+                          pValueAdj = "BH", pValueCutoff = 0.05,
+                          communityMethod = "ebc", keepIsolatedNodes = FALSE) {
   
   
   pValueAdj<-match.arg(pValueAdj)
