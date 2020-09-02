@@ -10,3 +10,5 @@ neighborList.txt
 network.sif
 nodeType.txt
 originalGraph.pdf
+^doc$
+^Meta$
