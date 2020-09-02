@@ -4,14 +4,12 @@
 \name{netbox2010}
 \alias{netbox2010}
 \title{network coming with Cerami et al. PLoS One 2010 paper.}
-\format{
-A data frame with 9264 nodes and 68111 interactions:
+\format{A data frame with 9264 nodes and 68111 interactions:
 \describe{
-  \item{name}{vertex gene name}
-  \item{edges}{interaction types}
-  ...
-}
-}
+\item{name}{vertex gene name}
+\item{edges}{interaction types}
+...
+}}
 \source{
 \url{https://www.ncbi.nlm.nih.gov/pubmed/20169195}
 }
