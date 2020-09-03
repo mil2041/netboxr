@@ -5,6 +5,7 @@
 \alias{pathway_commons_v8_reactome}
 \title{Pathway Commons V8 Reactome}
 <<<<<<< HEAD
+<<<<<<< HEAD
 \format{A list of 354 genes and a data frame of 246590 interactions 
 \describe{
   \item{geneList}{an example list of genes}
@@ -12,6 +13,8 @@
   ...
 }}
 =======
+=======
+>>>>>>> 51a5128... check
 \format{
 A list of 354 genes and a data frame of 246590 interactions
 \describe{
@@ -20,6 +23,9 @@ A list of 354 genes and a data frame of 246590 interactions
 ...
 }
 }
+<<<<<<< HEAD
+>>>>>>> 51a5128... check
+=======
 >>>>>>> 51a5128... check
 \source{
 \url{https://www.pathwaycommons.org}
