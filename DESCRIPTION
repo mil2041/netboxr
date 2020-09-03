@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
 Title: netboxr
-Version: 1.0.0
-Date: 2020-03-18
+Version: 1.0.1
+Date: 2020-09-03
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a software tool for performing network analysis on
@@ -13,10 +13,11 @@ Description: NetBox is a software tool for performing network analysis on
     Cell Map.
 License: LGPL-3 + file LICENSE
 Depends:
-    R (>= 3.6.0),
+    R (>= 4.0.0),
     igraph (>= 1.2.4.1),
     parallel
 Imports:
+    RColorBrewer,
     DT,
     stats,
     clusterProfiler,
@@ -35,6 +36,7 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
 biocViews: Software,Network,Pathways,GraphAndNetwork,Reactome, 
            SystemsBiology, GeneSetEnrichment, NetworkEnrichment, KEGG
