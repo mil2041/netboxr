@@ -15,29 +15,44 @@ globalNullModel(
 )
 }
 \arguments{
-\item{netboxGraph}{A vector containing candidate gene list}
+\item{netboxGraph}{igraph network graph object. This igraph object contains
+NetBox algorithm identified network from \code{geneConnector} function}
 
-\item{networkGraph}{An igraph graph object}
+\item{networkGraph}{igraph network graph object. This igraph object contains
+curated network information}
 
-\item{directed}{TRUE or FALSE}
+\item{directed}{boolean value indicating whether the input network is
+directed or undirected (default = FALSE)}
 
-\item{iterations}{TRUE of FALSE}
+\item{iterations}{numeric value for number of iterations}
 
-\item{numOfGenes}{A numeric value}
+\item{numOfGenes}{numeric value for number of genes mapped in the initial
+network}
 
-\item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
+\item{pValueAdj}{string for p-value correction method c("BH", "Bonferroni")
+as described in the details section (default = "BH")}
 
-\item{pValueCutoff}{A numeric value c(0,1)}
+\item{pValueCutoff}{numeric value of p-value cutoff for linker nodes
+(default = 0.05)}
 }
 \value{
-a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborData)
+a list of returned results
+\itemize{
+\item globalNull: data frame of global randomization results
+\item globalNodesResult: data frame of global null tested results based on nodes
+\item globalEdgesResult: data frame of global null tested results based on edges
+}
 }
 \description{
-Randomly select the same number of nodes in the largest component of netbox
-result as a new gene candidate list and repeat multiple times to produce a
-distribution of node size and edge numbers. This distribution will be used
-to produce global p-value of netbox result based on the node size or edge
-numbers of largest component in the final network result.
+Randomly select the same number of nodes in the largest connected component
+of netbox result as a new gene candidate list and repeat multiple times
+to produce a distribution of node size and edge numbers. This distribution
+will be used to produce global p-value of netbox result based on the
+node size or edge numbers of largest component in the final network result.
+}
+\details{
+P-value correction methods include the Bonferroni correction
+("bonferroni") or Benjamini & Hochberg ("BH").
 }
 \examples{
 data(netbox2010)

@@ -1,21 +1,35 @@
 #' @title Generate global null model p-value
 #'
 #' @description
-#' Randomly select the same number of nodes in the largest component of netbox
-#' result as a new gene candidate list and repeat multiple times to produce a
-#' distribution of node size and edge numbers. This distribution will be used
-#' to produce global p-value of netbox result based on the node size or edge
-#' numbers of largest component in the final network result.
+#' Randomly select the same number of nodes in the largest connected component 
+#' of netbox result as a new gene candidate list and repeat multiple times 
+#' to produce a distribution of node size and edge numbers. This distribution 
+#' will be used to produce global p-value of netbox result based on the 
+#' node size or edge numbers of largest component in the final network result.
 #'
-#' @param netboxGraph A vector containing candidate gene list
-#' @param networkGraph An igraph graph object
-#' @param directed TRUE or FALSE
-#' @param iterations TRUE of FALSE
-#' @param numOfGenes A numeric value
-#' @param pValueAdj A string for p-value correction method c('BH, 'Bonferroni')
-#' @param pValueCutoff A numeric value c(0,1)
+#' @details 
+#' P-value correction methods include the Bonferroni correction 
+#' ("bonferroni") or Benjamini & Hochberg ("BH").
 #'
-#' @return a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborData)
+#' @param netboxGraph igraph network graph object. This igraph object contains
+#' NetBox algorithm identified network from \code{geneConnector} function
+#' @param networkGraph igraph network graph object. This igraph object contains
+#' curated network information 
+#' @param directed boolean value indicating whether the input network is
+#' directed or undirected (default = FALSE)
+#' @param iterations numeric value for number of iterations
+#' @param numOfGenes numeric value for number of genes mapped in the initial 
+#' network
+#' @param pValueAdj string for p-value correction method c("BH", "Bonferroni")
+#' as described in the details section (default = "BH")
+#' @param pValueCutoff numeric value of p-value cutoff for linker nodes 
+#' (default = 0.05)
+#'
+#' @return a list of returned results 
+#' * globalNull: data frame of global randomization results
+#' * globalNodesResult: data frame of global null tested results based on nodes
+#' * globalEdgesResult: data frame of global null tested results based on edges
+#' @md
 #'
 #' @author Eric Minwei Liu, \email{emliu.research@gmail.com}
 #'

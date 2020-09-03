@@ -6,11 +6,23 @@
 #' it repeats multiple time, a modularity score distribution will be used to
 #' produce netbox loacl p-value.
 #'
-#' @param netboxGraph A vector containing candidate gene list
+#' @param netboxGraph igraph network graph object. This igraph object contains
+#' NetBox algorithm identified network from \code{geneConnector} function
 #'
-#' @param iterations TRUE of FALSE
+#' @param iterations numeric value for number of iterations
 #'
-#' @return a list with four lists (i.e. netboxOutput, nodeType, moduleMembership, neighborData)
+#' @return a list of returned results 
+#' * randomModularityScore: vector of modularity scores in the iterations of 
+#' local re-wiring randomization process
+#' * randomMean: numeric value of mean of modularity scores in the iterations 
+#' of local re-wiring randomization process
+#' * randomSD: numeric value of standard deviation of modularity scores 
+#' in the iterations of local re-wiring randomization process
+#' * modularityScoreObs: numeric value of observed modularity score in 
+#' the NetBox algorithm identified network
+#' * zScore: numeric value of z-score
+#' * pValueObs: numeric value of observed p-value
+#' @md
 #'
 #' @author Eric Minwei Liu, \email{emliu.research@gmail.com}
 #'
@@ -38,6 +50,7 @@
 #' @importFrom stats sd
 #' @importFrom stats pnorm
 localNullModel <- function(netboxGraph, iterations = 30) {
+  
   community <- edge.betweenness.community(netboxGraph)
   moduleMembership <- membership(community)
   modularityScoreObs <- modularity(netboxGraph, moduleMembership)

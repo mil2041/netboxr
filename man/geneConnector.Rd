@@ -2,45 +2,62 @@
 % Please edit documentation in R/geneConnector.R
 \name{geneConnector}
 \alias{geneConnector}
-\title{Generate sub-network mapping from a candidate gene list}
+\title{Generate sub-network mapping from a list of candidate genes}
 \usage{
 geneConnector(
   geneList,
   networkGraph,
   directed = FALSE,
-  pValueAdj = c("BH", "bonferroni"),
+  pValueAdj = "BH",
   pValueCutoff = 0.05,
-  communityMethod = "lec",
+  communityMethod = "ebc",
   keepIsolatedNodes = FALSE
 )
 }
 \arguments{
-\item{geneList}{A vector containing candidate gene list}
+\item{geneList}{character vector containing a list of candidate genes}
 
-\item{networkGraph}{An igraph graph object}
+\item{networkGraph}{igraph network graph object. This igraph object contains
+curated network information}
 
-\item{directed}{TRUE of FALSE}
+\item{directed}{boolean value indicating whether the input network is
+directed or undirected (default = FALSE)}
 
-\item{pValueAdj}{A string for p-value correction method c('BH, 'Bonferroni')}
+\item{pValueAdj}{string for p-value correction method c("BH", "Bonferroni")
+as described in the details section (default = "BH")}
 
-\item{pValueCutoff}{A number for p-value cutoff for linker nodes}
+\item{pValueCutoff}{numeric value of p-value cutoff for linker nodes
+(default = 0.05)}
 
-\item{communityMethod}{A string for community detection method c('ebc','lec')}
+\item{communityMethod}{string for community detection method c("ebc","lec")
+as described in the details section (default = "ebc")}
 
-\item{keepIsolatedNodes}{logic value}
+\item{keepIsolatedNodes}{A boolean value indicating whether to keep isolated
+nodes in the netboxr result (default = FALSE)}
 }
 \value{
-a list with four lists (i.e. netboxOutput, nodeType,
-                                moduleMembership, neighborData)
-  netboxGraph is igraph object.
-  netboxCommunity is igraph object.
-  netboxOutput is a data frame.
-  nodeType is a data frame.
-  moduleMembership is a data frame.
-  neighborData is a data frame.
+a list of returned netboxr results
+\itemize{
+\item netboxGraph: igraph object of NetBox algorithm identified network nodes
+and connections
+\item netboxCommunity: igraph object of network community assignment
+\item netboxOutput: data frame of NetBox algorithm identified network nodes
+and connections
+\item nodeType: data frame of node types ("candidate" or "linker")
+in the NetBox algorithm indentified network.
+\item moduleMembership: data frame of module (community) membership.
+\item neighborData: data frame of information of nodes directly connected to
+candidate gene nodes.
+}
 }
 \description{
-Generate sub-network mapping from a candidate gene list
+This function generates sub-network mapping from a list of candidate genes
+}
+\details{
+P-value correction methods include the Bonferroni correction
+("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods
+include using edge betweeness score ("ebc") or using leading eigenvector
+method ("lec)
 }
 \examples{
 data(netbox2010)

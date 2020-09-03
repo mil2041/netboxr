@@ -1,22 +1,40 @@
-#' Generate sub-network mapping from a candidate gene list
+#' @title Generate sub-network mapping from a list of candidate genes
+#' 
+#' @description 
+#' This function generates sub-network mapping from a list of candidate genes
+#' 
+#' @details 
+#' P-value correction methods include the Bonferroni correction 
+#' ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods 
+#' include using edge betweeness score ("ebc") or using leading eigenvector 
+#' method ("lec) 
 #'
-#' @param geneList A vector containing candidate gene list
-#' @param networkGraph An igraph graph object
-#' @param directed TRUE of FALSE
-#' @param pValueAdj A string for p-value correction method c('BH, 'Bonferroni')
-#' @param pValueCutoff A number for p-value cutoff for linker nodes
-#' @param communityMethod A string for community detection method c('ebc','lec')
-#' @param keepIsolatedNodes logic value
+#' @param geneList character vector containing a list of candidate genes
+#' @param networkGraph igraph network graph object. This igraph object contains
+#' curated network information 
+#' @param directed boolean value indicating whether the input network is
+#' directed or undirected (default = FALSE)
+#' @param pValueAdj string for p-value correction method c("BH", "Bonferroni")
+#' as described in the details section (default = "BH")
+#' @param pValueCutoff numeric value of p-value cutoff for linker nodes 
+#' (default = 0.05)
+#' @param communityMethod string for community detection method c("ebc","lec")
+#' as described in the details section (default = "ebc")
+#' @param keepIsolatedNodes A boolean value indicating whether to keep isolated
+#' nodes in the netboxr result (default = FALSE)
 #'
-#' @return a list with four lists (i.e. netboxOutput, nodeType,
-#'                                 moduleMembership, neighborData)
-#'   netboxGraph is igraph object.
-#'   netboxCommunity is igraph object.
-#'   netboxOutput is a data frame.
-#'   nodeType is a data frame.
-#'   moduleMembership is a data frame.
-#'   neighborData is a data frame.
-#'
+#' @return a list of returned netboxr results 
+#' * netboxGraph: igraph object of NetBox algorithm identified network nodes 
+#' and connections
+#' * netboxCommunity: igraph object of network community assignment
+#' * netboxOutput: data frame of NetBox algorithm identified network nodes 
+#' and connections
+#' * nodeType: data frame of node types ("candidate" or "linker") 
+#' in the NetBox algorithm indentified network.
+#' * moduleMembership: data frame of module (community) membership.
+#' * neighborData: data frame of information of nodes directly connected to 
+#' candidate gene nodes.
+#' @md
 #' @author Eric Minwei Liu, \email{emliu.research@gmail.com}
 #'
 #' @examples
@@ -73,8 +91,8 @@
 #' @importFrom clusterProfiler bitr
 #' @importFrom DT datatable
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
-                          pValueAdj = c("BH","bonferroni"), pValueCutoff = 0.05,
-                          communityMethod = "lec", keepIsolatedNodes = FALSE) {
+                          pValueAdj = "BH", pValueCutoff = 0.05,
+                          communityMethod = "ebc", keepIsolatedNodes = FALSE) {
   
   
   pValueAdj<-match.arg(pValueAdj)
@@ -280,9 +298,12 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   }
 
   result <- list(
-    netboxGraph = graphOutput, netboxCommunity = community,
-    netboxOutput = netboxOutput, nodeType = selectedNodeType,
-    moduleMembership = moduleMembershipFrame, neighborData = neighborListFrame
+    netboxGraph = graphOutput, 
+    netboxCommunity = community,
+    netboxOutput = netboxOutput, 
+    nodeType = selectedNodeType,
+    moduleMembership = moduleMembershipFrame, 
+    neighborData = neighborListFrame
   )
 
   return(result)
