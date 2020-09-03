@@ -1,21 +1,25 @@
 ---
 title: "NetBoxR Tutorial"
+author: "Eric Minwei Liu and Augustin Luna"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document:
-    toc: yes
-  html_notebook: default
   BiocStyle::html_document:
     toc: yes
     toc_float: no
+  html_document:
+    df_print: paged
+    toc: yes
+  html_notebook: default
   md_document:
     toc: yes
-    variant: markdown_github
+    variant: gfm
   pdf_document:
     toc: yes
-  vignette: |
-    %\VignetteIndexEntry{NetBoxR Tutorial}
-    %\VignetteEncoding{UTF-8}
-    %\VignetteEngine{knitr::rmarkdown}
+always_allow_html: yes
+vignette: >
+  %\VignetteIndexEntry{NetBoxR Tutorial} 
+  %\VignetteEncoding{UTF-8} 
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 
@@ -174,12 +178,12 @@ The GBM result by netboxr identified exactly the same linker genes (6 linker gen
 
 The results of netboxr are consistent with previous implementation of the NetBox algorithm. The RB1 and PIK3R1 modules are clearly represented in the figure. For example, the RB1 module contains genes in blue color and enclosed by light orange circle. The PIK3R1 module contains genes in orange color and enclosed by pink circle. 
 
-# Statistical Significance of Discovered Modules 
+# Statistical Significance of Discovered Network 
 
-NetBox algorithm used (1) global network null model and (2) local network null model to access the statistic significance of the discovered modules. 
+NetBox algorithm used (1) global network null model and (2) local network null model to access the statistical significance of the discovered network. 
 
 ## Global Network Null Model 
-The global network null model calculates the empirical p-value as the number of times (over a set of iterations) the size of the largest module in the network coming from the same number of randomly selected genes (number of genes is 274 in this example) equals or exceeds the size of the largest module in the observed network. Suggested iterations is 1000.  
+The global network null model calculates the empirical p-value as the number of times (over a set of iterations) the size of the largest connected component (the giant component) in the network coming from the same number of randomly selected genes (number of genes is 274 in this example) equals or exceeds the size of the largest connected component in the observed network. The suggested iterations are 1000.  
 
 ```{r netboxrExampleGlobalTest, eval=FALSE}
 ## This function will need a lot of time to complete. 
@@ -275,8 +279,32 @@ dotplot(ego)
 # Alternative Module Discovery Methods 
 In netboxr, we used the Girvan-Newman algorithm (communityMethod="ebc") as the default method to detect community membership in the identified network. The Girvan-Newman algorithm iteratativly removes the edge in the network with highest edge betweeness until no edges left. When the identified network contains many edges, the Girvan-Newman algorithm will spend a large amount of time to remove edges and re-calucalte the edge betweenese score in the network.  If  the user cannot get the community detection result in reasonable time,  we suggest to switch to leading eigenvector method (communityMethod="lec") for community detection. Users can check original papers of [the Girvan-Newman algorithm](http://www.pnas.org/content/99/12/7821) and [leading eigenvector method](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.74.036104) for more details.  
 
-# Alternative Pathway Data using PaxtoolsR 
+# Alternative Pathway Data 
+## Using Tabular Simple Interaction Format (SIF)-Based Network Data
+Users can load alternative pathway data formatted in the SIF format (Simple Interaction Format). SIF is a space/tab separated format that summarizes interactions in a graph as an edgelist. In the format,  every row corresponds to an individual interaction (edge) between a source and a target node. NOTE: An arbitrary interaction type can be used, such as "interacts" if the true interaction type is unknown.
 
+``` 
+PARTICIPANT_A INTERACTION_TYPE PARTICIPANT_B
+nodeA relationship nodeB
+nodeC relationship nodeA
+nodeD relationship nodeE
+```
+
+Resources, such as the Functional Interaction network from Reactome (https://reactome.org/download-data) and StringDB (https://string-db.org/) provide network information in formats reusable as a SIF. NOTE: The next section demonstrates how to retrieve SIF-based networks for many well-known interaction databases using paxtoolsr. 
+
+SIF formatted data can be passed to networkSimplify(). The result of which is used with the geneConnector() function as other examples in this vignette demonstrate. 
+
+```{r}
+example <- "PARTICIPANT_A	INTERACTION_TYPE	PARTICIPANT_B
+TP53	interacts	MDM2
+MDM2	interacts	MDM4"
+
+sif <- read.table(text=example, header=TRUE, sep="\t", stringsAsFactors=FALSE)
+
+graphReduced <- networkSimplify(sif, directed = FALSE)  
+```
+
+## Using PaxtoolsR for Pathway Commons Data
 Users can load alternative pathway data from the [Pathway Commons](http://www.pathwaycommons.org/) repository using the **paxtoolsr** package from [Bioconductor](https://bioconductor.org/packages/release/bioc/html/paxtoolsr.html). This pathway data represents an update to the Pathway Commons data used in the original 2010 NetBox publication. Below is an example that makes use of data from the [Reactome pathway database](http://www.reactome.org/). 
 
 **NOTE:** Downloaded data is automatically cached to avoid unnecessary downloads. 
@@ -291,10 +319,7 @@ sif <- downloadPc2(filename, version="8")
 # Filter interactions for specific types
 interactionTypes <- getSifInteractionCategories()
 
-
 filteredSif <- filterSif(sif$edges, interactionTypes=interactionTypes[["BetweenProteins"]])
-
-
 filteredSif <- filteredSif[(filteredSif$INTERACTION_TYPE %in% "in-complex-with"), ]
 
 # Re-run NetBox algorithm with new network
@@ -319,6 +344,64 @@ names(results)
 
 # plot graph with the Fruchterman-Reingold layout algorithm
 plot(results$netboxCommunity,results$netboxGraph, layout=layout_with_fr) 
+```
+
+# Selecting Input Gene Lists for use with NetBox
+
+The main input for the NetBox algorithm is an input list of "significantly" altered genes. Each project is different, unique considerations for how significance should be considered may be required. Researchers may seek stronger thresholds of significance for particular questions and different profiling technologies may have their own considerations. It is beyond the scope of this work to provide guidance for all situations. 
+
+However, to help users better understand the process of generating an input gene list we provide examples using best practices derived from the The Cancer Genome Project using the cBioPortal (http://cbioportal.org/), a platform that aggregates clinical genomics datasets into a standard representation. As of August 2020, cBioPortal has approximately 290 studies. In cases where appropriate data is available a similar procedure to the example can be used. 
+
+## Accesing Pre-Computed Alteration Results from the cBioPortal DataHub 
+
+For TCGA studies on cBioPortal, users can access pre-processed datasets from the [cBioPortal DataHub](https://github.com/cBioPortal/datahub/tree/master/public) that contain significantly altered genes by mutations and copy number. Example study link: https://github.com/cBioPortal/datahub/tree/master/public/acc_tcga
+
+* Significantly altered genes by mutations (via MutSig algorithm) are accessible within the 'data_mutsig.txt' file for a study; typically mutations with a q-value < 0.1 are selected as significantly altered
+* Significantly altered genes by copy number (via GISTIC algorithm) are accessible within the 'data_gistic_genes_del.txt' (deletions) file and 'data_gistic_genes_amp.txt' (amplifications). 
+
+Users are directed to the accompanying study publications; study publication details are in the 'meta_study.txt' file for a study.
+
+## Accessing Cancer Genomics Data from cBioPortal
+
+Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a 10% alteration frequency threshold to select genes; this general procedure has previously been used as part of [TCGA studies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3910500/). In the example, we consider: 
+
+* For mutations, mutations of any type contribute to the overall alteration frequency of the gene
+* For copy number, discretized GISTIC-derived values for amplification or deep deletions contribute to the overall alteration frequency
+
+The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
+
+```{r, eval=FALSE}
+library(cgdsr)
+
+mycgds <- CGDS("http://www.cbioportal.org/")
+
+# Find available studies, caselists, and geneticProfiles 
+studies <- getCancerStudies(mycgds)
+caselists <- getCaseLists(mycgds,'gbm_tcga_pub')
+geneticProfiles <- getGeneticProfiles(mycgds,'gbm_tcga_pub')
+
+genes <- c("EGFR", "TP53", "ACTB", "GAPDH")
+
+results <- sapply(genes, function(gene) {
+  geneticProfiles <- c("gbm_tcga_pub_cna_consensus", "gbm_tcga_pub_mutations")
+  caseList <- "gbm_tcga_pub_cnaseq"
+  
+  dat <- getProfileData(mycgds, genes=gene, geneticProfiles=geneticProfiles, caseList=caseList)
+  head(dat)
+  
+  cna <- dat$gbm_tcga_pub_cna_consensus
+  cna <- as.numeric(levels(cna))[cna]
+  
+  mut <- dat$gbm_tcga_pub_mutations
+  mut <- as.character(levels(mut))[mut]
+  
+  tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
+  tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplification or Deep Deletion or any mutation
+  length(which(tmp$isAltered))/nrow(tmp)
+}, USE.NAMES = TRUE)
+
+# 10 percent alteration frequency cutoff 
+geneList <- names(results)[results > 0.1]
 ```
 
 # References
