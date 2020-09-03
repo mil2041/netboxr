@@ -12,27 +12,6 @@ A list of 354 genes and a data frame of 246590 interactions
 ...
 }
 }
-<<<<<<< HEAD
-\format{
-A list of 354 genes and a data frame of 246590 interactions
-\describe{
-\item{geneList}{an example list of genes}
-\item{network}{Pathway Commons V8 Reactome}
-...
-}
-}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
 \source{
 \url{https://www.pathwaycommons.org}
 }
