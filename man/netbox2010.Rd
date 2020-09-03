@@ -7,24 +7,11 @@
 \format{
 A data frame with 9264 nodes and 68111 interactions:
 \describe{
-<<<<<<< HEAD
-  \item{name}{vertex gene name}
-  \item{edges}{interaction types}
-  ...
-}}
-=======
 \item{name}{vertex gene name}
 \item{edges}{interaction types}
 ...
 }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
 \source{
 \url{https://www.ncbi.nlm.nih.gov/pubmed/20169195}
 }

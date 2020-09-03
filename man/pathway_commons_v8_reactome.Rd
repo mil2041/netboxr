@@ -4,20 +4,13 @@
 \name{pathway_commons_v8_reactome}
 \alias{pathway_commons_v8_reactome}
 \title{Pathway Commons V8 Reactome}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 \format{A list of 354 genes and a data frame of 246590 interactions 
 \describe{
-  \item{geneList}{an example list of genes}
-  \item{network}{Pathway Commons V8 Reactome}
-  ...
-}}
-=======
-=======
->>>>>>> 51a5128... check
-=======
->>>>>>> 51a5128... check
+\item{geneList}{an example list of genes}
+\item{network}{Pathway Commons V8 Reactome}
+...
+}
+}
 \format{
 A list of 354 genes and a data frame of 246590 interactions
 \describe{
@@ -28,6 +21,9 @@ A list of 354 genes and a data frame of 246590 interactions
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 51a5128... check
+=======
 >>>>>>> 51a5128... check
 =======
 >>>>>>> 51a5128... check
