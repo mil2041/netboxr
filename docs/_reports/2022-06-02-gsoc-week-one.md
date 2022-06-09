@@ -2,7 +2,7 @@
 layout: post
 title:  "Week One | FIXME"
 tags: gsoc
-author: Yoshitaka Inoue
+author: Sara J
 ---
 
 # FIXME
