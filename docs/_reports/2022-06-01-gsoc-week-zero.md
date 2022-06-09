@@ -2,46 +2,42 @@
 layout: post
 title:  "Week Zero | Welcome GSoC"
 tags: gsoc
-author: Sara Jovanovska
+author: Sara J
 ---
 
 ## About Me
-I am a recent graduate at [Utrecht University](https://twin-cities.umn.edu/), and my research background is in gene editing and computational antibody modelling. I'm interested in computational methods for research in regenerative medcine and aging.
+I am a recent graduate at [Utrecht University](https://www.uu.nl/en), and my research background is in gene editing and computational antibody modelling. I'm interested in computational methods for research in regenerative medicine and aging.
 
 ## GSoC Project
 
-- [GSoC Project URL](https://summerofcode.withgoogle.com/programs/2022/projects/ylOolPrk)
-- [Work Repository](https://github.com/cannin/graph_neural_network_drug_response)
+- [GSoC Project URL](https://summerofcode.withgoogle.com/programs/2022/projects/nZRMy1Oa)
+- [Work Repository](https://github.com/mil2041/netboxr)
 
 Mentors:
+**Eric Minwei Liu** ([@mil2041](https://github.com/mil2041))
 **Augustin Luna** ([@cannin](https://github.com/cannin))
-**Eric Minwei Liu** ([@cannin](https://github.com/cannin))
-
-## Community Bonding
-This period of GSoC started after the project announcements. I get to know more about the mentors and community in this period.
 
 ## Tasks
-During the community bonding period, I was assigned the following work:
 
-1. **[Setup GSOC Blog](https://github.com/cannin/graph_neural_network_drug_response/issues/1)**
+1. **[Setup GSOC Blog](https://github.com/mil2041/netboxr/issues/10)**
     Status: **Complete**
     Branch: **None**
         PR: **None**
 
-2. **[Reformat CellMinerCDB Data for DrugCell ](https://github.com/cannin/graph_neural_network_drug_response/issues/2)**
+2. **[Setup GitHub Actions](https://github.com/mil2041/netboxr/issues/7)**
     Status: **In progress**
     Branch: **None**
         PR: **None**
         
-3. **[Go over netboxr code](https://github.com/cannin/graph_neural_network_drug_response/issues/2)**
+3. **Go over netboxr code**
     Status: **In progress**
     Branch: **None**
-        PR: **None*
+        PR: **None**
         
-3. **[Kick-off meeting](https://github.com/cannin/graph_neural_network_drug_response/issues/2)**
+3. **Kick-off meeting with supervisors**
     Status: **In progress**
     Branch: **None**
-        PR: **None*
+        PR: **None**
 
 ## Conclusion
 FIXME
