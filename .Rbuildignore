@@ -12,3 +12,5 @@ nodeType.txt
 originalGraph.pdf
 ^doc$
 ^Meta$
+^\.github$
+vignette_data.txt
