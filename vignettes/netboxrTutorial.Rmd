@@ -361,6 +361,41 @@ For TCGA studies on cBioPortal, users can access pre-processed datasets from the
 
 Users are directed to the accompanying study publications; study publication details are in the 'meta_study.txt' file for a study.
 
+
+## Accessing Cancer Genomics Data from cBioPortal
+
+Users can download cancer alteration data from [cBioPortal](https://www.cbioportal.org/) using the **cgdsr** package from [CRAN](https://cran.r-project.org/web/packages/cgdsr/index.html). Here we show how a simple example for selecting genes for use with netboxr for datasets provided by cBioPortal using a using a 10% alteration frequency threshold to select genes; this general procedure has previously been used as part of [TCGA studies](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3910500/). In the example, we consider: 
+
+* For mutations, mutations of any type contribute to the overall alteration frequency of the gene
+* For copy number, discretized GISTIC-derived values for amplification or deep deletions contribute to the overall alteration frequency
+
+The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
+
+```{r, eval=FALSE}
+
+genes <- c("EGFR", "TP53", "ACTB", "GAPDH")
+
+results <- sapply(genes, function(gene) {
+  
+  dat <- read.table(system.file("vignette_data.txt", package = "netboxr"),
+                                    header=TRUE, sep="\t", stringsAsFactors=FALSE)
+  head(dat)
+  
+  cna <- dat$gbm_tcga_pub_cna_consensus
+  cna <- as.numeric(levels(cna))[cna]
+  
+  mut <- dat$gbm_tcga_pub_mutations
+  mut <- as.character(levels(mut))[mut]
+  
+  tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
+  tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplification or Deep Deletion or any mutation
+  length(which(tmp$isAltered))/nrow(tmp)
+}, USE.NAMES = TRUE)
+
+# 10 percent alteration frequency cutoff 
+geneList <- names(results)[results > 0.1]
+```
+
 # References
 
 * Cerami E, Demir E, Schultz N, Taylor BS, Sander C (2010) Automated Network Analysis Identifies Core Pathways in Glioblastoma. PLoS ONE 5(2): e8918. doi:10.1371/journal.pone.0008918
