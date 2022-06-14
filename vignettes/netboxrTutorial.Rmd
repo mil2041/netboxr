@@ -381,14 +381,10 @@ results <- sapply(genes, function(gene) {
                                     header=TRUE, sep="\t", stringsAsFactors=FALSE)
   head(dat)
   
-  cna <- dat$paad_tcga_linear_CNA
-  cna[is.nan(cna) == TRUE] = NA
-  cna <- as.factor(as.numeric(cna))
+  cna <- dat$gbm_tcga_pub_cna_consensus
   cna <- as.numeric(levels(cna))[cna]
   
-  mut <- dat$paad_tcga_mutations
-  mut[is.nan(mut) == TRUE] = NA
-  mut <- as.factor(as.character(mut))
+  mut <- dat$gbm_tcga_pub_mutations
   mut <- as.character(levels(mut))[mut]
   
   tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
