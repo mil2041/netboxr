@@ -6,8 +6,8 @@
 #' @details 
 #' P-value correction methods include the Bonferroni correction 
 #' ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods 
-#' include using edge betweeness score ("ebc") or using leading eigenvector 
-#' method ("lec) 
+#' include using edge betweeness score ("ebc"), leading eigenvector 
+#' method ("lec"), Louvain method ("louvain"), or Leiden method ("leiden")
 #'
 #' @param geneList character vector containing a list of candidate genes
 #' @param networkGraph igraph network graph object. This igraph object contains
@@ -22,6 +22,9 @@
 #' as described in the details section (default = "ebc")
 #' @param keepIsolatedNodes A boolean value indicating whether to keep isolated
 #' nodes in the netboxr result (default = FALSE)
+#' @param resolutionParam numeric value that determines community size, where 
+#' higher resolutions leads to more smaller communities (default = 1)
+#' @param weightsInput numeric vector for edge weights (default = NULL)
 #'
 #' @return a list of returned netboxr results 
 #' * netboxGraph: igraph object of NetBox algorithm identified network nodes 
@@ -92,7 +95,8 @@
 #' @importFrom DT datatable
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
                           pValueAdj = "BH", pValueCutoff = 0.05,
-                          communityMethod = "ebc", keepIsolatedNodes = FALSE) {
+                          communityMethod = "ebc", keepIsolatedNodes = FALSE,
+                          resolutionParam = 1, weightsInput = NULL) {
   
   
   pValueAdj<-match.arg(pValueAdj)
@@ -255,6 +259,18 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   if (communityMethod == "lec") {
     message(sprintf("Detecting modules using \"leading eigenvector\" method\n"))
     community <- leading.eigenvector.community(graphOutput, options = list(maxiter = 1e+06))
+    moduleMembership <- membership(community)
+  }
+  
+    if (communityMethod == "louvain") {
+    message(sprintf("Detecting modules using \"Louvain\" method\n"))
+    community <- cluster_louvain(graphOutput, weights = weightsInput, resolution = resolutionParam)
+    moduleMembership <- membership(community)
+  }
+  
+  if (communityMethod == "leiden") {
+    message(sprintf("Detecting modules using \"Leiden\" method\n"))
+    community <- cluster_leiden(graphOutput, weights = weightsInput, resolution_parameter = resolutionParam)
     moduleMembership <- membership(community)
   }
 
