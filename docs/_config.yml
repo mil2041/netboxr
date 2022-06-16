@@ -1,0 +1,5 @@
+theme: jekyll-theme-minimal
+title: NetBoxR Updates GSoC 2022
+collections:
+  reports:
+    output: true
