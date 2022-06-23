@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
 Title: netboxr
-Version: 1.7.1
-Date: 2022-01-19
+Version: 1.7.2
+Date: 2022-06-22
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut], Chris Sander [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a network-based approach that combines prior knowledge 
