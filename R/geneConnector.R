@@ -57,28 +57,12 @@
 #' 
 #' plot(results$netboxGraph, layout = layout_with_fr)
 #' 
+#' results$neighborData
+#' results$netboxOutput
+#' results$moduleMembership
+#' results$nodeType  
+#' #write.csv(results$nodeType, "nodeType.txt")
 #'
-#' write.table(results$netboxOutput,
-#'   file = "network.sif", sep = "	",
-#'   quote = FALSE, col.names = FALSE, row.names = FALSE
-#' )
-#'
-#' write.table(results$neighborData,
-#'   file = "neighborList.txt", sep = "	",
-#'   quote = FALSE, col.names = TRUE, row.names = FALSE
-#' )
-#'
-#' write.table(results$moduleMembership,
-#'   file = "memb.ebc.txt", sep = "	",
-#'   quote = FALSE, col.names = FALSE, row.names = FALSE
-#' )
-#' #
-#' write.table(results$nodeType,
-#'   file = "nodeType.txt", sep = "	", quote = FALSE,
-#'   col.names = FALSE, row.names = FALSE
-#' )
-#' #
-#' 
 #' @concept netboxr
 #' 
 #' @export
