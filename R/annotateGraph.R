@@ -91,7 +91,7 @@
 #'        title="Interaction Types (Edges)",
 #'        cex=4, ncol=1)
 #' dev.off()
-#'}
+#' }
 #' 
 #' @concept netboxr
 #' @export
