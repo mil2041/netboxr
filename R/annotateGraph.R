@@ -40,7 +40,8 @@
 #' @author Guanlan Dong, \email{guanlan_dong@g.harvard.edu}
 #'
 #' @examples
-#' \dontrun{data(pathway_commons_v8_reactome)
+#' \dontrun{
+#' data(pathway_commons_v8_reactome)
 #' interaction_type_color <- read.csv(system.file("interaction_type.color.txt", package = "netboxr"),
 #'                                    header=TRUE, sep="\t", stringsAsFactors=FALSE)
 #' 
