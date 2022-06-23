@@ -61,7 +61,7 @@
 #' # As an example, plot both the original and the annotated graphs
 #' ll <- layout_with_fr(results$netboxGraph) # Save the layout for easier comparison
 #' # Plot original graph
-#' pdf("originalGraph.pdf", width = 50, height = 50)
+#' \dontrun{pdf("originalGraph.pdf", width = 50, height = 50)
 #' plot(results$netboxCommunity, results$netboxGraph, layout = ll,
 #'      vertex.size=3)
 #' dev.off()
@@ -91,6 +91,7 @@
 #'        title="Interaction Types (Edges)",
 #'        cex=4, ncol=1)
 #' dev.off()
+#'}
 #' 
 #' @concept netboxr
 #' @export
