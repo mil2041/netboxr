@@ -11,7 +11,9 @@ geneConnector(
   pValueAdj = "BH",
   pValueCutoff = 0.05,
   communityMethod = "ebc",
-  keepIsolatedNodes = FALSE
+  keepIsolatedNodes = FALSE,
+  resolutionParam = 1,
+  weightsInput = NULL
 )
 }
 \arguments{
@@ -34,6 +36,11 @@ as described in the details section (default = "ebc")}
 
 \item{keepIsolatedNodes}{A boolean value indicating whether to keep isolated
 nodes in the netboxr result (default = FALSE)}
+
+\item{resolutionParam}{numeric value that determines community size, where
+higher resolutions leads to more smaller communities (default = 1)}
+
+\item{weightsInput}{numeric vector for edge weights (default = NULL)}
 }
 \value{
 a list of returned netboxr results
@@ -56,8 +63,8 @@ This function generates sub-network mapping from a list of candidate genes
 \details{
 P-value correction methods include the Bonferroni correction
 ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods
-include using edge betweeness score ("ebc") or using leading eigenvector
-method ("lec)
+include using edge betweeness score ("ebc"), leading eigenvector
+method ("lec"), Louvain method ("louvain"), or Leiden method ("leiden")
 }
 \examples{
 data(netbox2010)
@@ -76,27 +83,11 @@ names(results)
 
 plot(results$netboxGraph, layout = layout_with_fr)
 
-
-write.table(results$netboxOutput,
-  file = "network.sif", sep = "	",
-  quote = FALSE, col.names = FALSE, row.names = FALSE
-)
-
-write.table(results$neighborData,
-  file = "neighborList.txt", sep = "	",
-  quote = FALSE, col.names = TRUE, row.names = FALSE
-)
-
-write.table(results$moduleMembership,
-  file = "memb.ebc.txt", sep = "	",
-  quote = FALSE, col.names = FALSE, row.names = FALSE
-)
-#
-write.table(results$nodeType,
-  file = "nodeType.txt", sep = "	", quote = FALSE,
-  col.names = FALSE, row.names = FALSE
-)
-#
+results$neighborData
+results$netboxOutput
+results$moduleMembership
+results$nodeType  
+#write.csv(results$nodeType, "nodeType.txt")
 
 }
 \author{

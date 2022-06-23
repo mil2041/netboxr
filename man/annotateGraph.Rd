@@ -73,6 +73,7 @@ netboxGraphAnnotated <- annotateGraph(netboxResults = results,
 # As an example, plot both the original and the annotated graphs
 ll <- layout_with_fr(results$netboxGraph) # Save the layout for easier comparison
 # Plot original graph
+\dontrun{
 pdf("originalGraph.pdf", width = 50, height = 50)
 plot(results$netboxCommunity, results$netboxGraph, layout = ll,
      vertex.size=3)
@@ -103,6 +104,7 @@ legend(x=-1.15, y=0.95,
        title="Interaction Types (Edges)",
        cex=4, ncol=1)
 dev.off()
+}
 
 }
 \author{

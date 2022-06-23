@@ -34,7 +34,7 @@ it repeats multiple time, a modularity score distribution will be used to
 produce netbox loacl p-value.
 }
 \examples{
-data(netbox2010)
+\dontrun{data(netbox2010)
 
 sifNetwork<-netbox2010$network
 graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
@@ -50,6 +50,7 @@ names(results)
 # Suggested 1000 iterations. 
 # Use 10 interations in the exampel to save running time. 
 localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=10)
+}
 
 }
 \author{
