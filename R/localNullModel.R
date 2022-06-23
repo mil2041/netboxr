@@ -27,7 +27,7 @@
 #' @author Eric Minwei Liu, \email{emliu.research@gmail.com}
 #'
 #' @examples
-#' data(netbox2010)
+#' \dontrun{data(netbox2010)
 #'
 #' sifNetwork<-netbox2010$network
 #' graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
@@ -43,6 +43,7 @@
 #' # Suggested 1000 iterations. 
 #' # Use 10 interations in the exampel to save running time. 
 #' localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=10)
+#' }
 #' 
 #' @concept netboxr
 #' @export
