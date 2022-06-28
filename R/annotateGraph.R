@@ -40,6 +40,7 @@
 #' @author Guanlan Dong, \email{guanlan_dong@g.harvard.edu}
 #'
 #' @examples
+#' \dontrun{
 #' data(pathway_commons_v8_reactome)
 #' interaction_type_color <- read.csv(system.file("interaction_type.color.txt", package = "netboxr"),
 #'                                    header=TRUE, sep="\t", stringsAsFactors=FALSE)
@@ -61,7 +62,6 @@
 #' # As an example, plot both the original and the annotated graphs
 #' ll <- layout_with_fr(results$netboxGraph) # Save the layout for easier comparison
 #' # Plot original graph
-#' \dontrun{
 #' pdf("originalGraph.pdf", width = 50, height = 50)
 #' plot(results$netboxCommunity, results$netboxGraph, layout = ll,
 #'      vertex.size=3)
