@@ -6,7 +6,7 @@
 #' @details 
 #' P-value correction methods include the Bonferroni correction 
 #' ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods 
-#' include using edge betweeness score ("ebc"), leading eigenvector 
+#' include using edge betweenness score ("ebc"), leading eigenvector 
 #' method ("lec"), Louvain method ("louvain"), or Leiden method ("leiden")
 #'
 #' @param geneList character vector containing a list of candidate genes
@@ -18,8 +18,8 @@
 #' as described in the details section (default = "BH")
 #' @param pValueCutoff numeric value of p-value cutoff for linker nodes 
 #' (default = 0.05)
-#' @param communityMethod string for community detection method c("ebc","lec")
-#' as described in the details section (default = "ebc")
+#' @param communityMethod string for community detection method c("ebc","lec", "louvain", 
+#' "leiden") as described in the details section (default = "ebc")
 #' @param keepIsolatedNodes A boolean value indicating whether to keep isolated
 #' nodes in the netboxr result (default = FALSE)
 #' @param resolutionParam numeric value that determines community size, where 
@@ -254,7 +254,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   
   if (communityMethod == "leiden") {
     message(sprintf("Detecting modules using \"Leiden\" method\n"))
-    community <- cluster_leiden(graphOutput, weights = weightsInput, resolution_parameter = resolutionParam)
+    community <- cluster_leiden(graphOutput, weights = weightsInput, resolution = resolutionParam)
     moduleMembership <- membership(community)
   }
 
