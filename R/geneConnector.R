@@ -70,7 +70,6 @@
 #' @import jsonlite
 #' @import parallel
 #' @import data.table
-#' @import gplots
 #' @import plyr
 #' @importFrom stats p.adjust
 #' @importFrom stats phyper
