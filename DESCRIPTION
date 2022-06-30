@@ -20,12 +20,10 @@ Depends:
     igraph (>= 1.2.4.1),
     parallel
 Imports:
-    gtools,
     DT,
     stats,
     clusterProfiler,
     data.table,
-    gplots,
     jsonlite,
     plyr
 Suggests:
