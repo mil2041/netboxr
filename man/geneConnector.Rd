@@ -31,8 +31,8 @@ as described in the details section (default = "BH")}
 \item{pValueCutoff}{numeric value of p-value cutoff for linker nodes
 (default = 0.05)}
 
-\item{communityMethod}{string for community detection method c("ebc","lec")
-as described in the details section (default = "ebc")}
+\item{communityMethod}{string for community detection method c("ebc","lec", "louvain",
+"leiden") as described in the details section (default = "ebc")}
 
 \item{keepIsolatedNodes}{A boolean value indicating whether to keep isolated
 nodes in the netboxr result (default = FALSE)}
@@ -63,7 +63,7 @@ This function generates sub-network mapping from a list of candidate genes
 \details{
 P-value correction methods include the Bonferroni correction
 ("bonferroni") or Benjamini & Hochberg ("BH"). Community detection methods
-include using edge betweeness score ("ebc"), leading eigenvector
+include using edge betweenness score ("ebc"), leading eigenvector
 method ("lec"), Louvain method ("louvain"), or Leiden method ("leiden")
 }
 \examples{
