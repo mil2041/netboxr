@@ -377,7 +377,7 @@ genes <- c("EGFR", "TP53", "ACTB", "GAPDH")
 
 results <- sapply(genes, function(gene) {
   
-  dat <- read.table(system.file("vignette_data.txt", package = "netboxr"),
+  dat <- read.table(system.file(paste("vignette_data_", gene, ".txt", sep = ""), package = "netboxr"),
                                     header=TRUE, sep="\t", stringsAsFactors=FALSE)
   head(dat)
   
