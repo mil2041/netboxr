@@ -1,7 +1,7 @@
 Type: Package
 Package: netboxr
 Title: Automated discovery of biological process modules by network analysis
-Version: 1.7.4
+Version: 1.7.5
 Date: 2022-06-23
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut], Chris Sander [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
