@@ -247,7 +247,7 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
   
     if (communityMethod == "louvain") {
     message(sprintf("Detecting modules using \"Louvain\" method\n"))
-    community <- cluster_louvain(graphOutput, weights = weightsInput, resolution_parameter = resolutionParam)
+    community <- cluster_louvain(graphOutput, weights = weightsInput, resolution = resolutionParam)
     moduleMembership <- membership(community)
   }
   
