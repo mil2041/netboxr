@@ -32,9 +32,16 @@
 #' * nodeType: data frame of node types ("candidate" or "linker") 
 #' in the NetBox algorithm indentified network.
 #' * moduleMembership: data frame of module (community) membership.
-#' * neighborData: data frame of information of nodes directly connected to 
-#' candidate gene nodes.
-#' @md
+#' * neighborData: data frame of information of nodes (7 columns) directly connected to 
+#' gene nodes in the input.
+#' 1. idx: index number of this node in the graphReduced network
+#' 2. name: gene name, name of a node in the network
+#' 3. localDegree: number of connections from this node to other nodes in the input of the gene list
+#' 4. globalDegree: number of connections from this node to all other nodes in the underlying graphReduced network.
+#' 5. pValueRaw: p-value from hypergeometric test
+#' 6. oddsRatio: odds ratio
+#' 7. pValueFDR: adjusted p-value after multiple hypothesis correction#' @md
+#'
 #' @author Eric Minwei Liu, \email{emliu.research@gmail.com}
 #'
 #' @examples
