@@ -70,6 +70,15 @@ test_that("gene_connector_lec", {
 
 test_that("global_null_model_lec", {
   
+  data(netbox2010)
+  sifNetwork<-netbox2010$network
+  graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+  geneList<-as.character(netbox2010$geneList)
+  
+  results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+                         pValueAdj='BH',pValueCutoff=0.05,
+                         communityMethod='lec',keepIsolatedNodes=FALSE)
+  
   globalTest <- globalNullModel(netboxGraph=results$netboxGraph, networkGraph=graphReduced, 
                                 iterations=10, numOfGenes = 274)
   
