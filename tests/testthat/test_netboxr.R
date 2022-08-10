@@ -21,6 +21,15 @@ test_that("gene_connector_ebc", {
 
 test_that("global_null_model_ebc", {
   
+  data(netbox2010)
+  sifNetwork<-netbox2010$network
+  graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+  geneList<-as.character(netbox2010$geneList)
+  
+  results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+                         pValueAdj='BH',pValueCutoff=0.05,
+                         communityMethod='ebc',keepIsolatedNodes=FALSE)
+  
   globalTest <- globalNullModel(netboxGraph=results$netboxGraph, networkGraph=graphReduced, 
                                 iterations=10, numOfGenes = 274)
   
@@ -28,6 +37,15 @@ test_that("global_null_model_ebc", {
 })
 
 test_that("local_null_model_ebc", {
+  
+  data(netbox2010)
+  sifNetwork<-netbox2010$network
+  graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
+  geneList<-as.character(netbox2010$geneList)
+  
+  results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+                         pValueAdj='BH',pValueCutoff=0.05,
+                         communityMethod='ebc',keepIsolatedNodes=FALSE)
   
   localTest <- localNullModel(netboxGraph=results$netboxGraph, iterations=10)
   
