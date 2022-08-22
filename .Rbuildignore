@@ -12,3 +12,7 @@ nodeType.txt
 originalGraph.pdf
 ^doc$
 ^Meta$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

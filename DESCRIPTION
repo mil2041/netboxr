@@ -44,3 +44,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 biocViews: Software,Network,Pathways,GraphAndNetwork,Reactome, 
            SystemsBiology, GeneSetEnrichment, NetworkEnrichment, KEGG
+URL: https://mil2041.github.io/netboxr/
