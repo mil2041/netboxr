@@ -371,33 +371,54 @@ Users can download cancer alteration data from [cBioPortal](https://www.cbioport
 The resulting gene list then becomes an input for netboxr. The resulting gene list will select EGFR and TP53, which have high alteration frequencies in glioblastoma (GBM) over the housekeeping genes ACTB and GAPDH, which have very low alteration frequencies.
 
 ```{r, eval=FALSE}
-library(cgdsr)
+library(cBioPortalData)
 
-mycgds <- CGDS("http://www.cbioportal.org/")
+cbio <- cBioPortal(hostname = "www.cbioportal.org", 
+                   protocol = "https", 
+                   api. = "/api/api-docs")
 
 # Find available studies, caselists, and geneticProfiles 
-studies <- getCancerStudies(mycgds)
-caselists <- getCaseLists(mycgds,'gbm_tcga_pub')
-geneticProfiles <- getGeneticProfiles(mycgds,'gbm_tcga_pub')
+studies <- getStudies(cbio)
+samps<-sampleLists(cbio, "gbm_tcga_pub")
 
-genes <- c("EGFR", "TP53", "ACTB", "GAPDH")
+# find samples with both mutation and copy number data
+caseList <- "gbm_tcga_pub_cnaseq"
+geneticProfileTables <- molecularProfiles(api = cbio, studyId = "gbm_tcga_pub")
+
+genes <- c("EGFR", "TP53", "RB1")
 
 results <- sapply(genes, function(gene) {
-  geneticProfiles <- c("gbm_tcga_pub_cna_consensus", "gbm_tcga_pub_mutations")
-  caseList <- "gbm_tcga_pub_cnaseq"
   
-  dat <- getProfileData(mycgds, genes=gene, geneticProfiles=geneticProfiles, caseList=caseList)
-  head(dat)
+    message(sprintf("Work on %s gene",gene))
   
-  cna <- dat$gbm_tcga_pub_cna_consensus
-  cna <- as.numeric(levels(cna))[cna]
+    cna <- getDataByGenes(
+          cbio, studyId = "gbm_tcga_pub", 
+          genes = gene,
+          by = "hugoGeneSymbol",
+          molecularProfileId = "gbm_tcga_pub_cna_consensus",
+          sampleListId = caseList)
   
-  mut <- dat$gbm_tcga_pub_mutations
-  mut <- as.character(levels(mut))[mut]
+    mut <- getDataByGenes(
+          cbio, studyId = "gbm_tcga_pub", 
+          genes = gene,
+          by = "hugoGeneSymbol",
+          molecularProfileId = "gbm_tcga_pub_mutations",
+          sampleListId = caseList)
+    
+    cna <- cbind(cna[[1]][5], cna[[1]][8])
+    mut <- cbind(mut[[1]][4], mut[[1]][14])
+    dat <- merge(cna, mut, by = "sampleId", all = TRUE)
+    
+    cna <- dat$value
+    
+    mut <- dat$proteinChange
+    
+    tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
+    tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplification or Deep Deletion or any mutation
+    freq<-length(which(tmp$isAltered))/nrow(tmp)
+    
+    return(freq)
   
-  tmp <- data.frame(cna=cna, mut=mut, stringsAsFactors = FALSE)
-  tmp$isAltered <- abs(tmp$cna) == 2 | !is.na(tmp$mut) # Amplification or Deep Deletion or any mutation
-  length(which(tmp$isAltered))/nrow(tmp)
 }, USE.NAMES = TRUE)
 
 # 10 percent alteration frequency cutoff 
