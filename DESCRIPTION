@@ -34,8 +34,7 @@ Suggests:
     org.Hs.eg.db,
     knitr,
     rmarkdown,
-    testthat,
-    cgdsr
+    testthat
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
