@@ -1,0 +1,10 @@
+pandoc: 2.14.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  netboxrTutorial: netboxrTutorial.html
+last_built: 2022-08-24T04:56Z
+urls:
+  reference: https://mil2041.github.io/netboxr/reference
+  article: https://mil2041.github.io/netboxr/articles
+
