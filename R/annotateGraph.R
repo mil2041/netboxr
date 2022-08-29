@@ -51,7 +51,7 @@
 #' 
 #' results <- geneConnector(geneList = geneList, networkGraph = graphReduced, 
 #'                          directed = FALSE, pValueAdj = "BH", pValueCutoff = 2e-5, 
-#'                          communityMethod = "ebc", keepIsolatedNodes = FALSE)
+#'                          communityMethod = "lec", keepIsolatedNodes = FALSE)
 #'
 #' netboxGraphAnnotated <- annotateGraph(netboxResults = results,
 #'                                       edgeColors = interaction_type_color,
