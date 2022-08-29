@@ -1,8 +1,8 @@
 Type: Package
 Package: netboxr
-Title: Automated discovery of biological process modules by network analysis
-Version: 1.7.5
-Date: 2022-06-23
+Title: Automated Discovery of Biological Process Modules by Network Analysis
+Version: 1.7.6
+Date: 2022-08-29
 Author: Eric Minwei Liu [aut,cre], Augustin Luna [aut], Ethan Cerami [aut], Chris Sander [aut]
 Maintainer: Eirc Minwei Liu <emliu.research@gmail.com>
 Description: NetBox is a network-based approach that combines prior knowledge 
