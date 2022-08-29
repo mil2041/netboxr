@@ -40,14 +40,14 @@
 #' @author Guanlan Dong, \email{guanlan_dong@g.harvard.edu}
 #'
 #' @examples
-#' data(pathway_commons_v8_reactome)
+#' data(netbox2010)
 #' interaction_type_color <- read.csv(system.file("interaction_type.color.txt", package = "netboxr"),
 #'                                    header=TRUE, sep="\t", stringsAsFactors=FALSE)
 #' 
-#' sifNetwork<-pathway_commons_v8_reactome$network
+#' sifNetwork<-netbox2010$network
 #' graphReduced <- networkSimplify(sifNetwork,directed = FALSE)
 #' 
-#' geneList <- pathway_commons_v8_reactome$geneList
+#' geneList <- netbox2010$geneList
 #' 
 #' results <- geneConnector(geneList = geneList, networkGraph = graphReduced, 
 #'                          directed = FALSE, pValueAdj = "BH", pValueCutoff = 2e-5, 
