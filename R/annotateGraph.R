@@ -47,7 +47,7 @@
 #' sifNetwork<-netbox2010$network
 #' graphReduced <- networkSimplify(sifNetwork,directed = FALSE)
 #' 
-#' geneList <- netbox2010$geneList
+#' geneList <- netbox2010$geneList[1:100]
 #' 
 #' results <- geneConnector(geneList = geneList, networkGraph = graphReduced, 
 #'                          directed = FALSE, pValueAdj = "BH", pValueCutoff = 2e-5, 
