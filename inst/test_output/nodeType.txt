@@ -1,3 +1,4 @@
+name	type
 CDKN2B	candidate
 EGFR	candidate
 CDKN2A	candidate
