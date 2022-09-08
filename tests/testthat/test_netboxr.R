@@ -5,7 +5,6 @@ test_that("sanity_check", {
 })
 
 test_that("gene_connector_ebc", {
-  #Remove later
   data(netbox2010)
   sifNetwork<-netbox2010$network
   graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
