@@ -36,28 +36,21 @@ test_that("annotateGraph", {
 
 test_that("geneConnector", {
   
-  tmp_file_1 <- read.table(system.file(file.path("test_output", "network.sif"), package = "netboxr"), 
-                         header=TRUE, sep="\t", stringsAsFactors=FALSE)
-  tmp_file_2 <- read.table(system.file(file.path("test_output", "neighborList.txt"), package = "netboxr"), 
-                         header=TRUE, sep="\t", stringsAsFactors=FALSE)
-  tmp_file_3 <- read.table(system.file(file.path("test_output", "community.membership.txt"), package = "netboxr"), 
-                         header=TRUE, sep="\t", stringsAsFactors=FALSE)
-  tmp_file_4 <- read.table(system.file(file.path("test_output", "nodeType.txt"), package = "netboxr"), 
-                         header=TRUE, sep="\t", stringsAsFactors=FALSE)
+  load(system.file(file.path("test_output", "results_test.rda"), package = "netboxr"))
   
   data(netbox2010)
   sifNetwork<-netbox2010$network
   graphReduced <- networkSimplify(sifNetwork,directed = FALSE) 
   geneList<-as.character(netbox2010$geneList)
   
-  results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
+  results_test <-geneConnector(geneList=geneList,networkGraph=graphReduced,
                          pValueAdj='BH',pValueCutoff=0.05,
                          communityMethod='ebc',keepIsolatedNodes=FALSE)
   
-  expect_equal(results$netboxOutput, tmp_file_1)
-  expect_equal(results$neighborData$globalDegree, tmp_file_2$globalDegree)
-  expect_equal(results$moduleMembership$geneSymbol, tmp_file_3$geneSymbol)
-  expect_equal(results$nodeType, tmp_file_4)
+  expect_equal(results$netboxOutput, results_test$netboxOutput)
+  expect_equal(results$neighborData$globalDegree, results_test$neighborData$globalDegree)
+  expect_equal(results$moduleMembership$geneSymbol, results_test$moduleMembership$geneSymbol)
+  expect_equal(results$nodeType, results_test$nodeType)
 })
 
 test_that("globalNullModel", {
@@ -102,9 +95,8 @@ test_that("networkSimplify", {
   data(netbox2010)
   
   sifNetwork <- netbox2010$network
-  graphReduced <- networkSimplify(sifNetwork, directed = FALSE)
+  graphReduced_test <- networkSimplify(sifNetwork, directed = FALSE)
   
-  tmp_file <- read.table(system.file(file.path("test_output", "graphReduced.txt"), package = "netboxr"), 
-                         header=TRUE, sep="\t", stringsAsFactors=FALSE)
-  expect_equal(as_data_frame(graphReduced), tmp_file)
+  load(system.file(file.path("test_output", "graphReduced.rda"), package = "netboxr"))
+  expect_equal(as_data_frame(graphReduced_test), as_data_frame(graphReduced))
 })
