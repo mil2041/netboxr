@@ -13,7 +13,7 @@ geneConnector(
   communityMethod = "ebc",
   keepIsolatedNodes = FALSE,
   resolutionParam = 1,
-  weightsInput = NULL
+  useWeights = FALSE
 )
 }
 \arguments{
@@ -38,9 +38,10 @@ as described in the details section (default = "BH")}
 nodes in the netboxr result (default = FALSE)}
 
 \item{resolutionParam}{numeric value that determines community size, where
-higher resolutions leads to more smaller communities (default = 1)}
+higher resolutions lead to more smaller communities (default = 1)}
 
-\item{weightsInput}{numeric vector for edge weights (default = NULL)}
+\item{useWeights}{boolean value indicating whether to use edge weights
+in community detection (default = FALSE)}
 }
 \value{
 a list of returned netboxr results
@@ -76,8 +77,9 @@ geneList<-as.character(netbox2010$geneList)
 
 results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
                       pValueAdj='BH',pValueCutoff=0.05,
-                      communityMethod='lec',keepIsolatedNodes=FALSE)
-
+                      communityMethod='lec',keepIsolatedNodes=FALSE,
+                      resolutionParam = 1, useWeights = FALSE)
+                      
 
 names(results)
 

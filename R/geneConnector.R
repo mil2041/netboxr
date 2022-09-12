@@ -23,8 +23,9 @@
 #' @param keepIsolatedNodes A boolean value indicating whether to keep isolated
 #' nodes in the netboxr result (default = FALSE)
 #' @param resolutionParam numeric value that determines community size, where 
-#' higher resolutions leads to more smaller communities (default = 1)
-#' @param weightsInput numeric vector for edge weights (default = NULL)
+#' higher resolutions lead to more smaller communities (default = 1)
+#' @param useWeights boolean value indicating whether to use edge weights 
+#' in community detection (default = FALSE)
 #'
 #' @return a list of returned netboxr results 
 #' * netboxGraph: igraph object of NetBox algorithm identified network nodes 
@@ -50,8 +51,9 @@
 #' 
 #' results<-geneConnector(geneList=geneList,networkGraph=graphReduced,
 #'                       pValueAdj='BH',pValueCutoff=0.05,
-#'                       communityMethod='lec',keepIsolatedNodes=FALSE)
-#'
+#'                       communityMethod='lec',keepIsolatedNodes=FALSE,
+#'                       resolutionParam = 1, useWeights = FALSE)
+#'                       
 #'
 #' names(results)
 #' 
@@ -79,7 +81,7 @@
 geneConnector <- function(geneList, networkGraph, directed = FALSE,
                           pValueAdj = "BH", pValueCutoff = 0.05,
                           communityMethod = "ebc", keepIsolatedNodes = FALSE,
-                          resolutionParam = 1, weightsInput = NULL) {
+                          resolutionParam = 1, useWeights = FALSE) {
   
   
   pValueAdj<-match.arg(pValueAdj)
@@ -233,27 +235,39 @@ geneConnector <- function(geneList, networkGraph, directed = FALSE,
 
   # Assign community membership for the sub-network
 
+  if (useWeights == TRUE) {
+    weightsInput = E(graphOutput)$weights
+  } else {
+    weightsInput = NULL
+  }
+  
   if (communityMethod == "ebc") {
     message(sprintf("Detecting modules using \"edge betweeness\" method\n"))
-    community <- edge.betweenness.community(graphOutput)
-    moduleMembership <- membership(community)
-  }
-
-  if (communityMethod == "lec") {
-    message(sprintf("Detecting modules using \"leading eigenvector\" method\n"))
-    community <- leading.eigenvector.community(graphOutput, options = list(maxiter = 1e+06))
+    community <- edge.betweenness.community(graphOutput, weights = weightsInput)
     moduleMembership <- membership(community)
   }
   
-    if (communityMethod == "louvain") {
+  if (communityMethod == "lec") {
+    message(sprintf("Detecting modules using \"leading eigenvector\" method\n"))
+    community <- leading.eigenvector.community(graphOutput, 
+                                               weights = weightsInput,
+                                               options = list(maxiter = 1e+06))
+    moduleMembership <- membership(community)
+  }
+  
+  if (communityMethod == "louvain") {
     message(sprintf("Detecting modules using \"Louvain\" method\n"))
-    community <- cluster_louvain(graphOutput, weights = weightsInput, resolution = resolutionParam)
+    community <- cluster_louvain(graphOutput, 
+                                 resolution = resolutionParam,
+                                 weights = weightsInput)
     moduleMembership <- membership(community)
   }
   
   if (communityMethod == "leiden") {
     message(sprintf("Detecting modules using \"Leiden\" method\n"))
-    community <- cluster_leiden(graphOutput, weights = weightsInput, resolution_parameter = resolutionParam)
+    community <- cluster_leiden(graphOutput, 
+                                resolution_parameter = resolutionParam,
+                                weights = weightsInput)
     moduleMembership <- membership(community)
   }
 
