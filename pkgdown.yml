@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   netboxrTutorial: netboxrTutorial.html
-last_built: 2023-05-19T14:34Z
+last_built: 2023-05-19T14:40Z
 urls:
   reference: https://mil2041.github.io/netboxr/reference
   article: https://mil2041.github.io/netboxr/articles

@@ -272,11 +272,11 @@ Suggested iterations is 1000.</p>
 <code class="sourceCode R"><span><span class="va">localTest</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/localNullModel.html">localNullModel</a></span><span class="op">(</span>netboxGraph <span class="op">=</span> <span class="va">results</span><span class="op">$</span><span class="va">netboxGraph</span>, iterations <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## ###########</span></span></code></pre>
 <pre><code><span><span class="co">## Based on 1000 random trails</span></span></code></pre>
-<pre><code><span><span class="co">## Random networks: mean modularity = 0.299</span></span></code></pre>
+<pre><code><span><span class="co">## Random networks: mean modularity = 0.297</span></span></code></pre>
 <pre><code><span><span class="co">## Random networks: sd modularity = 0.059</span></span></code></pre>
 <pre><code><span><span class="co">## Observed network modularity is: 0.519</span></span></code></pre>
-<pre><code><span><span class="co">## Observed network modularity z-score is: 3.747</span></span></code></pre>
-<pre><code><span><span class="co">## One-tail p-value is: 8.962e-05</span></span></code></pre>
+<pre><code><span><span class="co">## Observed network modularity z-score is: 3.74</span></span></code></pre>
+<pre><code><span><span class="co">## One-tail p-value is: 9.185e-05</span></span></code></pre>
 <p>Through 1000 iterations, we can obtain the mean and the standard
 deviation of modularity in the local network null model. Using the mean
 (~0.3) and the standard deviation (0.06), we can covert the observed
@@ -308,8 +308,8 @@ the identified network compared with random re-wired network.</p></li>
 <p>The table below shows the module memberships for all genes.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html" class="external-link">datatable</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">moduleMembership</span>, rownames <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3a10a144ec8065651751" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-3a10a144ec8065651751">{"x":{"filter":"none","vertical":false,"data":[["CBL","ADAM12","PIK3R1","PTPN11","KIT","MPDZ","KDR","ERBB2","SPRY2","FRS2","TEK","GAB1","PDGFRA","IFNG","VLDLR","DOCK1","EGFR","JAK2","CRK","PIK3C2B","PTPRB","PTEN","SH3GL2","FGF23","MAPK11","PIK3CA","HLA-DRA","AVIL","AGAP2","TBP","RB1","TAF1","CDK6","CDKN2A","TP53","HSPA1A","RBBP5","SNAPC3","MDM4","MDM2","KLF6","CDKN2C","CDK4","PIM1","BNC2","EPHA3","CCND2","CDKN2B","IFNW1","IFNA2","IFNB1","IFNAR1","IFNA1","KCNA5","PTPRD","PTPRE","CNTN2","NCAM1","NUP50","THOC4","NUP107","SNRPE","DCTN2","TUBGCP2","FGFR1OP","TUBGCP6","A2M","LYZ","PPARA","STAC3","CCT2","CCT6A"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,6,6,6,7,7,7,7,8,8,9,9,10,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>geneSymbol<\/th>\n      <th>membership<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-4d5fdcd4b7a909ba4395" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4d5fdcd4b7a909ba4395">{"x":{"filter":"none","vertical":false,"data":[["CBL","ADAM12","PIK3R1","PTPN11","KIT","MPDZ","KDR","ERBB2","SPRY2","FRS2","TEK","GAB1","PDGFRA","IFNG","VLDLR","DOCK1","EGFR","JAK2","CRK","PIK3C2B","PTPRB","PTEN","SH3GL2","FGF23","MAPK11","PIK3CA","HLA-DRA","AVIL","AGAP2","TBP","RB1","TAF1","CDK6","CDKN2A","TP53","HSPA1A","RBBP5","SNAPC3","MDM4","MDM2","KLF6","CDKN2C","CDK4","PIM1","BNC2","EPHA3","CCND2","CDKN2B","IFNW1","IFNA2","IFNB1","IFNAR1","IFNA1","KCNA5","PTPRD","PTPRE","CNTN2","NCAM1","NUP50","THOC4","NUP107","SNRPE","DCTN2","TUBGCP2","FGFR1OP","TUBGCP6","A2M","LYZ","PPARA","STAC3","CCT2","CCT6A"],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,6,6,6,7,7,7,7,8,8,9,9,10,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>geneSymbol<\/th>\n      <th>membership<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div class="section level2">
 <h2 id="write-netbox-output-to-files">Write NetBox Output to Files<a class="anchor" aria-label="anchor" href="#write-netbox-output-to-files"></a>
