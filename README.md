@@ -12,8 +12,11 @@ An R package to mark functional modules in the network analysis using data from 
 
 ### Installing netboxr
 
-* Quick summary
 ```
+# Install
 library(remotes)
 remotes::install_github(repo="mil2041/netboxr", ref="master", build_vignette=TRUE, dependencies=TRUE)
+
+# See vignette tutorial
+vignette("netboxrTutorial")
 ```
